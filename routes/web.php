@@ -10,9 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//FOR FrontdeskController OF URL
 
 Route::get('/{col}', 'FrontdeskController@index');
 Route::get('/', 'FrontdeskController@index');
+Route::get('/previous/month','FrontdeskController@previous');
 
 Route::get('create/rooms', 'RoomOperation@room');
 Route::post('create/rooms', 'RoomOperation@storeRoom');
@@ -24,6 +26,10 @@ Route::post('create/roomtype', 'RoomOperation@storeRoomType');
 
 Route::get('/test', function () {
     return view('test');
+});
+
+Route::get('/custom/menu',function (){
+    return view('custom.contextmenu');
 });
 
 Route::get("/daily/guests/{id}", "FrontdeskController@showTab");
@@ -48,3 +54,4 @@ Route::get('/auth', function () {
 Route::post('/increase', function () {
     echo "i am working";
 });
+

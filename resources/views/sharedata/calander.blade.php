@@ -14,20 +14,11 @@
     @endphp
     <div class="row mt-2 ml-3 mb-0">
         <form action="">
-            <ul class="pagination pagination-sm mb-0">
-                <li class="page-item" name="start">
-                    <a class="page-link" href="#" id="increase">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">December 2019</a></li>
-
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-info">&laquo;</button>
+                <button type="button" class="btn btn-info">December 2019</button>
+                <button type="button" class="btn btn-outline-info">&raquo;</button>
+            </div>
         </form>
 
     </div>
