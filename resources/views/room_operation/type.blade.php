@@ -3,12 +3,7 @@
     Create RoomType
 @endsection
 @section('content')
-    <div class="row mt-5 ml-0 mr-0">
-        <div class="col-md-2">
-            <div class="calandar">
-                @include('../sharedata/sidebar')
-            </div>
-        </div>
+
         <div class="col-md-8 container card card-body">
             <form method="post">
                 @foreach ($errors->all() as $error)
@@ -34,5 +29,5 @@
                 <button type="submit" class="btn btn-primary">Add RoomType</button>
             </form>
         </div>
-    </div>
+
 @endsection

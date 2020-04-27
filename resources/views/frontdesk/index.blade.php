@@ -1,26 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_token" content="{{ csrf_token() }}">
+
     <title>Frontdesk</title>
     <style>
         .navcolor {
-            color: #66cfff;
+            color: #545b62;
+
         }
 
-        /* .body{
-            background-color: #66cfff;
-        } */
-        .row-day-name, .row-day {
+        .noti {
+            display: inline-block;
+        }
+
+        .row-day-name,
+        .row-day {
+            background-color: #6c757d;
+
+        }
+
+        .close_tab {
+            float: right;
+
+            /*border-radius: 50%;*/
+        }
+
+        .close_tab:hover {
+            /*background-color: red;*/
+            color: red;
+            cursor: pointer;
+        }
+
+        .payment_state {
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            overflow: auto;
+            /* Enable scroll if needed */
             background-color: #99dfff;
-
+            /* Fallback color */
+            background-color: rgba(25, 125, 225, 0.2);
+            /* Black w/ opacity */
+            /*padding-top: 60px;*/
+            /*padding-bottom: 60px;*/
         }
+
 
         .daytable {
             width: 100%;
-            text-align: center;
         }
 
         .roomNumSize {
@@ -31,41 +67,190 @@
             height: 2cm;
         }
 
-        .caladar {
-
+        .roomCell {
+            cursor: pointer;
         }
 
-        /* td.roomCell:hover{
-            cursor: pointer;
-            color: burlywood;
-            background-color: brown;
+        .checkInstatus {
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: #99dfff;
+            /* Fallback color */
+            background-color: rgba(25, 125, 225, 0.2);
+            /* Black w/ opacity */
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
 
-        } */
-        .highlight {
-            background-color: #ccc !important;
+        .current {
+            background-color: #66cfff;
         }
 
         .highlight1 {
             background-color: #99dfff !important;
         }
+
+        .payment_radio {
+            width: 18px;
+            height: 18px;
+        }
+
+        .check-active {
+            color: white;
+        }
+
+        .check-active:active {
+            color: black;
+        }
+
+        * {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* for loader style */
+
+        .loader-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #242f3f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            border: 4px solid #Fff;
+            animation: loader 2s infinite ease;
+        }
+
+        .loader-inner {
+            vertical-align: top;
+            display: inline-block;
+            width: 100%;
+            background-color: #fff;
+            animation: loader-inner 2s infinite ease-in;
+        }
+
+        @keyframes loader {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(180deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
+
+            75% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes loader-inner {
+            0% {
+                height: 0%;
+            }
+
+            25% {
+                height: 0%;
+            }
+
+            50% {
+                height: 100%;
+            }
+
+            75% {
+                height: 100%;
+            }
+
+            100% {
+                height: 0%;
+            }
+        }
+
+        .clock {
+            position: absolute;
+            top: 3.5%;
+            /* left: 90%;
+             */
+            right: 0%;
+            transform: translateX(-50%) translateY(-50%);
+            color: #fff;
+            font-size: 16px;
+            font-family: Orbitron;
+            letter-spacing: 2px;
+
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    {{--<link rel="stylesheet"--}}
-          {{--href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">--}}
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>--}}
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>--}}
 
-    <script src="js/multi.js"></script>
+    <script src="{{asset('/js/multi.js')}}"></script>
+    <script src="{{asset('js/jquery.PrintArea.js')}}"></script>
+    <script>
+        setInterval(function () {
+            $("#refresh").load("{{url('/user/5')}}" + " #refresh>*", "");
+        }, 3000);
+        setInterval(function () {
+            $("#refresher").load("{{url('/user/5')}}" + " #refresher>*", "");
+        }, 3000);
+    </script>
+
+    <script>
+        function showHint(str) {
+            if (str.length == 0) {
+                document.getElementById("txtHint").innerHTML = "";
+                $('#txtHintHide').removeClass('hide');
+
+                return;
+            } else {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("txtHint").innerHTML = this.responseText;
+                        // document.getElementById('txtHintHide').innerHTML=" ";
+                        $('#txtHintHide').addClass('hide');
+                    }
+                };
+                xmlhttp.open("GET", "{{url('user/5/search?q=')}}" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
 
 </head>
+
 <body>
+
 @include('/jsblade/multipleSelect')
 @include('../sharedata/nav')
+
 <div class="row ml-0 mr-0 body">
     <div class="col-md-2 ml-0 mr-0">
         <div class="calandar">
@@ -79,48 +264,45 @@
     </div>
     <div class="col-md-10">
 
-        <ul class="nav nav-tabs mt-1" id="myTab" role="tablist" style="background-color:#e6faff">
+        <ul class="nav nav-tabs mt-1" id="myTab" role="tablist" style="background-color:#6c757d">
 
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#homed" role="tab" aria-controls="home"
-                   aria-selected="true">FrontDesk</a>
-            </li>
-            {{--@if (Route::currentRouteAction()!="App\Http\Controllers\DateBarController@createDate")--}}
-            {{--@if ($tabNum==1)--}}
-            <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                   aria-controls="profile"
-                   aria-selected="false">Housekeeping</a>
-            </li>
-            {{--@endif--}}
-            {{--@if ($tabNum[0]==2)--}}
-            <li class="nav-item">
-                <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
-                   aria-controls="messages"
-                   aria-selected="false">Report</a>
-            </li>
-            {{--@endif--}}
-            {{--@if ($tabNum==3)--}}
-            <li class="nav-item">
-                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
-                   aria-controls="settings"
-                   aria-selected="false">Member</a>
-            </li>
-            {{--@endif--}}
-            {{--@php(print_r($tabNum))--}}
-            {{--@endif--}}
-            <li class="nav-item  ml-auto">
-                <a class="btn btn-sm btn-outline-info" href="{{url('/7')}}">Week</a>
-            </li>
-            <li class="nav-item ml-2 mr-2">
-                <a class="btn btn-sm btn-outline-info" href="{{url('/15')}}">15 Days</a>
+                <a class="nav-link active check-active" id="home-tab" data-toggle="tab" href="#homed" role="tab"
+                   aria-controls="home" aria-selected="true">FrontDesk</a>
             </li>
 
-
-            <li class="nav-item navbar-right">
-                <a class="btn btn-sm btn-outline-info" href="{{url('/')}}">Month</a>
+            <li class="nav-item">
+                <a class="nav-link  check-active " id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                   aria-controls="profile" aria-selected="false">Debt List</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link check-active" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
+                   aria-controls="settings" aria-selected="false">Daily Check In List</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#housekeeper" role="tab"
+                   aria-controls="settings" aria-selected="false">Guest Comment </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link check-active" id="report-tab" data-toggle="tab" href="#report" role="tab"
+                   aria-controls="profile" aria-selected="false">
+                    Notiification
+                    @php($count_noti=0)
+                    <div id="refresh" class="noti">
+                        @foreach(Auth::user()->unreadNotifications as $noti)
+                            @php($count_noti++)
+                        @endforeach
+                        <span class="ml-1 badge badge-pill badge-primary">{{$count_noti}}</span>
+                    </div>
+                </a>
+            </li>
+
+        <!-- <li class="nav-item ml-auto">
+                    <p class="text text-white  mr-3">{{date('M')}}</p>
+                </li> -->
         </ul>
+
+        <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
 
         <div class="tab-content">
             <div class="tab-pane active" id="homed" role="tabpanel" aria-labelledby="home-tab">
@@ -136,27 +318,24 @@
 
                             @if($firstDay!=$each)
                                 @continue
-
                             @endif
                             @for ($count = $key; $count <=7; $count++)
                                 <td>
-                                    {{$dayName[$count]}}
+                                    <p class="mb-0 text-center text-white">{{$dayName[$count]}}</p>
                                     @php($i++)
                                 </td>
                             @endfor
-
                         @endforeach
 
-                        @while($i<=$num_of_day)
-                            @foreach($dayName as $key=> $name)
-                                <td>
-                                    {{$name}}
-                                </td>
-                                @php($i++)
-                                @if($i>$num_of_day)
-                                    @break
-                                @endif
-                            @endforeach
+                        @while($i<=$num_of_day) @foreach($dayName as $key=> $name)
+                            <td>
+                                <p class="mb-0 text-center text-white">{{$name}}</p>
+                            </td>
+                            @php($i++)
+                            @if($i>$num_of_day)
+                                @break
+                            @endif
+                        @endforeach
 
                         @endwhile
 
@@ -166,17 +345,36 @@
                     {{-- Start for Day Row --}}
                     <tr class="row-day">
                         <td class=""></td>
-                        @for ($count=$startDay;$count<$num_of_day+$startDay;$count++)
+                        @for ($count=$startDay;$count<$num_of_day+$startDay;$count++) @if($count==date("d") && $mon==date("m") && $year==date("Y")) @if($count<10 && $count!=$startDay)
+                            <td class="day">
+                                <p class="current mb-0 text-center text-white">{{"0".$count}}</p>
+                            </td>
+                        @else
+                            {{--<td class="day">{{$count}}</td>--}}
+                            @if($count<=$days_of_month)
+                                <td class="day">
+                                    <p class="current mb-0 text-center text-white">{{$count}}</p>
+                                </td>
+                            @else
+
+                            @endif
+                        @endif
+                        @else
                             @if($count<10 && $count!=$startDay)
-                                <td class="day">{{"0".$count}}</td>
+                                <td class="day">
+                                    <p class="mb-0 text-center text-white">{{"0".$count}}</p>
+                                </td>
                             @else
                                 {{--<td class="day">{{$count}}</td>--}}
-                                @if($count<=31)
-                                    <td class="day">{{$count}}</td>
+                                @if($count<=$days_of_month)
+                                    <td class="day">
+                                        <p class="mb-0 text-center text-white">{{$count}}</p>
+                                    </td>
                                 @else
 
                                 @endif
                             @endif
+                        @endif
                         @endfor
 
                     </tr>
@@ -187,31 +385,139 @@
                     {{--End For Room Thpe and  Rome Number --}}
                 </table>
             </div>
-            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="settings-tab">
+                @include('frontdesk.dept_guest')
+            </div>
+
+            <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                @include('guest.checkinlist')
+            </div>
+            <div class="tab-pane" id="housekeeper" role="tabpanel" aria-labelledby="settings-tab">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Content</th>
+                        <th scope="col">Room</th>
+
+                        <th scope="col">Housekeeper</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @php($count_comment=0)
+                    @foreach(Auth::user()->notifications as $noti)
+                        @if($noti->type=="App\Notifications\HousekeeperCommentNoti" && $noti->data['comment'][0]!="clean")
+                            <tr>
+                                <th scope="row">{{++$count_comment}}</th>
+                                <td>{{$noti->data['comment'][0]}}</td>
+                                <td>{{$noti->data['comment'][1]}}</td>
+
+                                <td>{{$noti->data['housekeeper']['name']}}</td>
+                                <td>{{date('d/m/Y h:i:s a',strtotime($noti->read_at))}}</td>
+                                <td><a href="{{url('user/5?guest_comment='.$noti->created_at)}}"
+                                       class="btn btn-sm btn-danger">Delete</a></td>
+                            </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
 
             </div>
-            <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
-                <ul class="list-group col-md-2">
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-
-
-                    <li class="list-group-item list-group-item-primary text-center">primary</li>
-                    <li class="list-group-item list-group-item-secondary text-center">secondary</li>
-                    <li class="list-group-item list-group-item-success text-center">success</li>
-                    <li class="list-group-item list-group-item-danger text-center">danger</li>
-                    <li class="list-group-item list-group-item-warning text-center">warning</li>
-                    <li class="list-group-item list-group-item-info text-center">info </li>
-                    <li class="list-group-item list-group-item-light text-center">light</li>
-                    <li class="list-group-item list-group-item-dark text-center">dark</li>
-                </ul>
+            <div class="tab-pane" id="report" role="tabpanel" aria-labelledby="settings-tab">
+                <div id="refresher">
+                    @foreach(Auth::user()->unreadNotifications as $noti)
+                        @if($noti->type=="App\Notifications\HousekeeperCommentNoti")
+                            @if($noti->data['comment'][0]!="clean")
+                                <p class="alert alert-success">{{$noti->data['comment'][0]}} အခန်း
+                                    နံပါတ် {{$noti->data['comment'][1]}}
+                                    ပေးပို့သူ {{$noti->data['housekeeper']['name']}}
+                                    <a href="{{url('user/5?noti='.$noti->data['housekeeper']['id'])}}"
+                                       class="btn btn-sm btn-success text-white">Read</a>
+                                </p>
+                            @else
+                                <p class="alert alert-success"> အခန်း နံပါတ် {{$noti->data['comment'][1]}} အား
+                                    ရှင်းပြီးပါပြီ ပေးပို့သူ {{$noti->data['housekeeper']['name']}}
+                                    <a href="{{url('user/5?noti='.$noti->data['housekeeper']['id'])}}"
+                                       class="btn btn-sm btn-success text-white">Read</a>
+                                </p>
+                            @endif
+                        @else
+                            <p class="alert alert-success">အခန်း၀င်နေပါပြီ
+                                ပေးပို့သူ {{$noti->data['housekeeper']['name']}}
+                                <a href="{{url('user/5?noti='.$noti->data['housekeeper']['id'])}}"
+                                   class="btn btn-sm btn-success text-white">Read</a>
+                            </p>
+                        @endif
+                    @endforeach
+                </div>
             </div>
-            <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">settings...</div>
         </div>
     </div>
 </div>
+@include('frontdesk.payment')
+@include('guest.guestInfo')
+<div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div>
+
+
+<!-- start search code -->
+
+
+<!-- end search -->
+<script>
+    $('#checkInForm').hide();
+    $('#payment_form').hide();
+    $('td.roomCell').dblclick(function () {
+        $(this).toggleClass('highlight1');
+    });
+    $(document).ready(function () {
+        $('#report-tab').click(function () {
+            window.href = "{{url('/user/5?makeasnoti=yes')}}";
+            // return "{{url('/user/5?makeasnoti=yes')}}";
+        });
+    });
+    $(window).on("load", function () {
+        $(".loader-wrapper").fadeOut("slow");
+    });
+</script>
 @include('frontdesk.coustomMenu')
-{{--<a class="btn btn-inverse btn-large hidden-print" onClick="javascript:window.print();">Printt</a>--}}
+
+<script>
+    function showTime() {
+        var date = new Date();
+        var h = date.getHours(); // 0 - 23
+        var m = date.getMinutes(); // 0 - 59
+        var s = date.getSeconds(); // 0 - 59
+        var session = "AM";
+
+        if (h == 0) {
+            h = 12;
+        }
+
+        if (h > 12) {
+            h = h - 12;
+            session = "PM";
+        }
+
+        h = (h < 10) ? "0" + h : h;
+        m = (m < 10) ? "0" + m : m;
+        s = (s < 10) ? "0" + s : s;
+
+        var time = h + ":" + m + ":" + s + " " + session;
+        document.getElementById("MyClockDisplay").innerText = time + " " + " {{date('M')}}";
+        document.getElementById("MyClockDisplay").textContent = time + " " + " {{date('M')}}";
+        // console.log(time);
+        setTimeout(showTime, 1000);
+
+    }
+
+    showTime();
+</script>
 </body>
 
 </html>
-

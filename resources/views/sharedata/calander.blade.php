@@ -1,12 +1,7 @@
 <table class="daytable table-hover">
 
     @php
-
-        //$date=new index();
-
         $viewMonth=$mon;
-        //$year=$year;
-
         $month=cal_days_in_month(CAL_GREGORIAN,$viewMonth,$year);
         $dayName=['Su'=>1,'Mo'=>2,'Tu'=>3,'We'=>4,'Th'=>5,'Fr'=>6,'Sa'=>7];
       $firstDay= substr(date("l", mktime(5, 5, 5, $viewMonth, 1, $year)),0,2);
@@ -15,9 +10,9 @@
     <div class="row mt-2 ml-3 mb-0">
         <form action="">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-outline-info">&laquo;</button>
-                <button type="button" class="btn btn-info">December 2019</button>
-                <button type="button" class="btn btn-outline-info">&raquo;</button>
+                <a href="{{url('/user/5?decrease=1')}}" class="btn btn-outline-secondary">&laquo;</a>
+                <a href="{{url('/user/5?current=1')}}" class="btn btn-secondary">{{$month_name[$viewMonth-1]}}{{$year}} </a>
+                <a href="{{url('/user/5?increase=1')}}" type="button" class="btn btn-outline-secondary">&raquo;</a>
             </div>
         </form>
 
@@ -25,7 +20,7 @@
     <thead class="mt-0">
     <tr>
         @foreach ($dayName as $key=>$name)
-            <th>{{$key}}</th>
+            <th><p class="text-center my-0">{{$key}}</p></th>
         @endforeach
     </tr>
     </thead>
@@ -36,7 +31,11 @@
             @if($i==$dayName[$firstDay])
                 @php($count=1)
                 @for ($i; $i <=7; $i++)
-                    <td>{{$count}}</td>
+                    @if($count==date("d") && $mon==date("m") && $year==date("Y"))
+                        <td><p class="my-0 current text-center">{{$count}}</p></td>
+                    @else
+                        <td><p class="my-0 text-center">{{$count}}</p></td>
+                    @endif
                     @php($count++)
 
                 @endfor
@@ -51,7 +50,11 @@
                 @if($count>$month)
                     @break
                 @endif
-                <td>{{$count}}</td>
+                @if($count==date("d") && $mon==date("m") && $year==date("Y"))
+                    <td><p class="my-0 current text-center">{{$count}}</p></td>
+                @else
+                    <td><p class="my-0 text-center">{{$count}}</p></td>
+                @endif
                 @php($count++)
             @endfor
         </tr>

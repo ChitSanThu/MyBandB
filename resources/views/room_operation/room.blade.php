@@ -1,13 +1,7 @@
 @extends('layout.master')
 @section('title','Create Room')
 @section('content')
-    <div class="row mt-5 ml-0 mr-0">
 
-        <div class="col-md-2">
-            <div class="calandar">
-                @include('../sharedata/sidebar')
-            </div>
-        </div>
 
         <div class="container col-md-8 card card-body">
             <form method="post">
@@ -37,5 +31,5 @@
             </form>
         </div>
 
-    </div>
+
 @endsection

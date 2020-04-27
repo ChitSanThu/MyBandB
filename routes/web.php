@@ -11,47 +11,85 @@
 |
 */
 //FOR FrontdeskController OF URL
+use App\CheckIn;
+use App\DeptRecord;
 
-Route::get('/{col}', 'FrontdeskController@index');
-Route::get('/', 'FrontdeskController@index');
 Route::get('/previous/month','FrontdeskController@previous');
 
-Route::get('create/rooms', 'RoomOperation@room');
-Route::post('create/rooms', 'RoomOperation@storeRoom');
-
-Route::get('create/roomtype',function (){
-    return view('room_operation.type');
+Route::get('/password/reset',function(){
+    return view('auth.passwords.reset');
 });
-Route::post('create/roomtype', 'RoomOperation@storeRoomType');
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/custom/menu',function (){
-    return view('custom.contextmenu');
-});
-
 Route::get("/daily/guests/{id}", "FrontdeskController@showTab");
 
-Route::get('/checkin/guest', function () {
-    return view('guest.guestInfo');
+// Route::get('/checkin/guest', function () {
+//     return view('guest.guestInfo');
+// });
+Route::get('daily/print','FrontdeskController@print_daily_guest');
+
+Route::get('/payment/ex',function (){
+    return view('payment');
 });
 
-Route::get('ajax', function () {
-    return view('testAjax.index');
+// Route::get('/',function (){
+// return redirect(action('Auth\LoginController@show'));
+// });
+Route::get('/','Auth\LoginController@show');
+// Route::get('staff/login','Auth\LoginController@show');
+Route::post('/','Auth\LoginController@login');
+Route::get('staff/register','Auth\RegisterController@show');
+Route::post('staff/register','Auth\RegisterController@register');
+Route::get('staff/logout','Auth\LoginController@logout');
+Route::get('guest/{id}/show','FrontdeskController@deptInfo');
+
+
+Route::group(array('prefix'=>'housekeeping','middleware'=>'housekeeping'),function(){
+
+    Route::get('index','HousekeepingController@index');
+    Route::post('index','HousekeepingController@update');
+
 });
-Route::post('/getmsg', 'AjaxController@index');
-Route::post('/storeresearch', 'AjaxController@store');
+
+
+Route::group(array('prefix'=>'user','middleware'=>'user'),function(){
+    Route::get('{col}', 'FrontdeskController@index');
+    Route::post('{col}','FrontdeskController@store');
+
+    Route::get('{col}/livesearch',function(){
+        return view('liveSearch.liveSearch');
+    });
+    Route::get('{col}/search','FrontdeskController@search');
+
+    Route::post('invoice/{id}/edit','FrontdeskController@logoStore');
+    Route::post('invoice/print','FrontdeskController@invoicePrint');
+    Route::get('invoice/{id}/edit','FrontdeskController@invoice');
+    Route::get('create/rooms', 'RoomOperation@room');
+    Route::post('create/rooms', 'RoomOperation@storeRoom');
+    Route::get('create/roomtype',function (){
+        return view('room_operation.type');
+    });
+    Route::post('create/roomtype', 'RoomOperation@storeRoomType');
+    Route::get('report/frontdesk','FrontdeskController@report');
+    Route::post('report/frontdesk','FrontdeskController@reportStore');
+
+
+
+
+});
+Route::group(array('prefix'=>'admin','namespace'=>'admin','middleware'=>'manager'),function(){
+    Route::get('user','UserController@index');
+    Route::get('roles','RoleController@index');
+    Route::get('create/roles','RoleController@show');
+    Route::post('create/roles','RoleController@store');
+    Route::get('users/{id}/edit','RoleController@edit');
+    Route::post('users/{id}/edit','RoleController@update');
+    Route::get('{id}/edit','UserController@edit');
+});
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/auth', function () {
-    return view('layouts.app');
-});
-Route::post('/increase', function () {
-    echo "i am working";
-});
+
+
+// for real time notification
 

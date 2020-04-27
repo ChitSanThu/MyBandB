@@ -34,9 +34,10 @@ $(document).ready(function () {
         }
       lastTr = $(this).closest('tr').index();
   
-    
+     
     });
-  
+    
+   
     // $("table td").click(function(){
     //   $(this).toggleClass('highlight');
     // });

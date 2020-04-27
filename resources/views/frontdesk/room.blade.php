@@ -1,129 +1,232 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
     <style>
-        .status {
-
+        .guest_name {
+            font-size: 11px;
         }
 
-        .room_status {
-            width: 20px;
-            height: 20px;
-            background-color: #2a88bd;
-            text-align: left;
+        /* for guest state color */
+        .reserv {
+            background-color: #17a2b8;
         }
 
-        .roomNumColor {
-            cursor: pointer;
+        .checkout {
+            background-color: #ffc107;
         }
-        /*
-        start content menu css
-        */
-        .labels > span > ul {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: block;
-            float: none;
+
+        .checkin {
+            background-color:#007bff;
         }
-        .labels > span > ul > li {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 1px solid #CCC;
-            overflow: hidden;
-            text-indent: -2000px;
+
+        .dept {
+            background-color: #dc3545;
         }
-        .labels > span > ul > li.selected,
-        .labels > span > ul > li:hover { border: 1px solid #000; }
-        .labels > span > ul > li + li { margin-left: 5px; }
-        .labels > span > ul > li.label1 { background: red; }
-        .labels > span > ul > li.label2 { background: green; }
-        .labels > span > ul > li.label3 { background: blue; }
-        .labels > span > ul > li.label4 { background: yellow; }
-        /*end content menu*/
+
+        .payment_stay_guest {
+            background-color: #155724;
+        }
+
+        .guest_cell {
+            color: white;
+        }
+
+        #roomNum {
+            font-family: "Californian FB";
+            /*font-size: 18px;*/
+            font-weight: bold;
+            color: whitesmoke;
+        }
+
+        .room_type {
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .past-day {
+            background-color: rgba(139, 166, 171, 0.15);
+        }
+
+        /* for room state color */
+        .room-checkin {
+            background-color: #007bff;
+        }
+
+        .room-checkout {
+            background-color: #ffc107;
+        }
+
+        .room-reserv {
+            background-color: #17a2b8;
+        }
+
+        .housekeeping {
+            background-color: #28a745;
+        }
+
+        .out-of-service {
+            background-color: #dc3545;
+        }
+
+        .idel {
+            background-color: #6c757d;
+        }
     </style>
+
 </head>
+
 <body>
-@foreach ($roomtypes as $type)
+
+    @foreach ($roomtypes as $type)
+
     <tr>
-        <td class="status">{{$type->roomtype}}</td>
-        <td class="roomTypeSpan" colspan="{{$num_of_day}}">{{$type->roomtype}}</td>
+        <td class="room_type">{{$type->roomtype}}</td>
+        <td class="room_type" colspan="{{$num_of_day}}">{{$type->roomtype}}</td>
     </tr>
     @foreach ($rooms as $room)
 
-        @if($room->roomtype==$type->roomtype)
-            <tr>
+    @if($room->roomtype==preg_replace("/(\s+)/","",$type->roomtype))
+    <tr class="roomNumberRow">
+        @if($room->room_state==0)
+        <td scope="row" class="idel" id="roomNum" title="{{$room->roomumber}} Idel">
+            <p class="text-white ml-2 mb-0">{{$room->roomumber}}</p>
+        </td>
+        @endif()
+        @if($room->room_state==1)
+        <td scope="row" class="room-checkin" id="roomNum" title="{{$room->roomumber}} Check In">
+            <p class="text-white ml-2 mb-0">{{$room->roomumber}}</p>
+        </td>
+        @endif()
+        @if($room->room_state==2)
+        <td scope="row" class="room-checkout" id="roomNum" title="{{$room->roomumber}} Check Out">
+            <p class="text-white ml-2 mb-0">{{$room->roomumber}}</p>
+        </td>
+        @endif()
+        @if($room->room_state==3)
+        <td scope="row" class="housekeeping" id="roomNum" title="{{$room->roomumber}} Housekeeping">
+            <p class="text-dark ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
+        </td>
+        @endif()
+        @if($room->room_state==4)
+        <td scope="row" class="out-of-service" id="roomNum" title="{{$room->roomumber}} out of services">
+            <p class="text-white ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
+        </td>
+        @endif()
+        @if($room->room_state==5)
+        <td scope="row" class="room-reserv" id="roomNum" title="{{$room->roomumber}} Reservation">
+            <p class="text-white ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
+        </td>
+        @endif()
 
-                <td class="roomNumColor">
+        @for ($i = $startDay; $i < $startDay+$num_of_day; $i++) @foreach($guests as $guest) @if($guest->month==$mon && $guest->year==$year)
+            @if($guest->room_number==$room->roomumber)
 
-                    {{$room->roomumber}}
+            @if($guest->start_day==$i)
+            @php
+            $inday=range($guest->start_day,$guest->end_day);
+
+            if($initial_day=array_search($startDay,$inday)){
+            $col_span=$guest->end_day-$inday[$initial_day]+1;
+            echo $col_span;
+            }
+            @endphp
+            @php($i+=$guest->end_day-$guest->start_day+1)
+
+            @if($guest->guest_status==5)
+
+            <td title="{{$guest->id }}{{ $guest->name}} Debt" id="" class="guest_cell dept" colspan="{{$guest->end_day-$guest->start_day+1}}">
+                <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
+                    <span class="text-hide">{{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}</span>
+                </p>
+
+            </td>
+
+            @endif
+
+            @if($guest->guest_status==4)
+
+            <td title="{{$guest->id }}{{ $guest->name}} Payment & CheckIn" id="" class="guest_cell payment_stay_guest" colspan="{{$guest->end_day-$guest->start_day+1}}">
+                <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
+
+                </p>
+
+            </td>
+
+            @endif
+
+            @if($guest->guest_status==3)
+
+            <td title="{{$guest->id }}{{ $guest->name}} Reserv" id="reserv" class=" reserv" colspan="{{$guest->end_day-$guest->start_day+1}}">
+                <p class="my-0 guest_name text-white"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
+                    <span class="text-hide">{{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}</span>
+                </p>
+
+            </td>
+
+            @endif
+
+            @if($guest->guest_status==2)
+            <td title="{{$guest->id }}{{ $guest->name}} Check Out" class="guest_cell checkout" colspan="{{$guest->end_day-$guest->start_day+1}}">
+                {{--<a href="{{url('/5'.$guest->id)}}"></a>--}}
+                <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
+                    <span class="text-hide ">
+                        {{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}
+                        &nbsp;{{$type->price}}&nbsp;{{$room->roomtype}}
+                    </span>
+                </p>
+            </td>
+            @endif
+
+            @if($guest->guest_status==1)
+
+            <td title="{{$guest->id }}{{ $guest->name}} Check In" class="guest_cell checkin" colspan="{{$guest->end_day-$guest->start_day+1}}">
+                <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
+                    <span class="text-hide ">
+                        {{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}
+                        &nbsp;{{$type->price}}&nbsp;{{$room->roomtype}}
+                    </span>
+                </p>
+            </td>
+
+            @endif
+
+
+            @endif
+            @endif
+            @endif
+            @endforeach
+            @if($i < date('d') && $record->month == date('m') && $record->year == date("Y"))
+                <td class="past-day">
+                    <p class="mb-0 text-hide">{{$i}}</p>
                 </td>
-                @for ($i = 0; $i < $num_of_day; $i++)
-                    <td class="roomCell"></td>
-                @endfor
-            </tr>
-        @endif
+                @elseif($record->month < date('m') || $record->year < date("Y")) <td class="past-day">
+                        <p class="mb-0 text-hide">{{$i}}</p>
+                        </td>
+                        @else
+                        <td class="roomCell">
+                            <p class="mb-0 text-hide">{{$i}}</p>
+                        </td>
+                        @endif
+                        @if($i>=$days_of_month)
+                        @break
+                @endif
+                        @endfor
+    </tr>
+    @endif
 
     @endforeach
-@endforeach
-<script>
+    @endforeach
+    <script>
 
-    $(function () {
-        /**************************************************
-         * Custom Command Handler
-         **************************************************/
-        $.contextMenu.types.label = function (item, opt, root) {
-            // this === item.$node
-
-            $('<span>Rome State<ul>'
-                + '<li class="label1" title="clear">label 1'
-                + '<li class="label2" title="dirty">label 2'
-                + '<li class="label3" title="modefine">label 3'
-                + '<li class="label4" title="close">label 4')
-                .appendTo(this)
-                .on('click', 'li', function () {
-                    // do some funky stuff
-                    alert('Clicked on ' + $(this).text());
-                    // hide the menu
-                    root.$menu.trigger('contextmenu:hide');
-                });
-
-            this.addClass('labels').on('contextmenu:focus', function (e) {
-                // setup some awesome stuff
-            }).on('contextmenu:blur', function (e) {
-                // tear down whatever you did
-            }).on('keydown', function (e) {
-                // some funky key handling, maybe?
-            });
-        };
-
-        /**************************************************
-         * Context-Menu with custom command "label"
-         **************************************************/
-        $.contextMenu({
-            selector: '.roomNumColor',
-            callback: function (itemKey, opt, rootMenu, originalEvent) {
-                var m = "clicked: " + itemKey+opt+rootMenu+originalEvent;
-                alert(m);
-            },
-            items: {
-                open: {name: "Open", callback: $.noop},
-                label: {type: "label", customName: "Label"},
-                edit: {name: "Edit", callback: $.noop}
-            }
-        });
-    });
-</script>
-<script>
-    $('.room_status').dbclick(function () {
-        alert('click');
-    });
-</script>
+    </script>
 </body>
+
 </html>

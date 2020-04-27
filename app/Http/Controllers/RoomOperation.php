@@ -18,9 +18,9 @@ class RoomOperation extends Controller
     {
         Room::create([
             'roomumber' => $request->get('roomNumber'),
-            'roomtype' => $request->get('roomType')
+            'roomtype' =>  preg_replace("/(\s+)/","",$request->get('roomType'))
         ]);
-        return redirect('create/rooms')->with("status", "Successfully add a Room");
+        return redirect('user/create/rooms')->with("status", "Successfully add a Room");
     }
 
     function storeRoomType(Request $request)
@@ -29,6 +29,6 @@ class RoomOperation extends Controller
             'roomtype' => $request->get('roomType'),
             'price' => $request->get('price'),
         ]);
-        return redirect('create/roomtype')->with('status', 'Successfully add a Type');
+        return redirect('user/create/roomtype')->with('status', 'Successfully add a Type');
     }
 }
