@@ -112,6 +112,7 @@
 
         * {
             font-family: 'Nunito', sans-serif;
+
         }
 
         /* for loader style */
@@ -202,6 +203,9 @@
             letter-spacing: 2px;
 
         }
+        .sidebar-size{
+            font-size: 30px;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -268,25 +272,25 @@
 
             <li class="nav-item">
                 <a class="nav-link active check-active" id="home-tab" data-toggle="tab" href="#homed" role="tab"
-                   aria-controls="home" aria-selected="true">FrontDesk</a>
+                   aria-controls="home" aria-selected="true">ဧည့်ဇယား</a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link  check-active " id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                   aria-controls="profile" aria-selected="false">Debt List</a>
+                   aria-controls="profile" aria-selected="false">အကြွးစရင်း</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link check-active" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
-                   aria-controls="settings" aria-selected="false">Daily Check In List</a>
+                   aria-controls="settings" aria-selected="false">နေ့စဉ်ဧည့်စရင်း</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#housekeeper" role="tab"
-                   aria-controls="settings" aria-selected="false">Guest Comment </a>
+                   aria-controls="settings" aria-selected="false">ဧည့်မှတ်တမ်း</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link check-active" id="report-tab" data-toggle="tab" href="#report" role="tab"
                    aria-controls="profile" aria-selected="false">
-                    Notiification
+                    အချက်ပေးသံ
                     @php($count_noti=0)
                     <div id="refresh" class="noti">
                         @foreach(Auth::user()->unreadNotifications as $noti)
