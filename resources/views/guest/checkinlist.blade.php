@@ -4,16 +4,16 @@
 
     <thead>
     <tr>
-        <th scope="col">#</th>
-        <th scope="col"> Number</th>
-        <th scope="col">Name</th>
-        <th scope="col">Father</th>
-        <th scope="col">Nrc</th>
-        <th scope="col">Age</th>
-        <th scope="col">Gender</th>
-        <th scope="col">Nation</th>
-        <th scope="col">Address</th>
-        <th scope="col">Job</th>
+        <th scope="col">စဉ်</th>
+        <th scope="col"> အခန်းနံပါတ်</th>
+        <th scope="col">အမည်</th>
+        <th scope="col">အဘ အမည်</th>
+        <th scope="col">မှတ်ပုံတင်</th>
+        <th scope="col">အသက်</th>
+        <th scope="col">လိင်</th>
+        <th scope="col">လူမျိုး</th>
+        <th scope="col">နေရပ်လိပ်စာ</th>
+        <th scope="col">အလုပ်အကိုင်</th>
     </tr>
     </thead>
     <tbody>

@@ -96,27 +96,27 @@
     @if($room->roomtype==preg_replace("/(\s+)/","",$type->roomtype))
     <tr class="roomNumberRow">
         @if($room->room_state==0)
-        <td scope="row" class="idel" id="roomNum" title="{{$room->roomumber}} Idel">
+        <td scope="row" class="idel" id="roomNum" title=" အခန်းလွတ်">
             <p class="text-white ml-2 mb-0">{{$room->roomumber}}</p>
         </td>
         @endif()
         @if($room->room_state==1)
-        <td scope="row" class="room-checkin" id="roomNum" title="{{$room->roomumber}} Check In">
+        <td scope="row" class="room-checkin" id="roomNum" title=" ဧည့်ရှိ">
             <p class="text-white ml-2 mb-0">{{$room->roomumber}}</p>
         </td>
         @endif()
         @if($room->room_state==2)
-        <td scope="row" class="room-checkout" id="roomNum" title="{{$room->roomumber}} Check Out">
+        <td scope="row" class="room-checkout" id="roomNum" title="ဧည့်ထွက်">
             <p class="text-white ml-2 mb-0">{{$room->roomumber}}</p>
         </td>
         @endif()
         @if($room->room_state==3)
-        <td scope="row" class="housekeeping" id="roomNum" title="{{$room->roomumber}} Housekeeping">
+        <td scope="row" class="housekeeping" id="roomNum" title=" သန့်ရှင်းရေး၀င်နေ">
             <p class="text-dark ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
         </td>
         @endif()
         @if($room->room_state==4)
-        <td scope="row" class="out-of-service" id="roomNum" title="{{$room->roomumber}} out of services">
+        <td scope="row" class="out-of-service" id="roomNum" title=" ၀င်ဆောင်မှုမရသေး">
             <p class="text-white ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
         </td>
         @endif()
@@ -142,7 +142,7 @@
 
             @if($guest->guest_status==5)
 
-            <td title="{{$guest->id }}{{ $guest->name}} Debt" id="" class="guest_cell dept" colspan="{{$guest->end_day-$guest->start_day+1}}">
+            <td title="အကြွေးချန်" id="" class="guest_cell dept" colspan="{{$guest->end_day-$guest->start_day+1}}">
                 <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
                     <span class="text-hide">{{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}</span>
                 </p>
@@ -153,7 +153,7 @@
 
             @if($guest->guest_status==4)
 
-            <td title="{{$guest->id }}{{ $guest->name}} Payment & CheckIn" id="" class="guest_cell payment_stay_guest" colspan="{{$guest->end_day-$guest->start_day+1}}">
+            <td title="ငွေရှင်းပြီးဧည့်သည်" id="" class="guest_cell payment_stay_guest" colspan="{{$guest->end_day-$guest->start_day+1}}">
                 <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
 
                 </p>
@@ -174,7 +174,7 @@
             @endif
 
             @if($guest->guest_status==2)
-            <td title="{{$guest->id }}{{ $guest->name}} Check Out" class="guest_cell checkout" colspan="{{$guest->end_day-$guest->start_day+1}}">
+            <td title="ဧည့်ထွက်" class="guest_cell checkout" colspan="{{$guest->end_day-$guest->start_day+1}}">
                 {{--<a href="{{url('/5'.$guest->id)}}"></a>--}}
                 <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
                     <span class="text-hide ">
@@ -187,7 +187,7 @@
 
             @if($guest->guest_status==1)
 
-            <td title="{{$guest->id }}{{ $guest->name}} Check In" class="guest_cell checkin" colspan="{{$guest->end_day-$guest->start_day+1}}">
+            <td title="ဧည့်ရှိ" class="guest_cell checkin" colspan="{{$guest->end_day-$guest->start_day+1}}">
                 <p class="my-0 guest_name"><span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
                     <span class="text-hide ">
                         {{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}

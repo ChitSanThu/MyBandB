@@ -322,7 +322,7 @@ class FrontdeskController extends Controller
 
         if (isset($_GET['sreport'])) {
             $reports = DB::table('reports')
-                ->whereBetween('created_at', [$_GET['sreport'], $_GET['ereport']])
+                ->whereBetween('created_at', [$_GET['sreport'], $_GET['ereport']." 23:59:59"])
                 ->get();
             $guest_info = $this->deptInfo(0, [$_GET['sreport'], $_GET['ereport']]);
             $debt_guests = $this->deptInfo(1, [$_GET['sreport'], $_GET['ereport']]);

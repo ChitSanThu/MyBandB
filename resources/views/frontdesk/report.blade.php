@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-<div>
+<div class="col-md-9 " style="margin:auto">
   <form class="card card-body" method="post">
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -43,7 +43,7 @@
     </div>
   </form>
 
-  <table class="table table-bordered table-sm bg-white mt-3">
+  <table class="table table-bordered table-sm bg-white mt-3 ">
 
     <thead>
       <tr>

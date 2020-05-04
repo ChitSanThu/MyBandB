@@ -16,19 +16,28 @@ class RoomOperation extends Controller
 
     function storeRoom(Request $request)
     {
+        $this->validate($request, [
+            'roomNumber' => 'required',
+            'roomType' => 'required',
+        ]);
         Room::create([
             'roomumber' => $request->get('roomNumber'),
-            'roomtype' =>  preg_replace("/(\s+)/","",$request->get('roomType'))
+            'roomtype' => preg_replace("/(\s+)/", "", $request->get('roomType'))
         ]);
-        return redirect('user/create/rooms')->with("status", "Successfully add a Room");
+        return redirect('user/create/rooms')->with("status", $request->get('roomType')." ထဲသို့ အခန်းများ အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ");
     }
 
     function storeRoomType(Request $request)
     {
+        $this->validate($request, [
+            'price' => 'required',
+            'roomType' => 'required',
+        ]);
         RoomType::create([
+
             'roomtype' => $request->get('roomType'),
             'price' => $request->get('price'),
         ]);
-        return redirect('user/create/roomtype')->with('status', 'Successfully add a Type');
+        return redirect('user/create/roomtype')->with('status', 'အခန်းအမျိုးအစားနှင့်စျေးနှုန်း အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ');
     }
 }

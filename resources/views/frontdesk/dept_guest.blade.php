@@ -2,12 +2,12 @@
 
     <thead>
     <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Total</th>
-        <th scope="col">Comment</th>
-        <th scope="col">Date</th>
-        <th scope="col">Payment</th>
+        <th scope="col">စဉ်</th>
+        <th scope="col">အမည်</th>
+        <th scope="col">စုစုပေါင်း</th>
+        <th scope="col">အကြောင်းအရာ</th>
+        <th scope="col">နေ့စွဲ</th>
+        <th scope="col">ငွေရှင်းရန်</th>
 
 
         <!-- <th scope="col">Delete</th> -->

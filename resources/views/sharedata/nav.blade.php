@@ -25,7 +25,7 @@
 
 
         </ul>
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-3">
             <li class="nav-item dropdown">
                 @if(Auth::check())
                     <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
@@ -45,7 +45,7 @@
                             <a class="dropdown-item" href="{{url('/user/create/rooms')}}">အခန်းထည့်ရန်</a>
                             <a class="dropdown-item" href="{{url('/user/create/roomtype')}}">အခန်းအမျိုးအစား</a>
                             <a class="dropdown-item" href="{{url('/user/invoice/1/edit')}}">ဘောင်ချာ</a>
-                            <a class="dropdown-item" href="{{url('/admin/user')}}">အသုံးပြုသူများ</a>
+                            <a class="dropdown-item" href="{{url('/admin/users/show')}}">အသုံးပြုသူများ</a>
 {{--                            <a class="dropdown-item" href="{{url('/admin/roles')}}">Role</a>--}}
                         @endif
                         <a class="dropdown-item" href="{{url('/staff/logout')}}">ထွက်ရန်</a>

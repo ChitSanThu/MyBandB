@@ -106,12 +106,17 @@
             color: white;
         }
 
+        .check-active:hover{
+            color:white;
+        }
+
         .check-active:active {
             color: black;
         }
 
         * {
             font-family: 'Nunito', sans-serif;
+            user-select: none;
 
         }
 
@@ -252,7 +257,7 @@
 
 <body>
 
-@include('/jsblade/multipleSelect')
+{{--@include('/jsblade/multipleSelect')--}}
 @include('../sharedata/nav')
 
 <div class="row ml-0 mr-0 body">
@@ -271,25 +276,20 @@
         <ul class="nav nav-tabs mt-1" id="myTab" role="tablist" style="background-color:#6c757d">
 
             <li class="nav-item">
-                <a class="nav-link active check-active" id="home-tab" data-toggle="tab" href="#homed" role="tab"
-                   aria-controls="home" aria-selected="true">ဧည့်ဇယား</a>
+                <a class="nav-link active check-active" id="home-tab" data-toggle="tab" href="#homed">ဧည့်ဇယား</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  check-active " id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                   aria-controls="profile" aria-selected="false">အကြွးစရင်း</a>
+                <a class="nav-link  check-active " id="profile-tab" data-toggle="tab" href="#profile">အကြွးစရင်း</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link check-active" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
-                   aria-controls="settings" aria-selected="false">နေ့စဉ်ဧည့်စရင်း</a>
+                <a class="nav-link check-active" id="settings-tab" data-toggle="tab" href="#settings">နေ့စဉ်ဧည့်စရင်း</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#housekeeper" role="tab"
-                   aria-controls="settings" aria-selected="false">ဧည့်မှတ်တမ်း</a>
+                <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#housekeeper">ဧည့်မှတ်တမ်း</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link check-active" id="report-tab" data-toggle="tab" href="#report" role="tab"
-                   aria-controls="profile" aria-selected="false">
+                <a class="nav-link check-active" id="report-tab" data-toggle="tab" href="#report">
                     အချက်ပေးသံ
                     @php($count_noti=0)
                     <div id="refresh" class="noti">
@@ -391,23 +391,23 @@
             </div>
 
 
-            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="tab-pane{{old('tab') == 'profile' ? ' active' : null}}" id="profile">
                 @include('frontdesk.dept_guest')
             </div>
 
-            <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="tab-pane{{old('tab') == 'settings' ? ' active' : null}}" id="settings">
                 @include('guest.checkinlist')
             </div>
-            <div class="tab-pane" id="housekeeper" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="tab-pane{{old('tab') == 'housekeeper' ? ' active' : null}}" id="housekeeper">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Content</th>
-                        <th scope="col">Room</th>
+                        <th scope="col">စဉ်</th>
+                        <th scope="col">အကြောင်းအရာ</th>
+                        <th scope="col">အခန်းနံပါတ်</th>
 
-                        <th scope="col">Housekeeper</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">အခန်း၀င်သူ</th>
+                        <th scope="col">ရက်စွဲ</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -431,7 +431,7 @@
 
 
             </div>
-            <div class="tab-pane" id="report" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="tab-pane{{old('tab') == 'report' ? ' active' : null}}" id="report">
                 <div id="refresher">
                     @foreach(Auth::user()->unreadNotifications as $noti)
                         @if($noti->type=="App\Notifications\HousekeeperCommentNoti")

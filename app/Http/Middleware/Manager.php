@@ -20,6 +20,8 @@ class Manager
             return redirect('/')->with('status', 'login first');
         } else if (Auth::user()->hasRole('admin'))
             return $next($request);
+
+
         else if (Auth::user()->hasRole('frontdesk'))
             return redirect('user/5');
         else
