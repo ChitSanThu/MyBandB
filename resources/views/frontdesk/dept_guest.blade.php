@@ -16,6 +16,7 @@
     </thead>
     <tbody id="txtHintHide" class="">
         @php($i=0)
+	@if(isset($guest_info))
         @foreach($guest_info as $key => $value)
             <tr>
                 <td>{{++$i}}</td>
@@ -27,6 +28,7 @@
                 
             </tr>
         @endforeach
+	@endif
     </tbody>
     <tbody id="txtHint">
         

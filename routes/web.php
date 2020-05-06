@@ -50,8 +50,9 @@ Route::group(array('prefix' => 'housekeeping', 'middleware' => 'housekeeping'), 
 
 });
 
-
+Route::get('frontdesk/rp','FrontdeskController@aa');
 Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
+    Route::get('month/increase','FrontdeskController@increaseMonth');
     Route::get('{col}', 'FrontdeskController@index');
     Route::post('{col}', 'FrontdeskController@store');
 
@@ -69,13 +70,13 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
         return view('room_operation.type');
     });
     Route::post('create/roomtype', 'RoomOperation@storeRoomType');
-    Route::get('report/frontdesk', 'FrontdeskController@report');
+    Route::get('report/frontdesk/aa', 'FrontdeskController@aa');
     Route::post('report/frontdesk', 'FrontdeskController@reportStore');
 
 
 
 });
-Route::group(array('prefix' => 'admin', 'namespace' => 'admin', 'middleware' => 'manager'), function () {
+Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'manager'), function () {
     Route::get('roles', 'RoleController@index');
     Route::get('users/show', 'UserController@index');
 

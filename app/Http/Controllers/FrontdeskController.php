@@ -18,8 +18,25 @@ use App\Notifications\HousekeepingNotification;
 
 class FrontdeskController extends Controller
 {
+public static  function aa(){
+return "i am work";
+}
+public function increaseMonth(){
+die('jkljk);
+   $record = Record::find(1);
+            if ($record->month == 12) {
+                $record->year += 1;
+                $record->month = 1;
+                $record->save();
+            } else {
+                $record->month += 1;
+                $record->save();
+            }
 
-    function index($num_of_day = 5)
+            return redirect('/user/5');
+    }
+
+    function index($num_of_day = 5,Request $request)
     {
 
 
@@ -29,6 +46,7 @@ class FrontdeskController extends Controller
         $rooms = Room::all();
         $roomtypes = RoomType::all();
         $dept = DeptRecord::all();
+	$state="";
         if (isset($_GET['guest'])) {
             $guest_state = $_GET['guest'];
             $id = $_GET['id'];
@@ -79,8 +97,8 @@ class FrontdeskController extends Controller
 
             return redirect("/user/5");
         }
-        if (isset($_GET['decrease'])) {
-            $id = $_GET['decrease'];
+        if ($request->get('decrease')) {
+            $id = $request->get('decrease');
             $record = Record::find($id);
 
             if ($record->month > 1) {
@@ -91,7 +109,7 @@ class FrontdeskController extends Controller
                 $record->month = 12;
                 $record->save();
             }
-            return redirect('/user/5');
+            return redirect(url('user/5'));
         }
         if (isset($_GET['increase'])) {
             $id = $_GET['increase'];
@@ -105,7 +123,7 @@ class FrontdeskController extends Controller
                 $record->save();
             }
 
-            return redirect('/user/5');
+            return redirect(url('user/5'));
         }
         if (isset($_GET['current'])) {
             $id = $_GET['current'];
@@ -113,11 +131,10 @@ class FrontdeskController extends Controller
             $record->month = date("m");
             $record->year = date("Y");
             $record->save();
-            return redirect("/user/5");
+            return redirect()->route('user', ['col' => 5]);
         }
         if(isset($_GET['cancleguest'])){
             DB::table('check_ins')->where('id', '=', $_GET['id'])->delete();
-            // DB::table('check_ins')->truncate();
             return redirect('user/5');
         }
         $mon = $record->month;

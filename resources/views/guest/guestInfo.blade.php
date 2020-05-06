@@ -44,11 +44,13 @@
                         <input list="inputState" name="nrctype" class="form-control" placeholder="၅/မရန">
 
                         <datalist id="inputState">
+			@if(isset($nrc_type))
                             @foreach($nrc_type as $nrc)
                             <option value="{{$nrc->nrc_type}}">
                             
                             @endforeach
                         </datalist>
+			@endif
 
 
                     </div>
