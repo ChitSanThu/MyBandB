@@ -19,7 +19,7 @@ use App\Notifications\HousekeepingNotification;
 class FrontdeskController extends Controller
 {
 
-    function index($num_of_day = 5)
+    function index($num_of_day = 5,Request $request)
     {
 
 
@@ -79,7 +79,7 @@ class FrontdeskController extends Controller
 
             return redirect("/user/5");
         }
-        if (isset($_GET['decrease'])) {
+        if ($request->get('decrease')) {
             $id = $_GET['decrease'];
             $record = Record::find($id);
 
@@ -332,7 +332,8 @@ class FrontdeskController extends Controller
                     'date_range' => [$_GET['sreport'], $_GET['ereport']], 'guest_info' => $guest_info,
                     'debt_guests' => $debt_guests, "reports" => $reports
                 ]);
-        } else {
+        }
+        else {
             $guest_info = $this->deptInfo(0);
             $debt_guests = $this->deptInfo(1);
             return view('frontdesk.report', compact('guest_info', 'debt_guests', 'reports'));

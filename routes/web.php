@@ -75,7 +75,7 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
 
 
 });
-Route::group(array('prefix' => 'admin', 'namespace' => 'admin', 'middleware' => 'manager'), function () {
+Route::group(array('prefix' => 'Admin', 'namespace' => 'admin', 'middleware' => 'manager'), function () {
     Route::get('roles', 'RoleController@index');
     Route::get('users/show', 'UserController@index');
 
