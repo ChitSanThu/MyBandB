@@ -18,30 +18,50 @@ use App\Notifications\HousekeepingNotification;
 
 class FrontdeskController extends Controller
 {
+    public static function aa()
+    {
+        return "i am work";
+    }
 
-    function index($num_of_day = 5,Request $request)
+    public function increaseMonth()
     {
 
+        $record = Record::find(1);
+        if ($record->month == 12) {
+            $record->year += 1;
+            $record->month = 1;
+            $record->save();
+        } else {
+            $record->month += 1;
+            $record->save();
+        }
 
+        return redirect('/user/5');
+    }
+
+    function index($num_of_day = 5, Request $request)
+    {
         $record = Record::all()->first();
         $nrc_type = DB::table('nrctype')->select('nrc_type')->get();
         $guests = CheckIn::all();
         $rooms = Room::all();
         $roomtypes = RoomType::all();
         $dept = DeptRecord::all();
+        $state = "";
         if (isset($_GET['guest'])) {
             $guest_state = $_GET['guest'];
             $id = $_GET['id'];
             $number = $_GET['roomnum'];
             switch ($guest_state) {
-                case 'checkout': {
+                case 'checkout':
+                    {
                         $state = 2;
                         $rooms = Room::where('roomumber', $number)->first();
                         $rooms->room_state = $state;
                         $rooms->save();
                     }
-                break;
-                    
+                    break;
+
                 default:
                     $state = 3;
             }
@@ -80,7 +100,8 @@ class FrontdeskController extends Controller
             return redirect("/user/5");
         }
         if ($request->get('decrease')) {
-            $id = $_GET['decrease'];
+
+            $id = $request->get('decrease');
             $record = Record::find($id);
 
             if ($record->month > 1) {
@@ -105,7 +126,7 @@ class FrontdeskController extends Controller
                 $record->save();
             }
 
-            return redirect('/user/5');
+            return redirect(url('user/5'));
         }
         if (isset($_GET['current'])) {
             $id = $_GET['current'];
@@ -113,11 +134,10 @@ class FrontdeskController extends Controller
             $record->month = date("m");
             $record->year = date("Y");
             $record->save();
-            return redirect("/user/5");
+            return redirect()->route('user', ['col' => 5]);
         }
-        if(isset($_GET['cancleguest'])){
+        if (isset($_GET['cancleguest'])) {
             DB::table('check_ins')->where('id', '=', $_GET['id'])->delete();
-            // DB::table('check_ins')->truncate();
             return redirect('user/5');
         }
         $mon = $record->month;
@@ -151,7 +171,7 @@ class FrontdeskController extends Controller
         // for guest comment
         if (isset($_GET['guest_comment'])) {
             // $this->deleteNotification($_GET['guest_comment']);
-            return redirect('/user/5')->with(['guestnoti'=>"show"]);
+            return redirect('/user/5')->with(['guestnoti' => "show"]);
         }
 
         // for notification 
@@ -166,7 +186,7 @@ class FrontdeskController extends Controller
 
         return view(
             'frontdesk.index',
-            compact("nrc_type","record", "guest_info", "dept", "invoice", "month_name", "days_of_month", "startDay", "guests", "rooms", 'roomtypes', 'mon', 'year', 'num_of_day', 'dayName', 'firstDay')
+            compact("nrc_type", "record", "guest_info", "dept", "invoice", "month_name", "days_of_month", "startDay", "guests", "rooms", 'roomtypes', 'mon', 'year', 'num_of_day', 'dayName', 'firstDay')
         );
     }
 
@@ -175,11 +195,11 @@ class FrontdeskController extends Controller
         if ($request->get('contron') == 'checkin') {
 
             // $this->updateRoomState($request->get('roomNum'), 1);
-            $nrcs_tp = DB::table('nrctype')->where('nrc_type','=',$request->get('nrctype'))->get();
-            
-                if(!$nrcs_tp)
-                    DB::table('nrctype')->insert(["nrc_type"=>$request->get('nrctype')]);
-            
+            $nrcs_tp = DB::table('nrctype')->where('nrc_type', '=', $request->get('nrctype'))->get();
+
+            if (!$nrcs_tp)
+                DB::table('nrctype')->insert(["nrc_type" => $request->get('nrctype')]);
+
             $nrc = $request->get('nrctype') . $request->get('nrc') . $request->get('nrcno');
 
             $days = $request->get('days');
@@ -219,9 +239,9 @@ class FrontdeskController extends Controller
                 $this->updateRoomState($request->get('roomNum'), 1);
             $nrc = $request->get('nrctype') . $request->get('nrc') . $request->get('nrcno');
             $nrcs_tp = DB::table('nrctype')->select('nrc_type')->get();
-            foreach($nrcs_tp as $nrc){
-                if($nrc!=$_GET['nrctype'])
-                    DB::table('nrctype')->insert(["nrc_type"=>$request->get('nrctype')]);
+            foreach ($nrcs_tp as $nrc) {
+                if ($nrc != $_GET['nrctype'])
+                    DB::table('nrctype')->insert(["nrc_type" => $request->get('nrctype')]);
             }
             $guests = CheckIn::find($request->get('guest_id'));
             $guests->father_name = $request->get('fname');
@@ -238,6 +258,7 @@ class FrontdeskController extends Controller
             return redirect('/user/5');
         }
     }
+
     function updateRoomState($number, $state)
     {
         $rooms = Room::where('roomumber', $number)->first();
@@ -264,11 +285,13 @@ class FrontdeskController extends Controller
         $room_state->room_state = $status;
         $room_state->save();
     }
+
     public function invoice()
     {
         $invoice = Invoice::all()->first();
         return view('invoice', compact('invoice'));
     }
+
     public function logoStore($id, InvoiceFormRequest $request)
     {
         $logo = $request->file('logo');
@@ -283,6 +306,7 @@ class FrontdeskController extends Controller
         $logo->move(public_path() . '/logo/', $logo->getClientOriginalName());
         return redirect('/user/invoice/1/edit');
     }
+
     public function invoicePrint(Request $request)
     {
 
@@ -316,13 +340,14 @@ class FrontdeskController extends Controller
             compact('guests', 'invoice', 'cost', 'discount', 'tax', 'total', 'room_type', 'room_cost')
         );
     }
+
     public function report()
     {
         $reports = Report::all();
 
         if (isset($_GET['sreport'])) {
             $reports = DB::table('reports')
-                ->whereBetween('created_at', [$_GET['sreport'], $_GET['ereport']." 23:59:59"])
+                ->whereBetween('created_at', [$_GET['sreport'], $_GET['ereport'] . " 23:59:59"])
                 ->get();
             $guest_info = $this->deptInfo(0, [$_GET['sreport'], $_GET['ereport']]);
             $debt_guests = $this->deptInfo(1, [$_GET['sreport'], $_GET['ereport']]);
@@ -332,13 +357,13 @@ class FrontdeskController extends Controller
                     'date_range' => [$_GET['sreport'], $_GET['ereport']], 'guest_info' => $guest_info,
                     'debt_guests' => $debt_guests, "reports" => $reports
                 ]);
-        }
-        else {
+        } else {
             $guest_info = $this->deptInfo(0);
             $debt_guests = $this->deptInfo(1);
             return view('frontdesk.report', compact('guest_info', 'debt_guests', 'reports'));
         }
     }
+
     public function reportStore(Request $request)
     {
         $this->validate($request, [
@@ -353,6 +378,7 @@ class FrontdeskController extends Controller
 
         return redirect("/user/report/frontdesk");
     }
+
     public function deptInfo($status, $range = 0)
     {
         if ($range == 0)
@@ -368,7 +394,7 @@ class FrontdeskController extends Controller
         foreach ($dept as $guest) {
 
             $guests = CheckIn::find($guest->guest_id);
-            $date =  $guest->created_at;
+            $date = $guest->created_at;
 
             array_push($guest_info, array(
                 "guest_id" => $guests->id,
@@ -377,18 +403,20 @@ class FrontdeskController extends Controller
                 "name" => $guests->room_number,
                 "total" => $guest->total,
                 "comment" => $guest->comment,
-                "date" => date('d/m/Y h:i:s a',strtotime($date))
+                "date" => date('d/m/Y h:i:s a', strtotime($date))
             ));
         }
 
 
         return $guest_info;
     }
+
     public function sentNotification($id, $number)
     {
         $user = User::find($id);
         $user->notify(new HousekeepingNotification($number));
     }
+
     public function deleteNotification($where)
     {
         $user = User::find(Auth::user()->id);
@@ -429,7 +457,7 @@ class FrontdeskController extends Controller
                         '<td>' . $product->total . '</td>' .
                         '<td>' . $product->comment . '</td>' .
 
-                        '<td>' . date('d/m/Y h:i:s a',strtotime($product->created_at)) . '</td>' .
+                        '<td>' . date('d/m/Y h:i:s a', strtotime($product->created_at)) . '</td>' .
                         '<td>' . '<a href="{{url(' . 'user/5?debt=' . $product->guest_id . ')}}" class=
                     "btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
 

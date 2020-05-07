@@ -16,7 +16,11 @@
     </thead>
     <tbody id="txtHintHide" class="">
         @php($i=0)
-        @if($guest_info)
+{{--<<<<<<< HEAD--}}
+{{--        @if($guest_info)--}}
+{{--=======--}}
+	@if(isset($guest_info))
+{{-->>>>>>> 1d568108c6bdf86c39a2f106958bed34747b95e2--}}
         @foreach($guest_info as $key => $value)
             <tr>
                 <td>{{++$i}}</td>
@@ -28,7 +32,11 @@
                 
             </tr>
         @endforeach
-        @endif
+{{--<<<<<<< HEAD--}}
+{{--        @endif--}}
+{{--=======--}}
+	@endif
+{{-->>>>>>> 1d568108c6bdf86c39a2f106958bed34747b95e2--}}
     </tbody>
     <tbody id="txtHint">
         
