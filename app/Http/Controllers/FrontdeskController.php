@@ -18,26 +18,6 @@ use App\Notifications\HousekeepingNotification;
 
 class FrontdeskController extends Controller
 {
-    public static function aa()
-    {
-        return "i am work";
-    }
-
-    public function increaseMonth()
-    {
-
-        $record = Record::find(1);
-        if ($record->month == 12) {
-            $record->year += 1;
-            $record->month = 1;
-            $record->save();
-        } else {
-            $record->month += 1;
-            $record->save();
-        }
-
-        return redirect('/user/5');
-    }
 
     function index($num_of_day = 5, Request $request)
     {
