@@ -28,7 +28,7 @@
                 <td>{{$value['total']}}</td>
                 <td>{{$value['comment']}}</td>
                 <td>{{$value['date']}}</td>
-                <td><a  href="{{url('user/5?debt='.$value['guest_id'])}}" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>
+                <td><a  href="{{url('user/debt/'.$value['guest_id'])}}" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>
                 
             </tr>
         @endforeach

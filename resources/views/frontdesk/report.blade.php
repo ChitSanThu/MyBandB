@@ -42,8 +42,10 @@
 
     </div>
   </form>
-
-  <table class="table table-bordered table-sm bg-white mt-3 ">
+  @if(session('date_range'))
+    <p class="text-center bg-white mt-2">{{session('date_range')[0]}} မှ {{session('date_range')[1]}} ထိ</p>
+    @endif
+  <table class="table table-bordered table-sm bg-white mt-2 ">
 
     <thead>
       <tr>
@@ -175,7 +177,7 @@
   function showDate(){
     var start=$('#from-date').val();
     var end=$('#to-date').val();
-    $('#view-report').attr('href',window.location.href+"?sreport="+start+"&ereport="+end);
+    $('#view-report').attr('href',"{{url('user/report')}}"+"/"+start+"/"+end);
     
   }
 

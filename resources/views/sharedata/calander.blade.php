@@ -10,9 +10,9 @@
     <div class="row mt-2 ml-3 mb-0">
         <form action="">
             <div class="btn-group btn-group-sm" role="group">
-                <a href="{{url('/user/5?decrease=1')}}" class="btn btn-outline-secondary">&laquo;</a>
-                <a href="{{url('/user/5?current=1')}}" class="btn btn-secondary">{{$month_name[$viewMonth-1]}}{{$year}} </a>
-                <a href="{{url('/user/5?increase=1')}}" type="button" class="btn btn-outline-secondary">&raquo;</a>
+                <a href="{{url('/user/month/decrease')}}" class="btn btn-outline-secondary">&laquo;</a>
+                <a href="{{url('/user/month/current')}}" class="btn btn-secondary">{{$month_name[$viewMonth-1]}}{{$year}} </a>
+                <a href="{{url('/user/month/increase')}}" type="button" class="btn btn-outline-secondary">&raquo;</a>
             </div>
         </form>
 

@@ -21,7 +21,7 @@ class Manager
         } else if (Auth::user()->hasRole('admin'))
             return $next($request);
         else if (Auth::user()->hasRole('frontdesk'))
-            return redirect('user/5');
+            return redirect('user/frontdesk');
         else
             return redirect('housekeeping/index');
     }

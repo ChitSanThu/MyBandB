@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#545b62">
-    <a class="navbar-brand mr-5 text-white" href="{{url('/user/5')}}">My B&B</a>
+    <a class="navbar-brand mr-5 text-white" href="{{url('/user/frontdesk')}}">My B&B</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link text-white" href="{{url('/user/5')}}">ဧည့်ဇယား<span
+                <a class="nav-link text-white" href="{{url('/user/frontdesk')}}">ဧည့်ဇယား<span
                             class="sr-only">(current)</span></a>
             </li>
             <!-- <li class="nav-item mr-5">

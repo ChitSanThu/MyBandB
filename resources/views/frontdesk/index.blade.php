@@ -11,31 +11,23 @@
     <style>
         .navcolor {
             color: #545b62;
-
         }
-
         .noti {
             display: inline-block;
         }
-
         .row-day-name,
         .row-day {
             background-color: #6c757d;
-
         }
-
         .close_tab {
             float: right;
-
             /*border-radius: 50%;*/
         }
-
         .close_tab:hover {
             /*background-color: red;*/
             color: red;
             cursor: pointer;
         }
-
         .payment_state {
             z-index: 1;
             /* Sit on top */
@@ -53,24 +45,18 @@
             /*padding-top: 60px;*/
             /*padding-bottom: 60px;*/
         }
-
-
         .daytable {
             width: 100%;
         }
-
         .roomNumSize {
             width: 15%;
         }
-
         .logoPannel {
             height: 2cm;
         }
-
         .roomCell {
             cursor: pointer;
         }
-
         .checkInstatus {
             z-index: 1;
             /* Sit on top */
@@ -88,40 +74,30 @@
             padding-top: 60px;
             padding-bottom: 60px;
         }
-
         .current {
             background-color: #66cfff;
         }
-
         .highlight1 {
             background-color: #99dfff !important;
         }
-
         .payment_radio {
             width: 18px;
             height: 18px;
         }
-
         .check-active {
             color: white;
         }
-
         .check-active:hover{
             color:white;
         }
-
         .check-active:active {
             color: black;
         }
-
         * {
             font-family: 'Nunito', sans-serif;
             user-select: none;
-
         }
-
         /* for loader style */
-
         .loader-wrapper {
             width: 100%;
             height: 100%;
@@ -133,7 +109,6 @@
             justify-content: center;
             align-items: center;
         }
-
         .loader {
             display: inline-block;
             width: 30px;
@@ -142,7 +117,6 @@
             border: 4px solid #Fff;
             animation: loader 2s infinite ease;
         }
-
         .loader-inner {
             vertical-align: top;
             display: inline-block;
@@ -150,7 +124,6 @@
             background-color: #fff;
             animation: loader-inner 2s infinite ease-in;
         }
-
         @keyframes loader {
             0% {
                 transform: rotate(0deg);
@@ -172,7 +145,6 @@
                 transform: rotate(360deg);
             }
         }
-
         @keyframes loader-inner {
             0% {
                 height: 0%;
@@ -194,7 +166,6 @@
                 height: 0%;
             }
         }
-
         .clock {
             position: absolute;
             top: 3.5%;
@@ -219,7 +190,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <script src="{{asset('/js/multi.js')}}"></script>
     <script src="{{asset('js/jquery.PrintArea.js')}}"></script>
     <script>
@@ -252,7 +222,6 @@
             }
         }
     </script>
-
 </head>
 
 <body>
@@ -309,7 +278,7 @@
         <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
 
         <div class="tab-content">
-            <div class="tab-pane active" id="homed" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane active" id="homed">
 
                 <table class="daytable table-bordered">
 
@@ -349,7 +318,9 @@
                     {{-- Start for Day Row --}}
                     <tr class="row-day">
                         <td class=""></td>
-                        @for ($count=$startDay;$count<$num_of_day+$startDay;$count++) @if($count==date("d") && $mon==date("m") && $year==date("Y")) @if($count<10 && $count!=$startDay)
+                        @for ($count=$startDay;$count<$num_of_day+$startDay;$count++)
+                            @if($count==date("d") && $mon==date("m") && $year==date("Y"))
+                                @if($count<10 && $count!=$startDay)
                             <td class="day">
                                 <p class="current mb-0 text-center text-white">{{"0".$count}}</p>
                             </td>
@@ -390,7 +361,6 @@
                 </table>
             </div>
 
-
             <div class="tab-pane{{old('tab') == 'profile' ? ' active' : null}}" id="profile">
                 @include('frontdesk.dept_guest')
             </div>
@@ -398,6 +368,7 @@
             <div class="tab-pane{{old('tab') == 'settings' ? ' active' : null}}" id="settings">
                 @include('guest.checkinlist')
             </div>
+
             <div class="tab-pane{{old('tab') == 'housekeeper' ? ' active' : null}}" id="housekeeper">
                 <table class="table">
                     <thead>
@@ -421,16 +392,15 @@
 
                                 <td>{{$noti->data['housekeeper']['name']}}</td>
                                 <td>{{date('d/m/Y h:i:s a',strtotime($noti->read_at))}}</td>
-                                <td><a href="{{url('user/5?guest_comment='.$noti->created_at)}}"
+                                <td><a href="{{url('user/guest_comment/'.$noti->created_at)}}"
                                        class="btn btn-sm btn-danger">Delete</a></td>
                             </tr>
                         @endif
                     @endforeach
                     </tbody>
                 </table>
-
-
             </div>
+
             <div class="tab-pane{{old('tab') == 'report' ? ' active' : null}}" id="report">
                 <div id="refresher">
                     @foreach(Auth::user()->unreadNotifications as $noti)
@@ -439,20 +409,20 @@
                                 <p class="alert alert-success">{{$noti->data['comment'][0]}} အခန်း
                                     နံပါတ် {{$noti->data['comment'][1]}}
                                     ပေးပို့သူ {{$noti->data['housekeeper']['name']}}
-                                    <a href="{{url('user/5?noti='.$noti->data['housekeeper']['id'])}}"
+                                    <a href="{{url('user/noti/'.$noti->data['housekeeper']['id'])}}"
                                        class="btn btn-sm btn-success text-white">Read</a>
                                 </p>
                             @else
                                 <p class="alert alert-success"> အခန်း နံပါတ် {{$noti->data['comment'][1]}} အား
                                     ရှင်းပြီးပါပြီ ပေးပို့သူ {{$noti->data['housekeeper']['name']}}
-                                    <a href="{{url('user/5?noti='.$noti->data['housekeeper']['id'])}}"
+                                    <a href="{{url('user/noti/'.$noti->data['housekeeper']['id'])}}"
                                        class="btn btn-sm btn-success text-white">Read</a>
                                 </p>
                             @endif
                         @else
                             <p class="alert alert-success">အခန်း၀င်နေပါပြီ
                                 ပေးပို့သူ {{$noti->data['housekeeper']['name']}}
-                                <a href="{{url('user/5?noti='.$noti->data['housekeeper']['id'])}}"
+                                <a href="{{url('user/noti/'.$noti->data['housekeeper']['id'])}}"
                                    class="btn btn-sm btn-success text-white">Read</a>
                             </p>
                         @endif
@@ -467,12 +437,6 @@
 <div class="loader-wrapper">
     <span class="loader"><span class="loader-inner"></span></span>
 </div>
-
-
-<!-- start search code -->
-
-
-<!-- end search -->
 <script>
     $('#checkInForm').hide();
     $('#payment_form').hide();
@@ -490,7 +454,6 @@
     });
 </script>
 @include('frontdesk.coustomMenu')
-
 <script>
     function showTime() {
         var date = new Date();

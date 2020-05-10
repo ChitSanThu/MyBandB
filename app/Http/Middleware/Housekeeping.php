@@ -22,6 +22,6 @@ class Housekeeping
             if (Auth::user()->hasRole('housekeeping'))
             return $next($request);
         else
-            return redirect('user/5');
+            return redirect('user/frontdesk');
     }
 }
