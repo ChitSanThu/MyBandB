@@ -28,7 +28,10 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::post('create/roomtype', 'RoomOperation@storeRoomType');
     Route::get('report/frontdesk', 'FrontdeskController@report');
     Route::post('report/frontdesk', 'FrontdeskController@reportStore');
-    Route::get('guest/{guest_state}/{id}/{number}','FrontdeskController@guestStateChange');
+
+    Route::get('frontdesk/guest/checkout/{id}/{number}','FrontdeskController@checkoutGuest');
+    Route::get('frontdesk/guest/cancleguest/{id}/{number}','FrontdeskController@cancleGuest');
+
     Route::get('room/{state}/{number}','FrontdeskController@roomStateChange');
     Route::get('housekeeping/{user_id}/{number}/{auth_id}','FrontdeskController@housekeeping');
     Route::get('debt/{id}','FrontdeskController@paymentDebt');

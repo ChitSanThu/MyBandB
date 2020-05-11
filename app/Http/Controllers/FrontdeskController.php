@@ -218,6 +218,18 @@ class FrontdeskController extends Controller
             echo $output;
         }
     }
+    public function cancleGuest($id,$number){
+        DB::table('check_ins')->where('id', '=', $id)->delete();
+        return $this->returnFrontdesk();
+
+    }
+    public function checkoutGuest($id,$number){
+        $rooms = Room::where('roomumber', $number)->first();
+        $rooms->room_state = 2;
+        $rooms->save();
+        $this->guestState($id, 2);
+        return $this->returnFrontdesk();
+    }
     public function guestStateChange($state,$id,$number){
             switch ($state) {
                 case 'checkout':
@@ -300,6 +312,7 @@ class FrontdeskController extends Controller
             $user = DeptRecord::where('guest_id', $id)->first();
             $user->status = 0;
             $user->save();
+            $this->guestState($id,2);
             return $this->returnFrontdesk();
     }
     public function guestComment($create_at){

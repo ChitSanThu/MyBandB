@@ -137,7 +137,7 @@
                         $('#total').val(total - $('#discount').val());
                     });
                     $("#link_href").attr('href', "{{url('user/frontdesk')}}"+'/'+"guest/checkout/" + guest_id+"/" + splic_num[1]);
-                    $("#cancle").attr('href', "{{url('user/frontdesk')}}"+ "/gurst/cancleguest/" + guest_id + "/" + splic_num[1]);
+                    $("#cancle").attr('href', "{{url('user/frontdesk')}}"+ "/guest/cancleguest/" + guest_id + "/" + splic_num[1]);
 
                     document.getElementById("rmenu").className = "showcontext";
                     document.getElementById("rmenu").style.top = mouseY(event) + 'px';
