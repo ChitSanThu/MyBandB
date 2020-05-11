@@ -193,7 +193,7 @@
                     $('#numDay').val(reserve_guest[4] + "-" + reserve_guest[5]);
                     $('#contron_checkin').val('reserv');
                     // alert($('#contron_checkin').val());
-                    $("#cancle").attr('href', "{{url('user/guest/frontdesk')}}"+ "/cancleguest/" + reserve_guest[1] + "/" + splic_num[1]);
+                    $("#cancle").attr('href', "{{url('user/frontdesk/guest')}}"+ "/cancleguest/" + reserve_guest[1] + "/" + splic_num[1]);
                     document.getElementById("rmenu").className = "showcontext";
                     document.getElementById("rmenu").style.top = mouseY(event) + 'px';
                     document.getElementById("rmenu").style.left = mouseX(event) + 'px';
