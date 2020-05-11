@@ -23,35 +23,35 @@
 
                 @foreach($roles as $role)
                     <div class="form-check">
-                        <input  class="form-check-input" type="checkbox" name='role[]' value="{{$role->name}}" id=""
-                        @if(in_array($role->name,$selectedRoles))
-                                checked 
-                        @endif
+                        <input class="form-check-input" type="checkbox" name='role[]' value="{{$role->name}}" id=""
+                               @if(in_array($role->name,$selectedRoles))
+                               checked
+                                @endif
                         >
                         <label class="form-check-label" for="check"
-                        @if(in_array($role->name,$selectedRoles))
-                                style="color:blue"
-                        @endif
+                               @if(in_array($role->name,$selectedRoles))
+                               style="color:blue"
+                                @endif
                         >
                             {{$role->name}}
                         </label>
                     </div>
-                @endforeach
+            @endforeach
 
-                
 
-                <!-- <select class="custom-select" name="role[]" multiple>
+
+            <!-- <select class="custom-select" name="role[]" multiple>
 
                     @foreach($roles as $role)
-                        <option value="{{$role->name}}"
+                <option value="{{$role->name}}"
                                 @if(in_array($role->name,$selectedRoles))
-                                selected="selected"
-                                @endif
+                    selected="selected"
+@endif
                         >
                             {{$role->name}}</option>
                     @endforeach
 
-                </select> -->
+                    </select> -->
 
                 <button type="submit" class="btn btn-primary pull-right">Edit</button>
             </form>

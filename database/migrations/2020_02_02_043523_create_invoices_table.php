@@ -19,7 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->text('address');
             $table->text('phone');
             $table->text('logo');
-            $table->integer('tax');
+            $table->integer('tax')->default(0);
             $table->timestamps();
         });
     }

@@ -15,14 +15,16 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: rgba(34, 194, 230,0.3) !important;
+			background: rgba(0, 0, 0,0.5) ;
+            {{--    background-image: url("{{asset('/image/login-bg.jpg')}}");--}}
+            /*    background-size: cover;*/
 		}
 		.user_card {
 			height: 400px;
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: rgba(34, 194, 230, 0.3);
+			background: rgba(0, 0, 0,0.3);
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -40,7 +42,7 @@
 			width: 170px;
 			top: -75px;
 			border-radius: 50%;
-			background: #60a3bc;
+			background: rgba(0, 0, 0,0.3);
 			padding: 10px;
 			text-align: center;
 		}
@@ -66,7 +68,7 @@
 			padding: 0 2rem;
 		}
 		.input-group-text {
-			background: rgba(34, 194, 230, 1); !important;
+			background: rgba(0, 0, 0,0.3); !important;
 			color: black !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
@@ -77,7 +79,7 @@
 			outline: 0px !important;
 		}
 		.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-			background-color: #66cfff !important;
+			background-color: rgba(0, 0, 0,0.3);
 		}
     </style>
 </head>
@@ -96,25 +98,25 @@
                 
                 <form method="post">
 					{{csrf_field()}}
-					<legend class="text-center">{{$hotel->title}}</legend>
+					<legend class="text-center text-white">{{$hotel->title}}</legend>
 					@foreach ($errors->all() as $error)
 						<p class="alert alert-danger">{{$error}}</p>
 					@endforeach
                     <div class="input-group mb-3">
                         <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <span class="input-group-text"><i class="far fa-envelope text-white"></i></span>
                         </div>
                         <input type="text" name="email" class="form-control input_user" value="" placeholder="email">
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <span class="input-group-text"><i class="fas fa-key text-white"></i></span>
                         </div>
                         <input type="password" name="password" class="form-control input_pass" value="" placeholder="password">
                     </div>
                     
                         <div class="d-flex justify-content-center mt-3 login_container">
-                 <input type="submit" class="btn login_btn btn-info" value="Login">
+                 <input type="submit" class="btn login_btn btn-dark" value="Login">
                </div>
                 </form>
             </div>

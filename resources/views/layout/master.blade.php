@@ -76,12 +76,12 @@
 <body>
 @include('../sharedata/nav')
 <div class="row mt-5 container-fluid">
-    <div class="col-md-3 my-0">
+    <!-- <div class="col-md-3 my-0">
         <div class="calandar">
-            @include('layout.master-sidebar')
+            
         </div>
-    </div>
-    <div class="col-md-9">
+    </div> -->
+    <div class="col-md-12" style="margin:auto;">
         @yield('content')
     </div>
 </div>

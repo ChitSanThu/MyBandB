@@ -41,26 +41,18 @@
 
                     <div class="form-group col-md-4">
 
-                        <input list="inputState" name="nrctype" class="form-control" placeholder="၅/မရန">
+                        <input  name="nrctype" class="form-control" placeholder="၅/မရန">
 
-                        <datalist id="inputState">
-                            @foreach($nrc_type as $nrc)
-                            <option value="{{$nrc->nrc_type}}">
-                            
-                            @endforeach
-                        </datalist>
-
-
+{{--                        <datalist id="inputState">--}}
+{{--			@if(isset($nrc_type))--}}
+{{--                            @foreach($nrc_type as $nrc)--}}
+{{--                            <option value="{{$nrc->nrc_type}}">--}}
+{{--                            --}}
+{{--                            @endforeach--}}
+{{--                        </datalist>--}}
+{{--			@endif--}}
                     </div>
-
-                    <!-- <div class="col">
-
-                        <select name="nrctype" required id="" class="form-control">
-                            <option value="Choice">Choice...</option>
-                        </select>
-                    </div> -->
                     <div class="col">
-
                         <select name="nrc" id="" required class="form-control">
                             <option value="နိုင်"> နိုင် </option>
                             <option value="ပြု"> ပြု </option>
@@ -121,6 +113,6 @@
 <script>
     function hideBox() {
         $('#checkInForm').hide();
-        window.location.href = "{{url('/user/5')}}";
+        window.location.href = "{{url('user/frontdesk')}}";
     }
 </script>

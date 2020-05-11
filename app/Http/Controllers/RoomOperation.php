@@ -16,19 +16,41 @@ class RoomOperation extends Controller
 
     function storeRoom(Request $request)
     {
-        Room::create([
-            'roomumber' => $request->get('roomNumber'),
-            'roomtype' =>  preg_replace("/(\s+)/","",$request->get('roomType'))
+        $this->validate($request, [
+            'roomNumber' => 'required',
+            'roomType' => 'required',
         ]);
-        return redirect('user/create/rooms')->with("status", "Successfully add a Room");
+
+        if(strpos($request->get('roomNumber'),',')){
+            $rooms=explode(',',$request->get('roomNumber'));
+            foreach ($rooms as $room){
+                Room::create([
+                    'roomumber' => $room,
+                    'roomtype' => preg_replace("/(\s+)/", "", $request->get('roomType'))
+                ]);
+            }
+            return redirect('user/create/rooms')->with("status", $request->get('roomType')." ထဲသို့ အခန်းများ အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ");
+
+        }else{
+            Room::create([
+                'roomumber' => $request->get('roomNumber'),
+                'roomtype' => preg_replace("/(\s+)/", "", $request->get('roomType'))
+            ]);
+            return redirect('user/create/rooms')->with("status", $request->get('roomType')." ထဲသို့ အခန်းနံပါတ်".$request->get('roomNumber')." အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ");
+        }
     }
 
     function storeRoomType(Request $request)
     {
+        $this->validate($request, [
+            'price' => 'required',
+            'roomType' => 'required',
+        ]);
         RoomType::create([
+
             'roomtype' => $request->get('roomType'),
             'price' => $request->get('price'),
         ]);
-        return redirect('user/create/roomtype')->with('status', 'Successfully add a Type');
+        return redirect('user/create/roomtype')->with('status', 'အခန်းအမျိုးအစားနှင့်စျေးနှုန်း အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ');
     }
 }

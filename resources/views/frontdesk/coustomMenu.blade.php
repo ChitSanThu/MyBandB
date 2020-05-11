@@ -12,12 +12,9 @@
         .showcontext {
             position: absolute;
         }
-
         .hide {
             display: none;
         }
-
-
         /* Create a custom circle  */
         .checkmark {
             position: absolute;
@@ -25,12 +22,9 @@
             width: 25px;
             border-radius: 50%;
         }
-
         .pointer:hover {
             cursor: pointer;
         }
-
-
         .reservation_class {
             z-index: 1;
             /* Sit on top */
@@ -60,7 +54,6 @@
         $(document).bind("click", function (event) {
             document.getElementById("guest").className = "hide";
         });
-
 
         function mouseX(evt) {
             if (evt.pageX) {
@@ -120,7 +113,6 @@
                     var escpce = text_id.replace(/\s+/g, " ");
                     var id = escpce.split(" ");
                     var guest_id = id[1];
-
                     var room_text = $(this).parent().text();
                     var escape_space = room_text.replace(/\s+/g, " ");
                     var splic_num = escape_space.split(" ");
@@ -144,8 +136,8 @@
 
                         $('#total').val(total - $('#discount').val());
                     });
-                    $("#link_href").attr('href', window.location.href + "?guest=checkout&id=" + guest_id + "&roomnum=" + splic_num[1]);
-                    $("#cancle").attr('href', window.location.href + "?cancleguest=cancle&id=" + guest_id + "&roomnum=" + splic_num[1]);
+                    $("#link_href").attr('href', "{{url('user/frontdesk')}}"+'/'+"guest/checkout/" + guest_id+"/" + splic_num[1]);
+                    $("#cancle").attr('href', "{{url('user/frontdesk')}}"+ "/gurst/cancleguest/" + guest_id + "/" + splic_num[1]);
 
                     document.getElementById("rmenu").className = "showcontext";
                     document.getElementById("rmenu").style.top = mouseY(event) + 'px';
@@ -164,15 +156,15 @@
                     var num_of_house = $('#count_user').text();
                     for (var start = 1; start <= num_of_house; start++) {
                         var user_id = $('#ask_housekeeping' + start + ' #user_id').text();
-                        $('#ask_housekeeping' + start).attr('href', window.location.href + "?userid=" + user_id + "&number=" + room + "&auth={{Auth::user()->id}}");
+                        $('#ask_housekeeping' + start).attr('href',"{{url('user/housekeeping')}}"+ '/' + user_id + "/" + room + "/{{Auth::user()->id}}");
                     }
                     // alert(window.location.href + "?room=modify&number=" + room);
-                    $("#link_href_room").attr('href', window.location.href + "?room=checkin&number=" + room);
-                    $("#link_href_room1").attr('href', window.location.href + "?room=checkout&number=" + room);
-                    $("#link_href_room2").attr('href', window.location.href + "?room=housekeeping&number=" + room);
-                    $("#link_href_room3").attr('href', window.location.href + "?room=outofservice&number=" + room);
-                    $("#link_href_room0").attr('href', window.location.href + "?room=idel&number=" + room);
-                    $("#link_href_room4").attr('href', window.location.href + "?room=reserv&number=" + room);
+                    $("#link_href_room").attr('href',"{{url('user/room')}}"+ "/checkin/" + room);
+                    $("#link_href_room1").attr('href', "{{url('user/room')}}"+ "/checkout/" + room);
+                    $("#link_href_room2").attr('href', "{{url('user/room')}}" + "/housekeeping/" + room);
+                    $("#link_href_room3").attr('href', "{{url('user/room')}}" + "/outofservice/" + room);
+                    $("#link_href_room0").attr('href', "{{url('user/room')}}"+ "/idel/" + room);
+                    $("#link_href_room4").attr('href', "{{url('user/room')}}" + "/reserv/" + room);
                     document.getElementById("number").className = "showcontext";
                     document.getElementById("number").style.top = mouseY(event) + 'px';
                     document.getElementById("number").style.left = mouseX(event) + 'px';
@@ -190,13 +182,10 @@
                     // var escape_space = room_text.replace(/\s+/g, " ");
                     // var splic_num = escape_space.split(" ");
                     // alert(splic_num);
-
-
                     var room_text = $(this).parent().text();
                     var escape_space = room_text.replace(/\s+/g, " ");
                     var splic_num = escape_space.split(" ");
                     // alert(splic_num);
-
                     $('#guest_id').val(reserve_guest[1]);
                     $('#rnb').val(splic_num[1]);
                     $('#name').val(reserve_guest[2]);
@@ -204,9 +193,7 @@
                     $('#numDay').val(reserve_guest[4] + "-" + reserve_guest[5]);
                     $('#contron_checkin').val('reserv');
                     // alert($('#contron_checkin').val());
-                    $("#cancle").attr('href', window.location.href + "?cancleguest=cancle&id=" + reserve_guest[1] + "&roomnum=" + splic_num[1]);
-
-                    // $("#link_href").attr('href', window.location.href + "?guest=checkout&roomnum="+splic_num[1]+"&id=" + reserve_guest[1]);
+                    $("#cancle").attr('href', "{{url('user/guest')}}"+ "/cancleguest/" + reserve_guest[1] + "/" + splic_num[1]);
                     document.getElementById("rmenu").className = "showcontext";
                     document.getElementById("rmenu").style.top = mouseY(event) + 'px';
                     document.getElementById("rmenu").style.left = mouseX(event) + 'px';
@@ -321,13 +308,6 @@
         $('#reservation_form').hide();
     }
 
-    function getFun(id) {
-        // var room_num = $(this).text();
-        //         var escpce = room_num.replace(/\s+/g, " ");
-        //         var num = escpce.split(" ");
-        //         var room = num[1];
-        // alert(id);
-    }
 </script>
 </body>
 

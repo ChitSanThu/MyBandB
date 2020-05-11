@@ -73,14 +73,14 @@
 
     <!-- start nav bar -->
     <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#545b62">
-        <a class="navbar-brand text-white" href="#">MyB&B</a>
+        <a class="navbar-brand text-white" href="">MyB&B</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item active ">
-                    <a class="nav-link text-white" href="#">Housekeeping <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-white" href="">Housekeeping <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle text-white " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -111,7 +111,7 @@
         </audio>
         <p class="alert alert-success col-md-12 text-center">
             အခန်း နံပါတ် {{$notia->data['room']}} အားသန့်ရှင်းရန်
-            <a href="{{url('/housekeeping/index?sent='.$notia->data['auth_id'])}}" class="btn btn-sm btn-success ml-3"> YeS</a>
+            <a href="{{url('/housekeeping/index/sent/'.$notia->data['auth_id'])}}" class="btn btn-sm btn-success ml-3"> Yes</a>
         </p>
         {{session(["auth_id"=>$notia->data['auth_id']])}}
         @endforeach
@@ -145,15 +145,13 @@
                     @if(session('auth_id'))
                     <a class="dropdown-item" onclick="$('#comment-form').show()">Comment</a>
                     @endif
-                    <a class="dropdown-item" href="{{url('/housekeeping/index?room-num='.$room->roomumber.'&auth_id=')}}">ရှင်းပြီး</a>
+                    <a class="dropdown-item" href="{{url('/housekeeping/index/room/'.$room->roomumber)}}">ရှင်းပြီး</a>
                 </div>
             </div>
             <!-- </div> -->
         </div>
         @endif
         @endforeach
-
-
         @foreach($rooms as $room)
         @if($room->room_state !=3)
         @php
@@ -194,7 +192,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <li class="dropdown-item">{{$room->roomtype}}</li>
-                    <a class="dropdown-item" href="#">{{$room_state}}</a>
+                    <a class="dropdown-item" href="">{{$room_state}}</a>
                 @if(session('auth_id'))
                     <a class="dropdown-item" onclick="$('#comment-form').show()">Comment</a>
                 @endif
