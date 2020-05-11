@@ -20,11 +20,24 @@ class RoomOperation extends Controller
             'roomNumber' => 'required',
             'roomType' => 'required',
         ]);
-        Room::create([
-            'roomumber' => $request->get('roomNumber'),
-            'roomtype' => preg_replace("/(\s+)/", "", $request->get('roomType'))
-        ]);
-        return redirect('user/create/rooms')->with("status", $request->get('roomType')." ထဲသို့ အခန်းများ အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ");
+
+        if(strpos($request->get('roomNumber'),',')){
+            $rooms=explode(',',$request->get('roomNumber'));
+            foreach ($rooms as $room){
+                Room::create([
+                    'roomumber' => $room,
+                    'roomtype' => preg_replace("/(\s+)/", "", $request->get('roomType'))
+                ]);
+            }
+            return redirect('user/create/rooms')->with("status", $request->get('roomType')." ထဲသို့ အခန်းများ အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ");
+
+        }else{
+            Room::create([
+                'roomumber' => $request->get('roomNumber'),
+                'roomtype' => preg_replace("/(\s+)/", "", $request->get('roomType'))
+            ]);
+            return redirect('user/create/rooms')->with("status", $request->get('roomType')." ထဲသို့ အခန်းနံပါတ်".$request->get('roomNumber')." အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ");
+        }
     }
 
     function storeRoomType(Request $request)

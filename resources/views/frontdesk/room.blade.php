@@ -207,33 +207,6 @@
                                 </td>
 
                             @endif
-
-
-                            {{--<<<<<<< HEAD--}}
-                            {{--                        @endif--}}
-                            {{--                    @endif--}}
-                            {{--                @endif--}}
-                            {{--                @endforeach--}}
-                            {{--                @if($i < date('d') && $record->month == date('m') && $record->year == date("Y"))--}}
-                            {{--                    <td class="past-day">--}}
-                            {{--                        <p class="mb-0 text-hide">{{$i}}</p>--}}
-                            {{--                    </td>--}}
-                            {{--                @elseif($record->month < date('m') || $record->year < date("Y"))--}}
-                            {{--                    <td class="past-day">--}}
-                            {{--                        <p class="mb-0 text-hide">{{$i}}</p>--}}
-                            {{--                    </td>--}}
-                            {{--                @else--}}
-                            {{--                    <td class="roomCell">--}}
-                            {{--                        <p class="mb-0 text-hide">{{$i}}</p>--}}
-                            {{--                    </td>--}}
-                            {{--                @endif--}}
-                            {{--                @if($i>=$days_of_month)--}}
-                            {{--                    @break--}}
-                            {{--                @endif--}}
-                            {{--                @endfor--}}
-                            {{--            </tr>--}}
-                            {{--        @endif--}}
-                            {{--=======--}}
                         @endif
                     @endif
                 @endif
@@ -248,7 +221,6 @@
                         <p class="mb-0 text-hide">{{$i}}</p>
                     </td>
                     {{--                @endif--}}
-
                 @else
                     <td class="roomCell">
                         <p class="mb-0 text-hide">{{$i}}</p>
@@ -261,8 +233,6 @@
                 @endfor
             </tr>
         @endif
-
-
     @endforeach
 @endforeach
 <script>
