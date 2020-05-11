@@ -177,15 +177,14 @@ class FrontdeskController extends Controller
         $user = User::find($id);
         $user->notify(new HousekeepingNotification($number));
     }
-    public function search(Request $request)
+    public function search()
     {
-        // get the q parameter from URL
-        if ($_GET["q"]) {
-            $q = $_GET["q"];
-
+        if(isset($_GET['q'])) {
+            $q = $_GET['q'];
             $output = "";
-
-            $nrc_search = DB::table('dept_records')->where('nrc_no', 'LIKE', '%' . $q . "%")->get();
+//            $product->guest_id
+            $nrc_search = DB::table('dept_records')
+                ->where([['status','=','1'], ['nrc_no', 'LIKE', '%' . $q . "%"]])->get();
             if ($nrc_search) {
                 foreach ($nrc_search as $key => $product) {
                     $output .= '<tr>' .
@@ -195,25 +194,23 @@ class FrontdeskController extends Controller
                         '<td>' . $product->comment . '</td>' .
 
                         '<td>' . $product->created_at . '</td>' .
-                        '<td>' . '<a href="{{url(' . 'user/5?debt=' . $product->guest_id . ')}}" class=
-                    "btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
+                        '<td>' . '<a href="'.url('user/debt').'/'.$product->guest_id.'" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
 
                         '</tr>';
                 }
             }
-
-            $products = DB::table('dept_records')->where('name', 'LIKE', '%' . $q . "%")->get();
-            if ($products) {
-                foreach ($products as $key => $product) {
+            $name_search = DB::table('dept_records')
+                ->where([['status','=','1'], ['name', 'LIKE', '%' . $q . "%"]])->get();
+            if ($name_search) {
+                foreach ($name_search as $key => $product) {
                     $output .= '<tr>' .
                         '<td>' . $product->id . '</td>' .
                         '<td>' . $product->name . '</td>' .
                         '<td>' . $product->total . '</td>' .
                         '<td>' . $product->comment . '</td>' .
 
-                        '<td>' . date('d/m/Y h:i:s a', strtotime($product->created_at)) . '</td>' .
-                        '<td>' . '<a href="{{url(' . 'user/5?debt=' . $product->guest_id . ')}}" class=
-                    "btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
+                        '<td>' . $product->created_at . '</td>' .
+                        '<td>' . '<a href="" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
 
                         '</tr>';
                 }
@@ -299,6 +296,7 @@ class FrontdeskController extends Controller
             return $this->returnFrontdesk();
     }
     public function paymentDebt($id){
+
             $user = DeptRecord::where('guest_id', $id)->first();
             $user->status = 0;
             $user->save();
@@ -314,11 +312,6 @@ class FrontdeskController extends Controller
                 if ($noti->data['housekeeper']['id'] == $id)
                     $noti->markAsRead();
             return $this->returnFrontdesk();
-    }
-    public function print_daily_guest()
-    {
-        $guests = CheckIn::all();
-        return view('frontdesk.print_daily_guest', compact('guests'));
     }
     public function roomState($num, $status)
     {

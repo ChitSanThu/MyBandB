@@ -35,6 +35,7 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::get('guest_comment/{created_at}','FrontdeskController@guestComment');
     Route::get('noti/{id}','FrontdeskController@sentNotiFrontdesk');
     Route::get('report/{start}/{end}','FrontdeskController@reportMethod');
+    Route::get('frontdesk/search','FrontdeskController@search');
 
 });
 

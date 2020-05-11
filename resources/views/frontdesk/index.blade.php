@@ -217,7 +217,7 @@
                         $('#txtHintHide').addClass('hide');
                     }
                 };
-                xmlhttp.open("GET", "{{url('user/5/search?q=')}}" + str, true);
+                xmlhttp.open("GET", "{{url('user/frontdesk/search?q=')}}" + str, true);
                 xmlhttp.send();
             }
         }
