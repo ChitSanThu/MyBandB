@@ -139,38 +139,30 @@ class FrontdeskController extends Controller
                     'date_range' => [$start, $end], 'guest_info' => $guest_info,
                     'debt_guests' => $debt_guests, "reports" => $reports
                 ]);
-
     }
     public function deptInfo($status, $range = 0)
     {
         if ($range == 0)
-
             $dept = DeptRecord::where('status', $status)->get();
         else
             $dept = DeptRecord::where('status', $status)
                 ->whereBetween('created_at', [$range[0], $range[1]])->get();
-
-        $guest_info = array();
-
-
-        foreach ($dept as $guest) {
-
-            $guests = CheckIn::find($guest->guest_id);
-            $date = $guest->created_at;
-
-            array_push($guest_info, array(
-                "guest_id" => $guests->id,
-                "guest_name" => $guests->name,
-                "nrc_no" => $guests->nrc,
-                "name" => $guests->room_number,
-                "total" => $guest->total,
-                "comment" => $guest->comment,
-                "date" => date('d/m/Y h:i:s a', strtotime($date))
-            ));
-        }
-
-
-        return $guest_info;
+//        return print_r($dept);
+            $guest_info = array();
+            foreach ($dept as $guest) {
+                $guests = CheckIn::findOrFail($guest->guest_id);
+                $date = $guest->created_at;
+                array_push($guest_info, array(
+                    "guest_id" => $guests->id,
+                    "guest_name" => $guests->name,
+                    "nrc_no" => $guests->nrc,
+                    "name" => $guests->room_number,
+                    "total" => $guest->total,
+                    "comment" => $guest->comment,
+                    "date" => date('d/m/Y h:i:s a', strtotime($date))
+                ));
+            }
+            return $guest_info;
     }
     public function sentNotification($id, $number)
     {

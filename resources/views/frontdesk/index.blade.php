@@ -194,10 +194,10 @@
     <script src="{{asset('js/jquery.PrintArea.js')}}"></script>
     <script>
         setInterval(function () {
-            $("#refresh").load("{{url('/user/5')}}" + " #refresh>*", "");
+            $("#refresh").load("{{url('/user/frontdesk')}}" + " #refresh>*", "");
         }, 3000);
         setInterval(function () {
-            $("#refresher").load("{{url('/user/5')}}" + " #refresher>*", "");
+            $("#refresher").load("{{url('/user/frontdesk')}}" + " #refresher>*", "");
         }, 3000);
     </script>
 
