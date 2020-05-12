@@ -202,18 +202,33 @@
     </script>
 
     <script>
+        function findGuest(str) {
+            if (str.length == 0) {
+                document.getElementById("guestresult").innerHTML = "";
+            }else{
+                var xmlhttp1 = new XMLHttpRequest();
+                xmlhttp1.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("guestresult").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp1.open("GET", "{{url('user/frontdesk/findguest?q=')}}" + str, true);
+                xmlhttp1.send();
+            }
+        }
+    </script>
+
+
+    <script>
         function showHint(str) {
             if (str.length == 0) {
                 document.getElementById("txtHint").innerHTML = "";
                 $('#txtHintHide').removeClass('hide');
-
-                return;
             } else {
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         document.getElementById("txtHint").innerHTML = this.responseText;
-                        // document.getElementById('txtHintHide').innerHTML=" ";
                         $('#txtHintHide').addClass('hide');
                     }
                 };
@@ -230,17 +245,16 @@
 @include('../sharedata/nav')
 
 <div class="row ml-0 mr-0 body">
-    <div class="col-md-2 ml-0 mr-0">
+    <div class="col-md-2">
         <div class="calandar">
             <div class="caladar">
                 @include('../sharedata/calander')
             </div>
             <br>
-
             @include('../sharedata/sidebar')
         </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10  ml-0 mr-0">
 
         <ul class="nav nav-tabs mt-1" id="myTab" role="tablist" style="background-color:#6c757d">
 
@@ -249,13 +263,16 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link  check-active " id="profile-tab" data-toggle="tab" href="#profile">အကြွးစရင်း</a>
+                <a class="nav-link  check-active " id="profile-tab" data-toggle="tab" href="#profile">အကြွေးစာရင်း</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link check-active" id="settings-tab" data-toggle="tab" href="#settings">နေ့စဉ်ဧည့်စရင်း</a>
+                <a class="nav-link check-active" id="settings-tab" data-toggle="tab" href="#settings">နေ့စဉ်ဧည့်စာရင်း</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#housekeeper">ဧည့်မှတ်တမ်း</a>
+                <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#housekeeper">သန့်ရှင်းရေးမှတ်တမ်း</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link check-active " id="settings-tab" data-toggle="tab" href="#findguest">ဧည့်ရှာရန်</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link check-active" id="report-tab" data-toggle="tab" href="#report">
@@ -400,6 +417,11 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="tab-pane{{old('tab') == 'profile' ? ' active' : null}}" id="findguest">
+                @include('frontdesk.findguest')
+            </div>
+
 
             <div class="tab-pane{{old('tab') == 'report' ? ' active' : null}}" id="report">
                 <div id="refresher">

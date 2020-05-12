@@ -14,6 +14,7 @@ class UserController extends Controller
 {
     public function index(){
         $users=User::all();
+
         return view('backend.users.index',compact('users'));
     }
     public function edit($id){

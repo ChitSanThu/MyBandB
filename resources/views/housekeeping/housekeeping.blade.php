@@ -137,7 +137,7 @@
         @if($room->room_state==3)
         <div class="col-md-4 col-sm-6 ">
             <div class="btn-group dropright mt-3 ml-4 ">
-                <button type="button" class="btn dropdown-toggle housekeeping text-white " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn dropdown-toggle housekeeping text-white " data-toggle="dropdown">
                     {{$room->roomumber}}
                 </button>
                 <div class="dropdown-menu">
@@ -192,7 +192,6 @@
                 </button>
                 <div class="dropdown-menu">
                     <li class="dropdown-item">{{$room->roomtype}}</li>
-                    <a class="dropdown-item" href="">{{$room_state}}</a>
                 @if(session('auth_id'))
                     <a class="dropdown-item" onclick="$('#comment-form').show()">Comment</a>
                 @endif

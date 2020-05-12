@@ -99,7 +99,7 @@
                         <input type="text" required name="address" id="" class="form-control" placeholder="နေရပ်လိပ်စာ">
                     </div>
                     <div class="col col-md-4">
-                        <label for="forAddress">တိုင်း</label>
+                        <label for="forAddress">တိုင်း/ပြည်နယ်</label>
                         <input type="text" required name="state" id="" class="form-control">
                     </div>
                 </div>

@@ -137,7 +137,7 @@
                         $('#total').val(total - $('#discount').val());
                     });
                     $("#link_href").attr('href', "{{url('user/frontdesk')}}"+'/'+"guest/checkout/" + guest_id+"/" + splic_num[1]);
-                    $("#cancle").attr('href', "{{url('user/frontdesk')}}"+ "/guest/cancleguest/" + guest_id + "/" + splic_num[1]);
+                    {{--$("#cancle").attr('href', "{{url('user/frontdesk')}}"+ "/guest/cancleguest/" + guest_id + "/" + splic_num[1]);--}}
 
                     document.getElementById("rmenu").className = "showcontext";
                     document.getElementById("rmenu").style.top = mouseY(event) + 'px';
@@ -175,7 +175,6 @@
                 //for reservation form
                 $('body').on('contextmenu', '#reserv', function () {
                     var raw_reserve = $(this).text();
-
                     var escape_reserve = raw_reserve.replace(/\s+/g, " ");
                     var reserve_guest = escape_reserve.split(" ");
                     // var room_text = $('#reserv').parent().text();
@@ -194,9 +193,9 @@
                     $('#contron_checkin').val('reserv');
                     // alert($('#contron_checkin').val());
                     $("#cancle").attr('href', "{{url('user/frontdesk/guest')}}"+ "/cancleguest/" + reserve_guest[1] + "/" + splic_num[1]);
-                    document.getElementById("rmenu").className = "showcontext";
-                    document.getElementById("rmenu").style.top = mouseY(event) + 'px';
-                    document.getElementById("rmenu").style.left = mouseX(event) + 'px';
+                    document.getElementById("rmenu1").className = "showcontext";
+                    document.getElementById("rmenu1").style.top = mouseY(event) + 'px';
+                    document.getElementById("rmenu1").style.left = mouseX(event) + 'px';
                     window.event.returnValue = false;
                 });
             }
@@ -221,14 +220,18 @@
 <body>
 
 <div class="hide list-group" id="rmenu">
-
     <a onclick="$('#checkInForm').show();" class="pointer list-group-item list-group-item-action">Check In</a>
     <a href="" id="link_href" class="pointer list-group-item list-group-item-action">Check Out</a>
     <a onclick="$('#payment_form').show();" id="link_href" class="pointer list-group-item list-group-item-action">Payment </a>
     <a onclick="$('#reservation_form').show();" class="pointer list-group-item list-group-item-action" id="resert">Reservation</a>
+</div>
 
+<div class="hide list-group" id="rmenu1">
+    <a onclick="$('#checkInForm').show();" class="pointer list-group-item list-group-item-action">Check In</a>
+    <a href="" id="link_href" class="pointer list-group-item list-group-item-action">Check Out</a>
+    <a onclick="$('#payment_form').show();" id="link_href" class="pointer list-group-item list-group-item-action">Payment </a>
+    <a onclick="$('#reservation_form').show();" class="pointer list-group-item list-group-item-action" id="resert">Reservation</a>
     <a href="" id="cancle" class="pointer list-group-item list-group-item-action">Cancle</a>
-
 </div>
 
 <div class="hide list-group" id="number">
@@ -307,7 +310,18 @@
     function hideReserv() {
         $('#reservation_form').hide();
     }
+</script>
+<script>
+    $(document).ready(function(){
+        $(".guest_cell").dblclick(function(){
+            let text_id = $(this).text();
+            // alert(text_id);
+            let escpce = text_id.replace(/\s+/g, " ");
+            let id = escpce.split(" ");
+            window.location.href="{{url('user/frontdesk/show')}}"+'/'+id[1];
 
+        });
+    });
 </script>
 </body>
 

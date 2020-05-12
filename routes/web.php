@@ -31,7 +31,7 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
 
     Route::get('frontdesk/guest/checkout/{id}/{number}','FrontdeskController@checkoutGuest');
     Route::get('frontdesk/guest/cancleguest/{id}/{number}','FrontdeskController@cancleGuest');
-
+    Route::get('frontdesk/show/{id}','FrontdeskController@showGuest');
     Route::get('room/{state}/{number}','FrontdeskController@roomStateChange');
     Route::get('housekeeping/{user_id}/{number}/{auth_id}','FrontdeskController@housekeeping');
     Route::get('debt/{id}','FrontdeskController@paymentDebt');
@@ -39,6 +39,8 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::get('noti/{id}','FrontdeskController@sentNotiFrontdesk');
     Route::get('report/{start}/{end}','FrontdeskController@reportMethod');
     Route::get('frontdesk/search','FrontdeskController@search');
+    Route::get('frontdesk/findguest','FrontdeskController@findGuest');
+
 
 });
 

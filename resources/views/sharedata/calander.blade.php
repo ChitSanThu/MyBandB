@@ -1,4 +1,4 @@
-<table class="daytable table-hover">
+<table class="daytable table-hover mr-0 ml-0">
 
     @php
         $viewMonth=$mon;

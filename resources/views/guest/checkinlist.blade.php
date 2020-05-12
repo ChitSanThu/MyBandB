@@ -52,6 +52,7 @@
     @endforeach
     </tbody>
 </table>
+{{--    {{ $guests->links() }}--}}
 <div>ကျား {{$male}} မ {{$female}}</div>
 </div>
 <div class="btn btn-info mt-3 " onclick="$('div.printArea.checkinlist').printArea();" >Print</div>

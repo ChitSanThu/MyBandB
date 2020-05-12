@@ -68,6 +68,23 @@
             width: 25px;
             border-radius: 50%;
         }
+        .checkInstatus {
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: #99dfff;
+            /* Fallback color */
+            background-color: rgba(255, 255, 255, 0.7);
+            /* Black w/ opacity */
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -76,12 +93,12 @@
 <body>
 @include('../sharedata/nav')
 <div class="row mt-5 container-fluid">
-    <!-- <div class="col-md-3 my-0">
+    <div class="col-md-2 my-0">
         <div class="calandar">
-            
+            @include('layout.master-sidebar')
         </div>
-    </div> -->
-    <div class="col-md-12" style="margin:auto;">
+    </div>
+    <div class="col-md-10" style="margin:auto;">
         @yield('content')
     </div>
 </div>

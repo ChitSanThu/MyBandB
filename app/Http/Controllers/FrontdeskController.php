@@ -388,4 +388,49 @@ class FrontdeskController extends Controller
     public function returnFrontdesk(){
         return redirect('user/frontdesk');
     }
+    public function showGuest($id){
+        $guest=CheckIn::findOrFail($id);
+        return view('frontdesk.single_guest',compact("guest"));
+    }
+    public function findGuest(){
+        if(isset($_GET['q'])) {
+            $q = $_GET['q'];
+            $output = "";
+            $count=0;
+            $nrc_search = DB::table('check_ins')
+                ->where('nrc', 'LIKE', '%' . $q . "%")->get();
+            if ($nrc_search) {
+                foreach ($nrc_search as $key => $guest) {
+                    $output .=  '<tr>'.
+                        '<td>' . ++$count . '</td>' .
+                        '<td>' . $guest->room_number . '</td>' .
+                        '<td>' . $guest->start_day.'/'.$guest->month.'/'. $guest->year . ' မှ ' . $guest->end_day.'/'.$guest->month.'/'. $guest->year .' ထိ'. '</td>' .
+                        '<td>' . $guest->name . '</td>' .
+                        '<td>' . $guest->phone . '</td>' .
+                        '<td>' . $guest->nrc . '</td>' .
+                        '<td>' . $guest->address . '</td>' .
+                        '<td>' . '<a href="'.url('user/frontdesk/show').'/'.$guest->id.'" class="btn btn-sm btn-info">ကြည့်ရန်</a></td>' .
+                        '</tr>';
+                }
+            }
+            $name_search = DB::table('check_ins')
+                ->where('name', 'LIKE', '%' . $q . "%")->get();
+            if ($name_search) {
+                foreach ($name_search as $key => $guest) {
+                    $output .=  '<tr>' .
+                        '<td>' . ++$count . '</td>' .
+                        '<td>' . $guest->room_number . '</td>' .
+                        '<td>' . $guest->start_day.'/'.$guest->month.'/'. $guest->year . ' မှ ' . $guest->end_day.'/'.$guest->month.'/'. $guest->year .' ထိ' . '</td>' .
+                        '<td>' . $guest->name . '</td>' .
+                        '<td>' . $guest->phone . '</td>' .
+                        '<td>' . $guest->nrc . '</td>' .
+                        '<td>' . $guest->address . '</td>' .
+                        '<td>' . '<a href="'.url('user/frontdesk/show').'/'.$guest->id.'" class="btn btn-sm btn-info">ကြည့်ရန်</a></td>' .
+                        '</tr>';
+                }
+            }
+            echo $output;
+        }
+
+    }
 }
