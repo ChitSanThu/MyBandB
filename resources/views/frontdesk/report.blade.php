@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('layout.reportspecial')
 @section('content')
 <div class="col-md-9 " style="margin:auto">
   <form class="card card-body" method="post">

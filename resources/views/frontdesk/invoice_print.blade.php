@@ -56,6 +56,7 @@
     </table>
    
 </div>
+<a href="{{url('user/frontdesk')}}" class="btn btn-warning ml-3" style="float:right">Cancle</a>
 <div onclick="$( ' div.PrintArea.area1' ).printArea();" style="float:right" class="btn  btn-info">
     Print
 </div>
