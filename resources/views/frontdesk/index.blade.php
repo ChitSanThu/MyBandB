@@ -287,9 +287,6 @@
                 </a>
             </li>
 
-        <!-- <li class="nav-item ml-auto">
-                    <p class="text text-white  mr-3">{{date('M')}}</p>
-                </li> -->
         </ul>
 
         <div id="MyClockDisplay" class="clock" onload="showTime()"></div>

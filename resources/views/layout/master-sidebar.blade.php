@@ -20,7 +20,12 @@
         <a href="{{url('/user/create/roomtype')}}" class="list-group-item-action">
           <p class="text ml-1 ">အခန်းအမျိုးအစား</p>
         </a>
-        <hr><a href="{{url('/user/invoice/1/edit')}}" class="list-group-item-action">
+        <hr>
+        <a href="{{url('/user/delete/rooms')}}" class="list-group-item-action">
+          <p class="text ml-1 ">အခန်းများဖျက်ရန်</p>
+        </a>
+        <hr>
+        <a href="{{url('/user/invoice/1/edit')}}" class="list-group-item-action">
           <p class="text ml-1 ">ဘောင်ချာ</p>
         </a>
         <hr><a href="{{url('/admin/users/show')}}" class="list-group-item-action">

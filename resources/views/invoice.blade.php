@@ -2,7 +2,7 @@
 @section('title','invoice')
 @section('content')
 
-    <div class="row col-md-11 " style="margin: auto">
+    <div class="row col-md-12 " style="margin: auto">
         <div class="col-md-4 my-0 card card-body">
             <form action="" method="post" class="form-group form_width" enctype="multipart/form-data">
                 {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"> --}}

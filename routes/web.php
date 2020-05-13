@@ -21,10 +21,17 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::post('invoice/print', 'FrontdeskController@invoicePrint');
     Route::get('invoice/{id}/edit', 'FrontdeskController@invoice');
     Route::get('create/rooms', 'RoomOperation@room');
+
     Route::post('create/rooms', 'RoomOperation@storeRoom');
     Route::get('create/roomtype', function () {
         return view('room_operation.type');
     });
+    Route::get('delete/rooms', 'RoomOperation@showForDelete');
+    Route::post('delete/rooms', 'RoomOperation@deleteRooms');
+
+    Route::get('delete/room/{id}', 'RoomOperation@deleteRoom');
+
+
     Route::post('create/roomtype', 'RoomOperation@storeRoomType');
     Route::get('report/frontdesk', 'FrontdeskController@report');
     Route::post('report/frontdesk', 'FrontdeskController@reportStore');
