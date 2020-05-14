@@ -211,7 +211,6 @@
                     @endif
                 @endif
                 @endforeach
-                {{--                @if(isset($record))--}}
                 @if($i < date('d') && $record->month == date('m') && $record->year == date("Y"))
                     <td class="past-day">
                         <p class="mb-0 text-hide">{{$i}}</p>
@@ -220,9 +219,8 @@
                     <td class="past-day">
                         <p class="mb-0 text-hide">{{$i}}</p>
                     </td>
-                    {{--                @endif--}}
                 @else
-                    <td class="roomCell">
+                    <td class="roomCell" title="{{$i}}">
                         <p class="mb-0 text-hide">{{$i}}</p>
                     </td>
                 @endif

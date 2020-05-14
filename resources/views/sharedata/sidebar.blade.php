@@ -12,34 +12,35 @@
       <div class="card-body">
         <!-- <div class="list-group" > -->
 
-        <a href="" class="list-group-item-action">
+        <a href="" class="list-group-item-action ">
           <span class="checkmark room-checkin ml-1 mb-0"></span>
           <p class="text ml-5 mb-0">ဧည့်၀င်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action">
           <span class="checkmark room-checkout ml-1"></span>
           <p class="text ml-5 mb-0">ဧည့်ထွက်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
+
         <a href="" class="list-group-item-action">
           <span class="checkmark room-reserv ml-1"></span>
           <p class="text ml-5 mb-0">Reservation</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action ">
           <span class="checkmark housekeeping ml-1"></span>
-          <p class="text ml-5 mb-0">သန့်ရှင်းရေး၀င်ရန်</p>
+          <p class="text ml-5 mb-0">သန့်ရှင်းရန်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action ">
           <span class="checkmark idel ml-1"></span>
           <p class="text ml-5 mb-0">အခန်းလွတ်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action ">
           <span class="checkmark out-of-service ml-1"></span>
-          <p class="text ml-5 mb-0">၀င်ဆောင်မှုမရနိင်သေးပါ</p>
+          <p class="text ml-5 mb-0">၀င်ဆောင်မှုမရရှိ</p>
         </a>
         <!-- </div> -->
       </div>
@@ -59,12 +60,12 @@
           <span class="checkmark room-checkin ml-1 mb-0"></span>
           <p class="text ml-5 mb-0">ဧည့်၀င်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action">
           <span class="checkmark room-checkout ml-1"></span>
           <p class="text ml-5 mb-0">ဧည့်ထွက်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action">
           <span class="checkmark room-reserv ml-1"></span>
           <p class="text ml-5 mb-0">Reservation</p>
@@ -74,15 +75,15 @@
           <span class="checkmark housekeeping ml-1"></span>
           <p class="text ml-5 mb-0">Housekeeping</p>
         </a> -->
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action ">
           <span class="checkmark payment_stay_guest ml-1"></span>
-          <p class="text ml-5 mb-0">ငွေရှင်းပြီးဧည့်သည်</p>
+          <p class="text ml-5 mb-0">ငွေရှင်းပြီးဧည့်</p>
         </a>
-        <hr>
+        <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action ">
           <span class="checkmark out-of-service ml-1"></span>
-          <p class="text ml-5 mb-0">အကြွေးချန်ဧည့်သည်</p>
+          <p class="text ml-5 mb-0">အကြွေးချန်ဧည့်</p>
         </a>
       </div>
     </div>

@@ -2,8 +2,7 @@
 
 Route::get('/', 'Auth\LoginController@show');
 Route::post('/', 'Auth\LoginController@login');
-Route::get('staff/register', 'Auth\RegisterController@show');
-Route::post('staff/register', 'Auth\RegisterController@register');
+
 Route::get('staff/logout', 'Auth\LoginController@logout');
 Route::get('guest/{id}/show', 'FrontdeskController@deptInfo');
 Route::group(array('prefix' => 'housekeeping', 'middleware' => 'housekeeping'), function () {
@@ -57,9 +56,16 @@ Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 
     Route::get('users/show', 'UserController@index');
     Route::get('create/roles', 'RoleController@show');
     Route::post('create/roles', 'RoleController@store');
-    Route::get('users/{id}/edit', 'RoleController@edit');
-    Route::post('users/{id}/edit', 'RoleController@update');
     Route::get('{id}/edit', 'UserController@edit');
+});
+Route::group(array('prefix' => 'developer', 'middleware' => 'developer'), function () {
+
+    Route::get('/', 'DeveloperController@index');
+    Route::post('/', 'DeveloperController@create');
+    Route::get('user/{id}/edit', 'DeveloperController@edit');
+    Route::get('user/{id}/delete', 'DeveloperController@deleteUser');
+    Route::post('user/{id}/edit', 'DeveloperController@update');
+
 });
 
 

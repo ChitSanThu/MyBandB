@@ -23,7 +23,7 @@
 
                 @foreach($roles as $role)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name='role[]' value="{{$role->name}}" id=""
+                        <input class="form-check-input" type="radio" name='role[]' value="{{$role->name}}" id=""
                                @if(in_array($role->name,$selectedRoles))
                                checked
                                 @endif
@@ -53,7 +53,8 @@
 
                     </select> -->
 
-                <button type="submit" class="btn btn-primary pull-right">Edit</button>
+                <button type="submit" class="btn btn-outline-primary pull-right">Edit</button>
+                <a href="{{url('developer')}}" class="mt-2 btn  btn-outline-secondary">Go Back</a>
             </form>
         </div>
 

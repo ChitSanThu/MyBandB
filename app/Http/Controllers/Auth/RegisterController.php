@@ -69,7 +69,6 @@ class RegisterController extends Controller
         ]);
     }
     public function show(){
-        $hotel=Invoice::all()->first();
-        return view('admin.register',compact('hotel'));
+        return view('developer.register');
     }
 }

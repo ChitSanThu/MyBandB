@@ -1,7 +1,7 @@
 <div id="accordion">
 
 
-  @if(Auth::user()->hasRole('admin'))
+  @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('developer'))
   <div class="card">
     <div class="card-header bg-secondary" id="headingOne">
       <h5 class="mb-0">
