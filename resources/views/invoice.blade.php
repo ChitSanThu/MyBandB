@@ -6,7 +6,7 @@
         <div class="col-md-4 my-0 card card-body">
             <form action="" method="post" class="form-group form_width" enctype="multipart/form-data">
                 {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
-                <legend class="">Create Your Invoice</legend>
+                <legend class="">ဘောင်ချာ ပြုလုပ်ရန်</legend>
                 {{ csrf_field() }}
                 @foreach ($errors->all() as $error)
 
@@ -15,46 +15,46 @@
                 @endforeach
                 <div class=" input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text bg-info" style="width:1.8cm"
-                              id="inputGroupFileAddon01">Logo</span>
+                        <span class="input-group-text bg-secondary text-white" style="width:1.8cm"
+                              id="inputGroupFileAddon01">တံဆိပ်</span>
                     </div>
                     <div class="custom-file">
                         <input type="file" name="logo" class="custom-file-input form-control-sm" id="inputGroupFile01"
                                aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <label class="custom-file-label" for="inputGroupFile01">ပုံရွေးရန်</label>
                     </div>
                 </div>
 
 
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text bg-info" style="width:1.8cm">Name</span>
+                        <span class="input-group-text  bg-secondary text-white" style="width:1.8cm">အမည်</span>
                     </div>
                     <input type="text" name="hotel_name" id="hotel_name" class="form-control">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text bg-info" style="width:1.8cm">Address</span>
+                        <span class="input-group-text  bg-secondary text-white" style="width:1.8cm">လိပ်စာ</span>
                     </div>
                     <input type="text" class="form-control" name="hotel_address" id="hotel_address">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text bg-info" style="width:1.8cm">Phone</span>
+                        <span class="input-group-text  bg-secondary text-white" style="width:1.8cm">ဖုန်းနံပါတ်</span>
                     </div>
                     <input type="text" class="form-control" name="hotel_phone" id="hotel_phone">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text bg-info" style="width:1.8cm">Tax</span>
+                        <span class="input-group-text  bg-secondary text-white" style="width:1.8cm">အခွန်</span>
                     </div>
                     <input type="number" class="form-control" name="tax" id="invoice_tax">
                 </div>
 
 
                 <div class="row mt-3 ml-0">
-                    <input type="submit" class="btn btn-sm btn-outline btn-outline-info mr-3" value="Save" id="submit">
-                    <a href="{{url('user/invoice/1/edit')}}" class="btn btn-sm btn-outline btn-outline-warning">Cancle</a>
+                    <input type="submit" class="btn btn-sm btn-outline btn-outline-secondary mr-3" value="သိမ်းမည်" id="submit">
+                    <a href="{{url('user/invoice/1/edit')}}" class="btn btn-sm btn-outline btn-outline-warning">ဖျက်ရန်</a>
                 </div>
 
             </form>
