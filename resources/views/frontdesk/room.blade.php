@@ -135,7 +135,6 @@
                                 @if($guest->start_day==$i)
                                     @php
                                         $inday=range($guest->start_day,$guest->end_day);
-
                                         if($initial_day=array_search($startDay,$inday)){
                                         $col_span=$guest->end_day-$inday[$initial_day]+1;
                                         echo $col_span;
@@ -173,6 +172,14 @@
                                         </td>
                                     @endif
 
+                                        @if($guest->guest_status==8)
+                                        @for($i=$guest->start_day;$i<=$guest->end_day;$i++)
+                                            <td class="roomCell text-hide" title="{{$i}}">
+                                                {{$i}}
+                                            </td>
+                                            @endfor
+                                        @endif
+
                                     @if($guest->guest_status==2)
                                         <td title="ဧည့်ထွက်" class="guest_cell checkout"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
@@ -205,6 +212,7 @@
                             @endif
                         @endif
                     @endforeach
+
                     @if($i < date('d') && $record->month == date('m') && $record->year == date("Y"))
                         <td class="past-day">
                             <p class="mb-0 text-hide">{{$i}}</p>
