@@ -217,7 +217,7 @@
 <div class="hide list-group" id="rmenu">
     <a onclick="$('#reservation_form').show();" class="pointer list-group-item list-group-item-action" id="resert">အခန်းကြိုယူရန်</a>
     <a onclick="$('#checkInForm').show();" class="pointer list-group-item list-group-item-action">စရင်းသွင်းရန်</a>
-    <a onclick="$('#order_form').show();" id="link_href" class="pointer list-group-item list-group-item-action">အော်ဒါမှာရန် </a>
+    <a onclick="$('#order_form').show();" id="" class="pointer list-group-item list-group-item-action">အော်ဒါမှာရန် </a>
     <a onclick="$('#payment_form').show();" id="link_href" class="pointer list-group-item list-group-item-action">ငွေပေးချေရန် </a>
     <a href="" id="link_href" class="pointer list-group-item list-group-item-action">ဧည့်ထွက်</a>
     <a href="" id="recheckin" class="pointer list-group-item list-group-item-action">ထပ်နေ</a>

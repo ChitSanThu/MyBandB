@@ -1,14 +1,12 @@
 <div class="row payment_state" id="order_form">
     <div class=" col-md-5 card card-body container ">
-
         <form action="{{url('user/order/store')}}" method="post" class="form-group form_width">
 
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" name="order_id" id="order_id" value="">
             <div class="row">
                 <div class="col-md-12">
-                    <h5 class="text text-center">အခန်းနံပါတ် <span id="order_room"></span> <span id="order_guest"></span> အတွက် အော်ဒါ မှာရန်</>
-
+                    <h5 class="text text-center">အခန်းနံပါတ် <span id="order_room"></span> <span id="order_guest"></span> အတွက် အော်ဒါ မှာရန်</h5>
                 </div>
             </div>
             <div class="row">
