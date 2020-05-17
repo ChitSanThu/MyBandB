@@ -122,15 +122,13 @@ class FrontdeskController extends Controller
     }
     public function report()
     {
-        $reports = Report::all();
+        $reports = Report::whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();;
             $guest_info = $this->deptInfo(0);
             $debt_guests = $this->deptInfo(1);
             return view('frontdesk.report', compact('guest_info', 'debt_guests', 'reports'));
     }
     public function reportMethod($start,$end){
-            $reports = DB::table('reports')
-                ->whereBetween('created_at', [$start, $end. " 23:59:59"])
-                ->get();
+            $reports = Report::whereBetween('created_at', [$start, $end. " 23:59:59"])->get();
             $guest_info = $this->deptInfo(0, [$start, $end]);
             $debt_guests = $this->deptInfo(1, [$start, $end]);
 
@@ -143,10 +141,11 @@ class FrontdeskController extends Controller
     public function deptInfo($status, $range = 0)
     {
         if ($range == 0)
-            $dept = DeptRecord::where('status', $status)->get();
+            $dept = DeptRecord::where('status', $status)
+                ->whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
         else
             $dept = DeptRecord::where('status', $status)
-                ->whereBetween('created_at', [$range[0], $range[1]])->get();
+                ->whereBetween('created_at', [$range[0], $range[1]. " 23:59:59"])->get();
 //        return print_r($dept);
             $guest_info = array();
             foreach ($dept as $guest) {
@@ -220,6 +219,10 @@ class FrontdeskController extends Controller
         $rooms->room_state = 2;
         $rooms->save();
         $this->guestState($id, 2);
+        return $this->returnFrontdesk();
+    }
+    public function recheckinGuest($id,$number){
+        $this->guestState($id, 8);
         return $this->returnFrontdesk();
     }
     public function guestStateChange($state,$id,$number){
@@ -300,9 +303,9 @@ class FrontdeskController extends Controller
             return $this->returnFrontdesk();
     }
     public function paymentDebt($id){
-
             $user = DeptRecord::where('guest_id', $id)->first();
             $user->status = 0;
+            $user->created_at=date("Y-m-d h:i:s");
             $user->save();
             $this->guestState($id,2);
             return $this->returnFrontdesk();
@@ -348,11 +351,11 @@ class FrontdeskController extends Controller
         $discount = $request->get('discount');
         $tax = $request->get('tax');
         $total = $request->get('total');
-        $room_type = $request->get('room_type');
+        $room_type = $request->get('payment_room');
         $room_cost = $request->get('room_cost');
         $status = $request->get('payment_method');
         // $this->guestState($guest_id,);
-
+        $order=DB::table('guest_orders')->select()->where('guest_id','=',$guest_id)->get();
         $dept = DeptRecord::create([
             'guest_id' => $guest_id,
             'name' => $guests->name,
@@ -365,10 +368,10 @@ class FrontdeskController extends Controller
             $this->guestState($guest_id, 5);
         } else
             $this->guestState($guest_id, 4);
-
+//        return $order;
         return view(
             'frontdesk.invoice_print',
-            compact('guests', 'invoice', 'cost', 'discount', 'tax', 'total', 'room_type', 'room_cost')
+            compact('order','guests', 'invoice', 'cost', 'discount', 'tax', 'total', 'room_type', 'room_cost')
         );
     }
     public function reportStore(Request $request)
@@ -376,11 +379,13 @@ class FrontdeskController extends Controller
         $this->validate($request, [
             'report_name' => 'required',
             'report_price' => 'required',
+            'report_type'=>'required',
         ]);
 
         Report::create([
             "content" => $request->get("report_name"),
-            "price" => $request->get('report_price')
+            "price" => $request->get('report_price'),
+            "type"=>$request->get('report_type'),
         ]);
 
         return redirect("/user/report/frontdesk");

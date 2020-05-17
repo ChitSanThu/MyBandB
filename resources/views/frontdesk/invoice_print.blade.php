@@ -20,44 +20,63 @@
             <th scope="col" class="text-center" style="border:1px solid black;">Sr</th>
             <th scope="col" class="text-center" style="border:1px solid black;">Date</th>
             <th scope="col" class="text-center" style="border:1px solid black;">Description</th>
+            <th scope="col" class="text-center" style="border:1px solid black;">Price</th>
+            <th scope="col" class="text-center" style="border:1px solid black;">Qty</th>
+
             <th scope="col" class="amount text-center" style="border:1px solid black;">Amount</th>
         </tr>
         </thead>
         <tbody>
-            @php($day=1)
-            @for ($i = $guests->start_day; $i <= $guests->end_day; $i++)
+            @php($day=0)
+            @php($num=$guests->end_day-$guests->start_day+1)
                 <tr style="border:1px solid black;">
-                    <th scope="row" class="text-center" style="border:1px solid black;">{{$day}}</th>
-                    <td style="border:1px solid black;">{{$i}}/{{$guests->month}}/{{$guests->year}}</td>
+                    <th scope="row" class="text-center" style="border:1px solid black;">{{++$day}}</th>
+                    @if($guests->end_day==$guests->start_day)
+                        <td style="border:1px solid black;">{{$guests->start_day}}/{{$guests->month}}/{{$guests->year}}</td>
+                    @else
+                        <td style="border:1px solid black;">{{$guests->start_day}}/{{$guests->month}}/{{$guests->year}}မှ
+                            {{$guests->end_day}}/{{$guests->month}}/{{$guests->year}}</td>
+                        @endif
+
                     <td style="border:1px solid black;">{{$room_type}}</td>
-                    <td class="text-right" style="border:1px solid black;">{{$room_cost}}</td>
+                    <td class="" style="border:1px solid black;">{{$room_cost}}</td>
+                    <td class="" style="border:1px solid black;">{{$num}}</td>
+                    <td class="text-right" style="border:1px solid black;">{{$num*$room_cost}}</td>
                 </tr>
-                @php($day++)
-            @endfor
-        
+            @php($order_total=0)
+        @foreach($order as $item)
+            <tr style="border:1px solid black;">
+                <th scope="row" class="text-center" style="border:1px solid black;">{{++$day}}</th>
+                <td style="border:1px solid black;">{{date('d/m/Y ', strtotime($item->created_at))}}</td>
+                <td style="border:1px solid black;">{{$item->item_name}}</td>
+                <td style="border:1px solid black;">{{$item->price}}</td>
+                <td style="border:1px solid black;">{{$item->qty}}</td>
+                <td class="text-right" style="border:1px solid black;">{{$order_total+=$item->price*$item->qty}}</td>
+            </tr>
+        @endforeach
         
         <tr>
-            <td colspan="3" class="text-right table-bordered-less">Total</td>
-            <td class="text-right" style="border:1px solid black;">{{$cost}}</td>
+            <td colspan="5" class="text-right table-bordered-less">Total</td>
+            <td class="text-right" style="border:1px solid black;">{{$cost+$order_total}}</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-right table-bordered-less">Discount</td>
+            <td colspan="5" class="text-right table-bordered-less">Discount</td>
             <td class="text-right" style="border:1px solid black;">{{$discount}}</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-right table-bordered-less">Tax</td>
+            <td colspan="5" class="text-right table-bordered-less">Tax</td>
         <td class="text-right" id="tax_col" style="border:1px solid black;">{{$tax}}</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-right table-bordered-less">Total Balance</td>
-        <td class="text-right" style="border:1px solid black;">{{$total}}</td>
+            <td colspan="5" class="text-right table-bordered-less">Total Balance</td>
+        <td class="text-right" style="border:1px solid black;">{{$total+$order_total}}</td>
         </tr>
         </tbody>
     </table>
    
 </div>
-<a href="{{url('user/frontdesk')}}" class="btn btn-warning ml-3" style="float:right">Cancle</a>
+<a href="{{url('user/frontdesk')}}" class="btn btn-warning ml-3" style="float:right">ပြန်သွားရန်</a>
 <div onclick="$( ' div.PrintArea.area1' ).printArea();" style="float:right" class="btn  btn-info">
-    Print
+    ပြေစာထုတ်ရန်
 </div>
 @endsection

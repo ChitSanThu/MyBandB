@@ -1,6 +1,6 @@
 @extends('layout.reportspecial')
 @section('content')
-<div class="col-md-9 " style="margin:auto">
+<div class="col-md-12 " style="margin:0 auto">
   <form class="card card-body" method="post">
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -15,44 +15,57 @@
     <input type="hidden" name="report_status" value='2'>
     <div class="row">
       <div class="col-3">
-        <input type="text" class="form-control form-control-sm" name="report_name" placeholder="Name" value="{{old('report_name')}}">
+        <input type="text" class="form-control form-control-sm" name="report_name" placeholder="အကြောင်းအရာ" value="{{old('report_name')}}">
       </div>
 
       <div class="col-2">
-        <input type="text" class="form-control form-control-sm" name="report_price" placeholder="Price" value="{{old('report_price')}}">
+        <input type="text" class="form-control form-control-sm" name="report_price" placeholder="စျေးနှုန်း" value="{{old('report_price')}}">
       </div>
-      <div class="ml-2">
-        <input type="submit" class="btn btn-sm btn-onuline btn-outline-info" value="Save">
+      <div class="col-2">
+        <select class="form-control form-control-sm" name="report_type">
+          <option value="">၀င်ငွေ(သို့)ထွက်ငွေ ရွေးရန်</option>
+          <hr>
+          <option value="add">၀င်ငွေ ထည့်ရန်</option>
+          <hr>
+          <option value="sub">ထွက်ငွေ ထည့်ရန်</option>
+        </select>
+      </div>
+      <div class="">
+        <input type="submit" class="btn btn-sm btn-onuline btn-outline-info" value="ထည့်ရန်">
       </div>
 
-      <div class="ml-4">
+      <div class="ml-2">
         <input type="date" id="from-date" class="form-control form-control-sm" value="">
 
       </div>
-      <div class="ml-2">
-        <p >to</p>
+      <div class="">
+        <p > မှ </p>
       </div>
-      <div class="ml-2">
+      <div class="">
         <input type="date" id="to-date" class="form-control form-control-sm">
       </div>
 
       <div class="ml-4">
-        <a href="" id="view-report" onclick="showDate();" class="btn btn-sm btn-onuline btn-outline-info" >View</a>
+        <a href="" id="view-report" onclick="showDate();" class="btn btn-sm btn-onuline btn-outline-info" >ကြည့်ရန်</a>
       </div>
 
     </div>
   </form>
+</div>
+<div class="col-md-8" style="margin: auto">
   @if(session('date_range'))
-    <p class="text-center bg-white mt-2">{{session('date_range')[0]}} မှ {{session('date_range')[1]}} ထိ</p>
+    <p class="text-center bg-white mt-1">{{session('date_range')[0]}} မှ {{session('date_range')[1]}} ထိ</p>
     @endif
+</div>
+<div class="col-md-8" style="margin: auto">
   <table class="table table-bordered table-sm bg-white mt-2 ">
 
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
+        <th scope="col">စဉ်</th>
+        <th scope="col">အကြောင်းအရာ</th>
         <!-- <th scope="col">Comment</th> -->
-        <th scope="col" style="text-align:center">Total</th>
+        <th scope="col" style="text-align:center">စုစုပေါင်း</th>
       </tr>
     </thead>
     @if(session("date_range"))
@@ -89,26 +102,33 @@
       <tr>
         <td>{{++$i}}</td>
         <td>{{$report->content}}</td>
-        <td style="text-align:right">{{number_format($report->price)}}</td>
+        <td class="text-right">{{$report->price}}</td>
+        @php(number_format($report->price))
       </tr>
-      @php($cost+=$report->price)
+      @if($report->type=="sub")
+        @php($cost+=$report->price)
+      @else
+        @php($total+=$report->price)
+      @endif
       
       @endforeach
 
+
+
       <tr>
-        <td colspan="2" style="text-align:right">Total</td>
+        <td colspan="2" style="text-align:right">ရငွေ</td>
         <td style="text-align:right">{{number_format($dept_total+$total)}}</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">Costs</td>
+        <td colspan="2" style="text-align:right">ကုန်ကျစရိတ်</td>
         <td style="text-align:right">{{number_format($cost)}}</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">Dept</td>
+        <td colspan="2" style="text-align:right">အကြွေး</td>
         <td style="text-align:right">{{number_format($dept_total)}}</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">Grand Total</td>
+        <td colspan="2" style="text-align:right">စုစုပေါင်း၀င်ငွေ</td>
         <td style="text-align:right">{{number_format($total-$cost)}}</td>
       </tr>
     </tbody>
@@ -119,7 +139,6 @@
       @php($total=0)
       @php($cost=0)
       @foreach($guest_info as $key => $value)
-      @if($value["date"]==date("Y-m-d"))
       <tr>
         <td>{{++$i}}</td>
         <td>{{$value["name"]}}</td>
@@ -127,10 +146,8 @@
         <td style="text-align:right">{{number_format($value["total"])}}</td>
         @php($total+=$value["total"])
       </tr>
-      @endif
       @endforeach
       @foreach($debt_guests as $key => $value)
-      @if($value["date"]==date("Y-m-d"))
       <tr>
         <td>{{++$i}}</td>
         <td>{{$value["name"]}}</td>
@@ -139,33 +156,34 @@
         @php($dept_total+=$value["total"])
 
       </tr>
-      @endif
       @endforeach
       @foreach($reports as $report)
-      @if(explode(" ",$report->created_at)[0]==date("Y-m-d"))
       <tr>
         <td>{{++$i}}</td>
         <td>{{$report->content}}</td>
         <td style="text-align:right">{{number_format($report->price)}}</td>
       </tr>
+      @if($report->type=="sub")
       @php($cost+=$report->price)
+      @else
+        @php($total+=$report->price)
       @endif
-      @endforeach
+        @endforeach
 
       <tr>
-        <td colspan="2" style="text-align:right">Total</td>
+        <td colspan="2" style="text-align:right">ရငွေ</td>
         <td style="text-align:right">{{number_format($dept_total+$total)}}</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">Costs</td>
+        <td colspan="2" style="text-align:right">ကုန်ကျစရိတ်</td>
         <td style="text-align:right">{{number_format($cost)}}</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">Dept</td>
+        <td colspan="2" style="text-align:right">အကြွေး</td>
         <td style="text-align:right">{{number_format($dept_total)}}</td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">Grand Total</td>
+        <td colspan="2" style="text-align:right">စုစုပေါင်း ၀င်ငွေ</td>
         <td style="text-align:right">{{number_format($total-$cost)}}</td>
       </tr>
     </tbody>

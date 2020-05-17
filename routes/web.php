@@ -20,22 +20,18 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::post('invoice/print', 'FrontdeskController@invoicePrint');
     Route::get('invoice/{id}/edit', 'FrontdeskController@invoice');
     Route::get('create/rooms', 'RoomOperation@room');
-
     Route::post('create/rooms', 'RoomOperation@storeRoom');
     Route::get('create/roomtype', function () {
         return view('room_operation.type');
     });
     Route::get('delete/rooms', 'RoomOperation@showForDelete');
     Route::post('delete/rooms', 'RoomOperation@deleteRooms');
-
     Route::get('delete/room/{id}', 'RoomOperation@deleteRoom');
-
-
     Route::post('create/roomtype', 'RoomOperation@storeRoomType');
     Route::get('report/frontdesk', 'FrontdeskController@report');
     Route::post('report/frontdesk', 'FrontdeskController@reportStore');
-
     Route::get('frontdesk/guest/checkout/{id}/{number}','FrontdeskController@checkoutGuest');
+    Route::get('frontdesk/guest/recheckin/{id}/{number}','FrontdeskController@recheckinGuest');
     Route::get('frontdesk/guest/cancleguest/{id}/{number}','FrontdeskController@cancleGuest');
     Route::get('frontdesk/show/{id}','FrontdeskController@showGuest');
     Route::get('room/{state}/{number}','FrontdeskController@roomStateChange');
@@ -46,8 +42,7 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::get('report/{start}/{end}','FrontdeskController@reportMethod');
     Route::get('frontdesk/search','FrontdeskController@search');
     Route::get('frontdesk/findguest','FrontdeskController@findGuest');
-
-
+    Route::post('order/store','Admin\OrderController@orderStore');
 });
 
 Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'manager'), function () {
@@ -57,6 +52,11 @@ Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 
     Route::get('create/roles', 'RoleController@show');
     Route::post('create/roles', 'RoleController@store');
     Route::get('{id}/edit', 'UserController@edit');
+    Route::get('create/categories','OrderController@showCat');
+    Route::post('create/categories','OrderController@storeCat');
+    Route::get('delete/cat/{id}','OrderController@deleteCat');
+    Route::get('create/order','OrderController@showOrderForm');
+    Route::post('create/order','OrderController@storeOrder');
 });
 Route::group(array('prefix' => 'developer', 'middleware' => 'developer'), function () {
 

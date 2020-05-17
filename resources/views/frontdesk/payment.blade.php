@@ -3,7 +3,7 @@
 
         <form action="{{url('/user/invoice/print')}}" method="post" class="form-group form_width">
             
-            <legend class="">Payment <span class="mr-0 close_tab" onclick="$('#payment_form').hide();">X</span></legend>
+            <legend class="mb-3 text-center">ငွေပေးချေမှု <span class="mr-0 close_tab" onclick="$('#payment_form').hide();">X</span></legend>
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" name="invoice_id" id="invoice_id">
             <input type="hidden" name="room_type" id="room_type">
@@ -46,7 +46,7 @@
             <br>
             <div class="row">
                 <div class="col-md-4 text-center">
-                    Discount
+                    လျော့စျေး
                 </div>
                 <div class="col-md-8">
                     <input type="number" name="discount" id="discount" class="form-control form-control-sm">
@@ -55,7 +55,7 @@
             <br>
             <div class="row">
                 <div class="col-md-4 text-center">
-                    Tax
+                    အခွန်
                 </div>
                 <div class="col-md-8">
                     <input type="text" name="tax" id="tax" class="form-control form-control-sm">

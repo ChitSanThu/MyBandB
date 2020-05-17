@@ -31,6 +31,12 @@
         <hr><a href="{{url('/admin/users/show')}}" class="list-group-item-action">
           <p class="text ml-1 ">အသုံးပြုသူများ</p>
         </a>
+        <hr><a href="{{url('/admin/create/categories')}}" class="list-group-item-action">
+          <p class="text ml-1 ">Create Cat</p>
+        </a>
+        <hr><a href="{{url('/admin/create/order')}}" class="list-group-item-action">
+          <p class="text ml-1 ">Create Order</p>
+        </a>
       </div>
     </div>
 

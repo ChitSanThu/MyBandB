@@ -453,12 +453,14 @@
 </div>
 @include('frontdesk.payment')
 @include('guest.guestInfo')
+@include('frontdesk.order')
 <div class="loader-wrapper">
     <span class="loader"><span class="loader-inner"></span></span>
 </div>
 <script>
     $('#checkInForm').hide();
     $('#payment_form').hide();
+    $('#order_form').hide();
     $('td.roomCell').dblclick(function () {
         $(this).toggleClass('highlight1');
     });
