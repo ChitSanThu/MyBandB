@@ -10,10 +10,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-sm" id="order_show_box">
+                <div class="col-md-12" id="order_show_box">
 
-                    </table>
                 </div>
             </div>
             <div class="" style="margin-bottom: 0">
@@ -102,7 +100,15 @@
         else
             return false;
     }
+    function foo() {
+
+        if( typeof foo.counter == 'undefined' ) {
+            foo.counter = 0;
+        }
+        return foo.counter++;
+    }
     function addOrder() {
+
         let name=textValid($('#item_result').val());
         this.searchNameByCatId(name);
 
@@ -110,7 +116,7 @@
         let qty=textValid($('#order_qty').val());
         if(name && price && qty>0){
             items.innerHTML+= `<input type='hidden' name='order_items[]' value= ${name +","+ price +","+ qty} /> `;
-            items.innerHTML+=`<tr><td id="order_search_name"></td><td>${price}</td><td>${qty}</td><td>${price*qty}</td></tr>`;
+            items.innerHTML+=`<div class="row"> <p id="order_search_name"><p>${price}${qty}${price*qty}</p></p><br></div>`;
 
             // $('#item_result').val("");
             // $('#order_price').val("");
