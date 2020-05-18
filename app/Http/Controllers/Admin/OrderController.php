@@ -57,7 +57,7 @@ class OrderController extends Controller
             $item=explode(',',$order);
                     DB::table('guest_orders')->insert([
                         "guest_id"=>$request->get('order_id'),
-                        "item_name"=>$this->changeToName($item[0]),
+                        "item_name"=>$item[0],
                         "price"=>$item[1],
                         "qty"=>$item[2],
                         "created_at"=>date("Y-m-d"),
@@ -71,7 +71,7 @@ class OrderController extends Controller
         $result=DB::table('order_items')->where([['categories','=',$name]])->get();
         if($result){
             foreach ($result as $item){
-                $output.= "<option value='$item->id'>$item->item</option>";
+                $output.= "<option value='$item->id' id='toget' title='$item->item'>$item->item</option>";
             }
         echo $output;
         }
