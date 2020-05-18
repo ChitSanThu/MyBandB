@@ -43,6 +43,10 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::get('frontdesk/search','FrontdeskController@search');
     Route::get('frontdesk/findguest','FrontdeskController@findGuest');
     Route::post('order/store','Admin\OrderController@orderStore');
+    Route::get('search/order/{name}','Admin\OrderController@searchItem');
+    Route::get('searchById/{name}','Admin\OrderController@changeToName');
+    Route::get('search/order/price/{id}','Admin\OrderController@searchPrice');
+
 });
 
 Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'manager'), function () {

@@ -21,6 +21,7 @@ class FrontdeskController extends Controller
 
     public function index()
     {
+        $order_gp=DB::table('categories')->select()->get();
         $record = Record::all()->first();
         $nrc_type = DB::table('nrctype')->select('nrc_type')->get();
         $guests = CheckIn::all();
@@ -40,7 +41,7 @@ class FrontdeskController extends Controller
         $record = Record::all()->first();
         return view(
             'frontdesk.index',
-            compact("nrc_type", "record", "guest_info", "dept", "invoice", "month_name", "days_of_month", "startDay", "guests", "rooms", 'roomtypes', 'mon', 'year', 'num_of_day', 'dayName', 'firstDay')
+            compact("order_gp","nrc_type", "record", "guest_info", "dept", "invoice", "month_name", "days_of_month", "startDay", "guests", "rooms", 'roomtypes', 'mon', 'year', 'num_of_day', 'dayName', 'firstDay')
         );
     }
     public function store(Request $request)

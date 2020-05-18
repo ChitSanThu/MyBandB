@@ -40,7 +40,7 @@
         <hr class="mt-0 mb-0">
         <a href="" class="list-group-item-action ">
           <span class="checkmark out-of-service ml-1"></span>
-          <p class="text ml-5 mb-0">၀င်ဆောင်မှုမရရှိ</p>
+          <p class="text ml-5 mb-0">၀န်ဆောင်မှုမရရှိ</p>
         </a>
         <!-- </div> -->
       </div>

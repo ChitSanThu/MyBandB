@@ -6,7 +6,7 @@
     <div class="card-header bg-secondary" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-sm btn-link text-white" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <i class="fa fa-fw fa-wrench mr-1"></i>Rome Operation
+          <i class="fa fa-fw fa-wrench mr-1"></i> ဆက်တင်များ
         </button>
       </h5>
     </div>
@@ -32,10 +32,10 @@
           <p class="text ml-1 ">အသုံးပြုသူများ</p>
         </a>
         <hr><a href="{{url('/admin/create/categories')}}" class="list-group-item-action">
-          <p class="text ml-1 ">Create Cat</p>
+          <p class="text ml-1 ">ကုန်အုပ်စုများ</p>
         </a>
         <hr><a href="{{url('/admin/create/order')}}" class="list-group-item-action">
-          <p class="text ml-1 ">Create Order</p>
+          <p class="text ml-1 ">ကုန်ပစ္စည်း</p>
         </a>
       </div>
     </div>

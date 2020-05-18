@@ -17,13 +17,34 @@
                 </div>
             </div>
             <div class="" style="margin-bottom: 0">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        ကုန်အုပ်စု အမည်
+                    </div>
+                    <div class="col-md-8">
+                        <select name="order_gp" id="order_gp"  onchange="showItems(this.value)" class="form-control form-control-sm">
+                            <option value="">ကုန်အုပ်စုရွေးရန်</option>
+                            @foreach($order_gp as $item)
+                                <option value="{{$item->id}}">{{$item->cat_name}}</option>
+
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <br>
             <div class="row">
                 <div class="col-md-4 text-center">
-                    order အမည်
+                    ကုန်ပစ္စည်း အမည်
                 </div>
                 <div class="col-md-8">
-                    <input type="text" name="order_name" id="order_name" class="form-control form-control-sm">
+                    <select name="order_name" onchange="showPrice(this.value)" id="item_result" class="form-control form-control-sm">
+                        <option value="">ကုန်အုပ်စုအရင်ရွေးရန်လိုအပ်ပါသည်</option>
+
+                    </select>
                 </div>
+{{--                <div class="col-md-8">--}}
+{{--                    <input type="text" name="order_name" id="order_name" class="form-control form-control-sm">--}}
+{{--                </div>--}}
             </div>
             <br>
             <div class="row">
@@ -40,11 +61,10 @@
                     အရေအတွက်
                 </div>
                 <div class="col-md-8">
-                    <input onchange="cal()" type="number" name="order_qty" id="order_qty" class="form-control form-control-sm" value="1">
+                    <input onchange="cal()" type="number" name="order_qty" id="order_qty" class="form-control form-control-sm" value="0">
                 </div>
             </div>
             <br>
-
             <div class="row">
 
                 <div class="col-md-4 text-center">
@@ -83,16 +103,59 @@
             return false;
     }
     function addOrder() {
-        let name=textValid($('#order_name').val());
+        let name=textValid($('#item_result').val());
+        this.searchNameByCatId(name);
+
         let price=textValid($('#order_price').val());
         let qty=textValid($('#order_qty').val());
         if(name && price && qty>0){
             items.innerHTML+= `<input type='hidden' name='order_items[]' value= ${name +","+ price +","+ qty} /> `;
-            items.innerHTML+=`<tr><td>${name}</td><td>${price}</td><td>${qty}</td><td>${price*qty}</td></tr>`;
-            $('#order_name').val("");
-            $('#order_price').val("");
-            $('#order_qty').val(1);
+            items.innerHTML+=`<tr><td id="order_search_name"></td><td>${price}</td><td>${qty}</td><td>${price*qty}</td></tr>`;
+
+            // $('#item_result').val("");
+            // $('#order_price').val("");
+            $('#order_qty').val(0);
             total=$('#order_total').val();
         }
+    }
+</script>
+<script>
+    function searchNameByCatId(str) {
+        let xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (this.readyState==4 && this.status==200) {
+                document.getElementById("order_search_name").innerHTML+=this.responseText;
+            }
+        }
+        xmlhttp.open("GET","{{url('user/searchById')}}"+"/"+str,true);
+        xmlhttp.send();
+    }
+    function showItems(str) {
+        if (str=="") {
+            document.getElementById("item_result").innerHTML="<option value=\"\">ကုန်အုပ်စုအရင်ရွေးရန်လိုအပ်ပါသည်</option>";
+            return;
+        }
+        let xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (this.readyState==4 && this.status==200) {
+                document.getElementById("item_result").innerHTML=this.responseText;
+            }
+        }
+        xmlhttp.open("GET","{{url('user/search/order')}}"+"/"+str,true);
+        xmlhttp.send();
+    }
+    function showPrice(str) {
+        if (str=="") {
+            document.getElementById("order_price").value="500";
+            return;
+        }
+        let xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (this.readyState==4 && this.status==200) {
+                document.getElementById("order_price").value=this.responseText;
+            }
+        }
+        xmlhttp.open("GET","{{url('user/search/order/price')}}"+"/"+str,true);
+        xmlhttp.send();
     }
 </script>

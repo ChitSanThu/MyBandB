@@ -117,7 +117,7 @@
                     </td>
                 @endif()
                 @if($room->room_state==4)
-                    <td scope="row" class="out-of-service" id="roomNum" title=" ၀င်ဆောင်မှုမရသေး">
+                    <td scope="row" class="out-of-service" id="roomNum" title=" ၀န်ဆောင်မှုမရသေး">
                         <p class="text-white ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
                     </td>
                 @endif()
@@ -162,7 +162,7 @@
                                     @endif
 
                                     @if($guest->guest_status==3)
-                                        <td title="{{$guest->id }}{{ $guest->name}} Reserv" id="reserv" class=" reserv"
+                                        <td title=" အခန်းကြိုယူထား" id="reserv" class=" reserv"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
                                             <p class="my-0 guest_name text-white">
                                                 <span class="text-hide">{{$guest->id}}</span>

@@ -22,11 +22,11 @@ class OrderController extends Controller
         DB::table('categories')->insert([
             'cat_name'=>$request->get('categories')
         ]);
-        return redirect('admin/create/categories')->with('status',"successfully");
+        return redirect('admin/create/categories')->with('status',"ထည့်သွင်းမှုအောင်မြင်ပါသည်");
     }
     public function deleteCat($id){
         DB::table('categories')->where('id', '=', $id)->delete();
-        return redirect('admin/create/categories')->with('status'," delete successfully");
+        return redirect('admin/create/categories')->with('status',"အောင်မြင်စွာဖျက်ပြီးပါပြီ");
 
     }
     public function showOrderForm(){
@@ -45,23 +45,46 @@ class OrderController extends Controller
             'price'=>$request->get('price'),
             'categories'=>$request->get('categories')
         ]);
-        return redirect('admin/create/order')->with('status',"successfully");
+        return redirect('admin/create/order')->with('status',"ထည့်သွင်းမှုအောင်မြင်ပါသည်");
     }
     public function orderStore(Request $request){
         $this->validate($request,[
             'order_id'=>'required',
             'order_items'=>'required',
         ]);
+//        return "<pre>".print_r($request->all(),true)."</pre>";
         foreach ($request->get('order_items') as $order){
             $item=explode(',',$order);
                     DB::table('guest_orders')->insert([
                         "guest_id"=>$request->get('order_id'),
-                        "item_name"=>$item[0],
+                        "item_name"=>$this->changeToName($item[0]),
                         "price"=>$item[1],
                         "qty"=>$item[2],
                         "created_at"=>date("Y-m-d"),
                     ]);
         }
         return redirect('user/frontdesk');
+    }
+
+    public function searchItem($name){
+        $output="<option>ကုန်ပစ္စည်းရွေးရန်</option>";
+        $result=DB::table('order_items')->where([['categories','=',$name]])->get();
+        if($result){
+            foreach ($result as $item){
+                $output.= "<option value='$item->id'>$item->item</option>";
+            }
+        echo $output;
+        }
+    }
+    public function searchPrice($id){
+//        echo $id;
+        $result=DB::table('order_items')->where([['id','=',$id]])->get();
+        echo $result[0]->price;
+
+    }
+    public function changeToName($name){
+        $result=DB::table('order_items')->where([['id','=',$name]])->get();
+        return $result[0]->item;
+
     }
 }
