@@ -19,6 +19,7 @@ class CreateGuestOrdersTable extends Migration
             $table->string('item_name');
             $table->integer('price');
             $table->integer("qty");
+            $table->integer("type")->default(0);
             $table->timestamps();
         });
     }

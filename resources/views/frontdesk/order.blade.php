@@ -74,7 +74,15 @@
                     <input type="number" name="ordre_total" id="order_total" class="form-control form-control-sm"><br>
                 </div>
             </div>
-            <br>
+
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <input type="radio" name="order_method" id="" class="payment_radio" value="0">လက်ငင်း
+                        <input type="radio" name="order_method" id="" class="ml-3 payment_radio" value="1">အကြွေး
+                    </div>
+                </div>
+                <br>
             <div class="row justify-content-md-center">
                 <input type="submit" value="မှတ်မည်" class="btn btn-outline mr-5 btn-outline-info">
                 <input type="button" onclick="addOrder()" value="မှာရန်" class="btn btn-outline mr-5 btn-outline-secondary">

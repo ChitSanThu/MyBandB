@@ -18,7 +18,7 @@
             <tr>
                 <td>{{++$i}}</td>
                 <td>{{$value['guest_name']}}</td>
-                <td>{{$value['total']}}</td>
+                <td>{{$value['total']}}+{{$value['order']}}</td>
                 <td>{{$value['comment']}}</td>
                 <td>{{$value['date']}}</td>
                 <td><a  href="{{url('user/debt/'.$value['guest_id'])}}" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>

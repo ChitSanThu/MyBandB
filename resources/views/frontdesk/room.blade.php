@@ -131,7 +131,6 @@
                     @foreach($guests as $guest)
                         @if($guest->month==$mon && $guest->year==$year)
                             @if($guest->room_number==$room->roomumber)
-
                                 @if($guest->start_day==$i)
                                     @php
                                         $inday=range($guest->start_day,$guest->end_day);
@@ -172,13 +171,13 @@
                                         </td>
                                     @endif
 
-                                        @if($guest->guest_status==8)
+                                    @if($guest->guest_status==8)
                                         @for($i=$guest->start_day;$i<=$guest->end_day;$i++)
                                             <td class="roomCell text-hide" title="{{$i}}">
                                                 {{$i}}
                                             </td>
-                                            @endfor
-                                        @endif
+                                        @endfor
+                                    @endif
 
                                     @if($guest->guest_status==2)
                                         <td title="ဧည့်ထွက်" class="guest_cell checkout"

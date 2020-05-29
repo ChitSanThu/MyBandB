@@ -123,20 +123,25 @@ class FrontdeskController extends Controller
     }
     public function report()
     {
-        $reports = Report::whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();;
-            $guest_info = $this->deptInfo(0);
+        $order_earn=DB::table('guest_orders')->where('type','=','0')->whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
+//        return $order_earn;
+        $reports = Report::whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
+
+        $guest_info = $this->deptInfo(0);
             $debt_guests = $this->deptInfo(1);
-            return view('frontdesk.report', compact('guest_info', 'debt_guests', 'reports'));
+            return view('frontdesk.report', compact('order_earn','guest_info', 'debt_guests', 'reports'));
     }
     public function reportMethod($start,$end){
             $reports = Report::whereBetween('created_at', [$start, $end. " 23:59:59"])->get();
             $guest_info = $this->deptInfo(0, [$start, $end]);
             $debt_guests = $this->deptInfo(1, [$start, $end]);
+        $order_earn=DB::table('guest_orders')->where('type','=','0')->whereBetween('created_at', [$start, $end.' 23:59:59'])->get();
 
             return redirect('/user/report/frontdesk')
                 ->with([
                     'date_range' => [$start, $end], 'guest_info' => $guest_info,
-                    'debt_guests' => $debt_guests, "reports" => $reports
+                    'debt_guests' => $debt_guests, "reports" => $reports,
+                    'order_earn'=>$order_earn
                 ]);
     }
     public function deptInfo($status, $range = 0)
@@ -149,8 +154,12 @@ class FrontdeskController extends Controller
                 ->whereBetween('created_at', [$range[0], $range[1]. " 23:59:59"])->get();
 //        return print_r($dept);
             $guest_info = array();
+            $order_total=0;
             foreach ($dept as $guest) {
                 $guests = CheckIn::findOrFail($guest->guest_id);
+                $orders=DB::table('guest_orders')->where('guest_id','=',$guest->guest_id)->get();
+                foreach ($orders as $order)
+                    $order_total+=$order->price*$order->qty;
                 $date = $guest->created_at;
                 array_push($guest_info, array(
                     "guest_id" => $guests->id,
@@ -159,6 +168,7 @@ class FrontdeskController extends Controller
                     "name" => $guests->room_number,
                     "total" => $guest->total,
                     "comment" => $guest->comment,
+                    "order" =>$order_total,
                     "date" => date('d/m/Y h:i:s a', strtotime($date))
                 ));
             }
@@ -356,7 +366,8 @@ class FrontdeskController extends Controller
         $room_cost = $request->get('room_cost');
         $status = $request->get('payment_method');
         // $this->guestState($guest_id,);
-        $order=DB::table('guest_orders')->select()->where('guest_id','=',$guest_id)->get();
+        $order=DB::table('guest_orders')->select()->where('guest_id','=',$guest_id)
+            ->where('type','=','1')->get();
         $dept = DeptRecord::create([
             'guest_id' => $guest_id,
             'name' => $guests->name,

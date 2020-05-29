@@ -74,6 +74,14 @@
       @php($dept_total=0)
       @php($total=0)
       @php($cost=0)
+      @foreach(session("order_earn") as $order)
+        <tr>
+          <td>{{++$i}}</td>
+          <td>{{$order->item_name}}</td>
+          <td style="text-align:right">{{number_format($order->price * $order->qty)}}</td>
+        </tr>
+        @php($total+=$order->price * $order->qty)
+      @endforeach
       @foreach(session("guest_info") as $key => $value)
       
       <tr>
@@ -138,6 +146,14 @@
       @php($dept_total=0)
       @php($total=0)
       @php($cost=0)
+      @foreach($order_earn as $order)
+        <tr>
+          <td>{{++$i}}</td>
+          <td>{{$order->item_name}}</td>
+          <td style="text-align:right">{{number_format($order->price * $order->qty)}}</td>
+        </tr>
+        @php($total+=$order->price * $order->qty)
+      @endforeach
       @foreach($guest_info as $key => $value)
       <tr>
         <td>{{++$i}}</td>
