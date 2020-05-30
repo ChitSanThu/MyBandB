@@ -40,7 +40,7 @@
                 @endif
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     @if(Auth::check())
-                        @if(Auth::user()->hasRole('admin'))
+                        @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('developer'))
                             <a class="dropdown-item" href="{{url('/user/create/rooms')}}">ပြင်ဆင်ရန်</a>
                         @endif
                         <a class="dropdown-item" href="{{url('/staff/logout')}}">ထွက်ရန်</a>

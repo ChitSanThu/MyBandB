@@ -254,7 +254,7 @@
             @include('../sharedata/sidebar')
         </div>
     </div>
-    <div class="col-md-10  ml-0 mr-0">
+    <div class="col-md-10  ml-0 mr-0 p-0">
 
         <ul class="nav nav-tabs mt-1" id="myTab" role="tablist" style="background-color:#6c757d">
 

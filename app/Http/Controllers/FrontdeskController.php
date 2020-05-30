@@ -47,38 +47,76 @@ class FrontdeskController extends Controller
     public function store(Request $request)
     {
         if ($request->get('contron') == 'checkin') {
-
-//            $nrcs_tp = DB::table('nrctype')->where('nrc_type', '=', $request->get('nrctype'))->get();
-
-//            if (!$nrcs_tp)
-//                DB::table('nrctype')->insert(["nrc_type" => $request->get('nrctype')]);
             $nrc = $request->get('nrctype') . $request->get('nrc') . $request->get('nrcno');
             $days = $request->get('days');
             $days = explode("-", $days);
-            CheckIn::create([
-                'start_day' => $days[0],
-                'end_day' => $days[1],
-                'room_number' => $request->get('roomNum'),
-                'days' => $days,
-                'name' => preg_replace("/(\s+)/", "", $request->get('name')),
-                'father_name' => $request->get('fname'),
-                'phone' => $request->get('phone'),
-                'nrc' => $nrc,
-                'gender' => $request->get('gender'),
-                'age' => $request->get('age'),
-                'nation' => $request->get('nation'),
-                'job' => $request->get('job'),
-                'address' => $request->get('address'),
-                'state' => $request->get('state'),
-                'guest_status' => $request->get('status'),
-                'month' => $request->get('guest_month'),
-                'year' => $request->get('guest_year')
-            ]);
+            $move_guestss=CheckIn::where('guest_status',8)->where('room_number',$request->get('roomNum'))->whereBetween('end_day', [$days[0],$days[1]])->get();
+            if(empty($move_guestss)){
+                CheckIn::create([
+                    'start_day' => $days[0],
+                    'end_day' => $days[1],
+                    'room_number' => $request->get('roomNum'),
+                    'days' => $days,
+                    'name' => preg_replace("/(\s+)/", "", $request->get('name')),
+                    'father_name' => $request->get('fname'),
+                    'phone' => $request->get('phone'),
+                    'nrc' => $nrc,
+                    'gender' => $request->get('gender'),
+                    'age' => $request->get('age'),
+                    'nation' => $request->get('nation'),
+                    'job' => $request->get('job'),
+                    'address' => $request->get('address'),
+                    'state' => $request->get('state'),
+                    'guest_status' => $request->get('status'),
+                    'month' => $request->get('guest_month'),
+                    'year' => $request->get('guest_year')
+                ]);
+            }else{
+                CheckIn::create([
+                    'start_day' => $days[0],
+                    'end_day' => $days[1],
+                    'room_number' => $request->get('roomNum'),
+                    'days' => $days,
+                    'name' => preg_replace("/(\s+)/", "", $request->get('name')),
+                    'father_name' => $request->get('fname'),
+                    'phone' => $request->get('phone'),
+                    'nrc' => $nrc,
+                    'gender' => $request->get('gender'),
+                    'age' => $request->get('age'),
+                    'nation' => $request->get('nation'),
+                    'job' => $request->get('job'),
+                    'address' => $request->get('address'),
+                    'state' => $request->get('state'),
+                    'guest_status' => $request->get('status'),
+                    'month' => $request->get('guest_month'),
+                    'year' => $request->get('guest_year')
+                ]);
+                foreach ($move_guestss as $move_guests){
+                    DB::table('move_guests')->insert([
+                        'start_day' => $move_guests->start_day,
+                        'end_day' => $move_guests->end_day,
+                        'room_number' => $move_guests->room_number,
+                        'name' => $move_guests->name,
+                        'father_name' => $move_guests->father_name,
+                        'phone' => $move_guests->phone,
+                        'nrc' => $move_guests->nrc,
+                        'gender' => $move_guests->gender,
+                        'age' => $move_guests->age,
+                        'nation' => $move_guests->nation,
+                        'job' => $move_guests->job,
+                        'address' => $move_guests->address,
+                        'state' => $move_guests->state,
+                        'guest_status' => $move_guests->guest_status,
+                        'month' => $move_guests->month,
+                        'year' => $move_guests->year
+                    ]);
+                }
+
+                CheckIn::where('guest_status',8)->where('room_number',$request->get('roomNum'))
+                    ->whereBetween('end_day', [$days[0],$days[1]])->delete();
+            }
             if ($nrc != "")
                 $this->updateRoomState($request->get('roomNum'), 1);
-            // else
-            //     $this->updateRoomState($request->get('roomNum'), 1);
-            // $this->sendSlackNotification("Hi! Admin\nNew article posted for review\nTitle: ");
             return $this->returnFrontdesk();
         } else {
 
@@ -212,7 +250,7 @@ class FrontdeskController extends Controller
                         '<td>' . $product->comment . '</td>' .
 
                         '<td>' . $product->created_at . '</td>' .
-                        '<td>' . '<a href="" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
+                        '<td>' . '<a href="'.url('user/debt').'/'.$product->guest_id.'" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
 
                         '</tr>';
                 }
@@ -448,6 +486,9 @@ class FrontdeskController extends Controller
             }
             echo $output;
         }
+
+    }
+    public function storeGuest(){
 
     }
 }

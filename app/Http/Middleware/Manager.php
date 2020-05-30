@@ -18,7 +18,7 @@ class Manager
     {
         if (!Auth::check()) {
             return redirect('/')->with('status', 'login first');
-        } else if (Auth::user()->hasRole('admin'))
+        } else if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('developer'))
             return $next($request);
         else if (Auth::user()->hasRole('frontdesk'))
             return redirect('user/frontdesk');
