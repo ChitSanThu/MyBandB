@@ -24,6 +24,7 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
     Route::get('create/roomtype', function () {
         return view('room_operation.type');
     });
+    Route::get('/test/{id}','FrontdeskController@deptInfo');
     Route::get('delete/rooms', 'RoomOperation@showForDelete');
     Route::post('delete/rooms', 'RoomOperation@deleteRooms');
     Route::get('delete/room/{id}', 'RoomOperation@deleteRoom');

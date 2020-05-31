@@ -14,7 +14,7 @@ class CreatedMoveGuestsTable extends Migration
     public function up()
     {
         Schema::create('move_guests', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id');
             $table->integer("start_day");
             $table->integer("end_day");
             $table->string("room_number");

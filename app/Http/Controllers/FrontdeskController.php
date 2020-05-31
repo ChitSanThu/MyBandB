@@ -21,6 +21,7 @@ class FrontdeskController extends Controller
 
     public function index()
     {
+//        return Auth::user();
         $order_gp=DB::table('categories')->select()->get();
         $record = Record::all()->first();
         $nrc_type = DB::table('nrctype')->select('nrc_type')->get();
@@ -93,6 +94,7 @@ class FrontdeskController extends Controller
                 ]);
                 foreach ($move_guestss as $move_guests){
                     DB::table('move_guests')->insert([
+                        'guest_id'=>$move_guests->id,
                         'start_day' => $move_guests->start_day,
                         'end_day' => $move_guests->end_day,
                         'room_number' => $move_guests->room_number,
@@ -184,6 +186,7 @@ class FrontdeskController extends Controller
     }
     public function deptInfo($status, $range = 0)
     {
+//        return $status;
         if ($range == 0)
             $dept = DeptRecord::where('status', $status)
                 ->whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
@@ -194,21 +197,32 @@ class FrontdeskController extends Controller
             $guest_info = array();
             $order_total=0;
             foreach ($dept as $guest) {
-                $guests = CheckIn::findOrFail($guest->guest_id);
+                $guests = CheckIn::where('id',20)->get();
+//                return var_dump($guests);
+//                if($guests===null){
+//                    return $guests;
+//                }
+//                return "here".$guests;
+//                if(empty($guests)){
+//                    $guests=DB::table('move_guests')->where('guest_id',$guest->guest_id)-get();
+//                }
                 $orders=DB::table('guest_orders')->where('guest_id','=',$guest->guest_id)->get();
                 foreach ($orders as $order)
                     $order_total+=$order->price*$order->qty;
                 $date = $guest->created_at;
-                array_push($guest_info, array(
-                    "guest_id" => $guests->id,
-                    "guest_name" => $guests->name,
-                    "nrc_no" => $guests->nrc,
-                    "name" => $guests->room_number,
-                    "total" => $guest->total,
-                    "comment" => $guest->comment,
-                    "order" =>$order_total,
-                    "date" => date('d/m/Y h:i:s a', strtotime($date))
-                ));
+                foreach ($guests as $gg){
+                    array_push($guest_info, array(
+                        "guest_id" => $gg->id,
+                        "guest_name" => $gg->name,
+                        "nrc_no" => $gg->nrc,
+                        "name" => $gg->room_number,
+                        "total" => $guest->total,
+                        "comment" => $guest->comment,
+                        "order" =>$order_total,
+                        "date" => date('d/m/Y h:i:s a', strtotime($date))
+                    ));
+                }
+
             }
             return $guest_info;
     }
