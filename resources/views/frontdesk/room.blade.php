@@ -87,13 +87,11 @@
 <body>
 
 @foreach ($roomtypes as $type)
-
     <tr>
         <td class="room_type">{{$type->roomtype}}</td>
         <td class="room_type" colspan="{{$num_of_day}}">{{$type->roomtype}}</td>
     </tr>
     @foreach ($rooms as $room)
-
         @if($room->roomtype==preg_replace("/(\s+)/","",$type->roomtype))
             <tr class="roomNumberRow">
                 @if($room->room_state==0)
@@ -126,7 +124,6 @@
                         <p class="text-white ml-2 mb-0 mr-0">{{$room->roomumber}}</p>
                     </td>
                 @endif()
-
                 @for ($i = $startDay; $i < $startDay+$num_of_day; $i++)
                     @foreach($guests as $guest)
                         @if($guest->month==$mon && $guest->year==$year)
@@ -141,7 +138,13 @@
                                     @endphp
                                     @php($i+=$guest->end_day-$guest->start_day+1)
 
-                                    @if($guest->guest_status==5)
+                                    @if($guest->guest_status==8)
+                                        @for($i=$guest->start_day;$i<=$guest->end_day;$i++)
+                                            <td class="roomCell text-hide" title="{{$i}}">
+                                                {{$i}}
+                                            </td>
+                                        @endfor
+                                    @elseif($guest->guest_status==5)
                                         <td title="အကြွေးချန်" id="" class="guest_cell dept"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
                                             <p class="my-0 guest_name"><span
@@ -149,18 +152,15 @@
                                                 <span class="text-hide">{{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}</span>
                                             </p>
                                         </td>
-                                    @endif
-
-                                    @if($guest->guest_status==4)
+                                    @elseif($guest->guest_status==4)
                                         <td title="ငွေရှင်းပြီးဧည့်သည်" id="" class="guest_cell payment_stay_guest"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
                                             <p class="my-0 guest_name">
                                                 <span class="text-hide">{{$guest->id}}</span>&nbsp;{{$guest->name}}
                                             </p>
                                         </td>
-                                    @endif
+                                    @elseif($guest->guest_status==3)
 
-                                    @if($guest->guest_status==3)
                                         <td title=" အခန်းကြိုယူထား" id="reserv" class=" reserv"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
                                             <p class="my-0 guest_name text-white">
@@ -169,17 +169,7 @@
                                                 <span class="text-hide">{{$guest->phone}}&nbsp;{{$guest->start_day}}&nbsp;{{$guest->end_day}}</span>
                                             </p>
                                         </td>
-                                    @endif
-
-                                    @if($guest->guest_status==8)
-                                        @for($i=$guest->start_day;$i<=$guest->end_day;$i++)
-                                            <td class="roomCell text-hide" title="{{$i}}">
-                                                {{$i}}
-                                            </td>
-                                        @endfor
-                                    @endif
-
-                                    @if($guest->guest_status==2)
+                                    @elseif($guest->guest_status==2)
                                         <td title="ဧည့်ထွက်" class="guest_cell checkout"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
                                             {{--<a href="{{url('/5'.$guest->id)}}"></a>--}}
@@ -191,9 +181,7 @@
                                                 </span>
                                             </p>
                                         </td>
-                                    @endif
-
-                                    @if($guest->guest_status==1)
+                                    @elseif($guest->guest_status==1)
                                         <td title="ဧည့်ရှိ" class="guest_cell checkin"
                                             colspan="{{$guest->end_day-$guest->start_day+1}}">
                                             <p class="my-0 guest_name">
@@ -205,7 +193,6 @@
                                                 </span>
                                             </p>
                                         </td>
-
                                     @endif
                                 @endif
                             @endif

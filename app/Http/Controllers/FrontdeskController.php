@@ -25,7 +25,9 @@ class FrontdeskController extends Controller
         $order_gp=DB::table('categories')->select()->get();
         $record = Record::all()->first();
         $nrc_type = DB::table('nrctype')->select('nrc_type')->get();
-        $guests = CheckIn::all();
+//        $guests = CheckIn::where('row_record',0)->get();
+        $guests=CheckIn::orderBy('start_day','ASC')->where('row_record',0)->get();
+//        return $guests;
         $rooms = Room::all();
         $roomtypes = RoomType::all();
         $dept = DeptRecord::all();
@@ -51,85 +53,40 @@ class FrontdeskController extends Controller
             $nrc = $request->get('nrctype') . $request->get('nrc') . $request->get('nrcno');
             $days = $request->get('days');
             $days = explode("-", $days);
-            $move_guestss=CheckIn::where('guest_status',8)->where('room_number',$request->get('roomNum'))->whereBetween('end_day', [$days[0],$days[1]])->get();
-            if(empty($move_guestss)){
-                CheckIn::create([
-                    'start_day' => $days[0],
-                    'end_day' => $days[1],
-                    'room_number' => $request->get('roomNum'),
-                    'days' => $days,
-                    'name' => preg_replace("/(\s+)/", "", $request->get('name')),
-                    'father_name' => $request->get('fname'),
-                    'phone' => $request->get('phone'),
-                    'nrc' => $nrc,
-                    'gender' => $request->get('gender'),
-                    'age' => $request->get('age'),
-                    'nation' => $request->get('nation'),
-                    'job' => $request->get('job'),
-                    'address' => $request->get('address'),
-                    'state' => $request->get('state'),
-                    'guest_status' => $request->get('status'),
-                    'month' => $request->get('guest_month'),
-                    'year' => $request->get('guest_year')
-                ]);
-            }else{
-                CheckIn::create([
-                    'start_day' => $days[0],
-                    'end_day' => $days[1],
-                    'room_number' => $request->get('roomNum'),
-                    'days' => $days,
-                    'name' => preg_replace("/(\s+)/", "", $request->get('name')),
-                    'father_name' => $request->get('fname'),
-                    'phone' => $request->get('phone'),
-                    'nrc' => $nrc,
-                    'gender' => $request->get('gender'),
-                    'age' => $request->get('age'),
-                    'nation' => $request->get('nation'),
-                    'job' => $request->get('job'),
-                    'address' => $request->get('address'),
-                    'state' => $request->get('state'),
-                    'guest_status' => $request->get('status'),
-                    'month' => $request->get('guest_month'),
-                    'year' => $request->get('guest_year')
-                ]);
-                foreach ($move_guestss as $move_guests){
-                    DB::table('move_guests')->insert([
-                        'guest_id'=>$move_guests->id,
-                        'start_day' => $move_guests->start_day,
-                        'end_day' => $move_guests->end_day,
-                        'room_number' => $move_guests->room_number,
-                        'name' => $move_guests->name,
-                        'father_name' => $move_guests->father_name,
-                        'phone' => $move_guests->phone,
-                        'nrc' => $move_guests->nrc,
-                        'gender' => $move_guests->gender,
-                        'age' => $move_guests->age,
-                        'nation' => $move_guests->nation,
-                        'job' => $move_guests->job,
-                        'address' => $move_guests->address,
-                        'state' => $move_guests->state,
-                        'guest_status' => $move_guests->guest_status,
-                        'month' => $move_guests->month,
-                        'year' => $move_guests->year
-                    ]);
-                }
-
-                CheckIn::where('guest_status',8)->where('room_number',$request->get('roomNum'))
-                    ->whereBetween('end_day', [$days[0],$days[1]])->delete();
-            }
+            CheckIn::create([
+                'start_day' => $days[0],
+                'end_day' => $days[1],
+                'room_number' => $request->get('roomNum'),
+                'name' => preg_replace("/(\s+)/", "", $request->get('name')),
+                'father_name' => $request->get('fname'),
+                'phone' => $request->get('phone'),
+                'nrc' => $nrc,
+                'gender' => $request->get('gender'),
+                'age' => $request->get('age'),
+                'nation' => $request->get('nation'),
+                'job' => $request->get('job'),
+                'address' => $request->get('address'),
+                'state' => $request->get('state'),
+                'guest_status' => $request->get('status'),
+                'month' => $request->get('guest_month'),
+                'year' => $request->get('guest_year')
+            ]);
+//            $move_guestss=CheckIn::where('guest_status',8)->where('row_record',0)->where('room_number',$request->get('roomNum'))->whereBetween('end_day', [$days[0],$days[1]])->get();
+////            return $move_guestss;
+//            if(count($move_guestss)!=0){
+//                foreach ($move_guestss as $move_guests){
+//                    $guests=CheckIn::find($move_guests->id);
+//                    $guests->row_record=1;
+//                    $guests->save();
+//                }
+//            }
             if ($nrc != "")
                 $this->updateRoomState($request->get('roomNum'), 1);
             return $this->returnFrontdesk();
         } else {
-
             if (true)
                 $this->updateRoomState($request->get('roomNum'), 1);
             $nrc = $request->get('nrctype') . $request->get('nrc') . $request->get('nrcno');
-//            $nrcs_tp = DB::table('nrctype')->select('nrc_type')->get();
-//            foreach ($nrcs_tp as $nrc) {
-//                if ($nrc != $request->get('nrctype'))
-//                    DB::table('nrctype')->insert(["nrc_type" => $request->get('nrctype')]);
-//            }
             $guests = CheckIn::find($request->get('guest_id'));
             $guests->father_name = $request->get('fname');
             $guests->nrc = $nrc;
@@ -152,9 +109,11 @@ class FrontdeskController extends Controller
     }
     public function guestState($id, $status)
     {
-        $guest_state = CheckIn::find($id);
-        $guest_state->guest_status = $status;
-        $guest_state->save();
+        $guest_state=CheckIn::find($id);
+        if(!empty($guest_state)){
+            $guest_state->guest_status = $status;
+            $guest_state->save();
+        }
     }
     public function invoice()
     {
@@ -197,14 +156,10 @@ class FrontdeskController extends Controller
             $guest_info = array();
             $order_total=0;
             foreach ($dept as $guest) {
-                $guests = CheckIn::where('id',20)->get();
-//                return var_dump($guests);
-//                if($guests===null){
-//                    return $guests;
-//                }
-//                return "here".$guests;
-//                if(empty($guests)){
-//                    $guests=DB::table('move_guests')->where('guest_id',$guest->guest_id)-get();
+                $guests = CheckIn::where('id',$guest->guest_id)->get();
+//                if(count($guests)==0){
+//                    $guests=DB::table('move_guests')->where('guest_id',$guest->guest_id)->get();
+////                    return $guests;
 //                }
                 $orders=DB::table('guest_orders')->where('guest_id','=',$guest->guest_id)->get();
                 foreach ($orders as $order)
@@ -285,7 +240,9 @@ class FrontdeskController extends Controller
         return $this->returnFrontdesk();
     }
     public function recheckinGuest($id,$number){
-        $this->guestState($id, 8);
+        $guest=CheckIn::find($id);
+        $guest->row_record=1;
+        $guest->save();
         return $this->returnFrontdesk();
     }
     public function guestStateChange($state,$id,$number){
@@ -366,6 +323,7 @@ class FrontdeskController extends Controller
             return $this->returnFrontdesk();
     }
     public function paymentDebt($id){
+
             $user = DeptRecord::where('guest_id', $id)->first();
             $user->status = 0;
             $user->created_at=date("Y-m-d h:i:s");

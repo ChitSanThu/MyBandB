@@ -25,6 +25,7 @@ Route::group(array('prefix' => 'user', 'middleware' => 'user'), function () {
         return view('room_operation.type');
     });
     Route::get('/test/{id}','FrontdeskController@deptInfo');
+    Route::get('checkout/{id}/{state}','FrontdeskController@guestState');
     Route::get('delete/rooms', 'RoomOperation@showForDelete');
     Route::post('delete/rooms', 'RoomOperation@deleteRooms');
     Route::get('delete/room/{id}', 'RoomOperation@deleteRoom');
