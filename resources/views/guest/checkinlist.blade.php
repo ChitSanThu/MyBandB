@@ -43,7 +43,7 @@
         </tr>
         
 
-        @if($guest->gender=='male')
+        @if($guest->gender=="ကျား")
             @php(++$male)
             @else
                 @php(++$female)

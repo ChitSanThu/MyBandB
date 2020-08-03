@@ -21,13 +21,13 @@ class FrontdeskController extends Controller
 
     public function index()
     {
-//        return Auth::user();
-        $order_gp=DB::table('categories')->select()->get();
+        //        return Auth::user();
+        $order_gp = DB::table('categories')->select()->get();
         $record = Record::all()->first();
         $nrc_type = DB::table('nrctype')->select('nrc_type')->get();
-//        $guests = CheckIn::where('row_record',0)->get();
-        $guests=CheckIn::orderBy('start_day','ASC')->where('row_record',0)->get();
-//        return $guests;
+        //        $guests = CheckIn::where('row_record',0)->get();
+        $guests = CheckIn::orderBy('start_day', 'ASC')->where('row_record', 0)->get();
+        //        return $guests;
         $rooms = Room::all();
         $roomtypes = RoomType::all();
         $dept = DeptRecord::all();
@@ -44,7 +44,7 @@ class FrontdeskController extends Controller
         $record = Record::all()->first();
         return view(
             'frontdesk.index',
-            compact("order_gp","nrc_type", "record", "guest_info", "dept", "invoice", "month_name", "days_of_month", "startDay", "guests", "rooms", 'roomtypes', 'mon', 'year', 'num_of_day', 'dayName', 'firstDay')
+            compact("order_gp", "nrc_type", "record", "guest_info", "dept", "invoice", "month_name", "days_of_month", "startDay", "guests", "rooms", 'roomtypes', 'mon', 'year', 'num_of_day', 'dayName', 'firstDay')
         );
     }
     public function store(Request $request)
@@ -71,15 +71,15 @@ class FrontdeskController extends Controller
                 'month' => $request->get('guest_month'),
                 'year' => $request->get('guest_year')
             ]);
-//            $move_guestss=CheckIn::where('guest_status',8)->where('row_record',0)->where('room_number',$request->get('roomNum'))->whereBetween('end_day', [$days[0],$days[1]])->get();
-////            return $move_guestss;
-//            if(count($move_guestss)!=0){
-//                foreach ($move_guestss as $move_guests){
-//                    $guests=CheckIn::find($move_guests->id);
-//                    $guests->row_record=1;
-//                    $guests->save();
-//                }
-//            }
+            //            $move_guestss=CheckIn::where('guest_status',8)->where('row_record',0)->where('room_number',$request->get('roomNum'))->whereBetween('end_day', [$days[0],$days[1]])->get();
+            ////            return $move_guestss;
+            //            if(count($move_guestss)!=0){
+            //                foreach ($move_guestss as $move_guests){
+            //                    $guests=CheckIn::find($move_guests->id);
+            //                    $guests->row_record=1;
+            //                    $guests->save();
+            //                }
+            //            }
             if ($nrc != "")
                 $this->updateRoomState($request->get('roomNum'), 1);
             return $this->returnFrontdesk();
@@ -109,8 +109,8 @@ class FrontdeskController extends Controller
     }
     public function guestState($id, $status)
     {
-        $guest_state=CheckIn::find($id);
-        if(!empty($guest_state)){
+        $guest_state = CheckIn::find($id);
+        if (!empty($guest_state)) {
             $guest_state->guest_status = $status;
             $guest_state->save();
         }
@@ -122,64 +122,64 @@ class FrontdeskController extends Controller
     }
     public function report()
     {
-        $order_earn=DB::table('guest_orders')->where('type','=','0')->whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
-//        return $order_earn;
+        $order_earn = DB::table('guest_orders')->where('type', '=', '0')->whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
+        //        return $order_earn;
         $reports = Report::whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
 
         $guest_info = $this->deptInfo(0);
-            $debt_guests = $this->deptInfo(1);
-            return view('frontdesk.report', compact('order_earn','guest_info', 'debt_guests', 'reports'));
+        $debt_guests = $this->deptInfo(1);
+        return view('frontdesk.report', compact('order_earn', 'guest_info', 'debt_guests', 'reports'));
     }
-    public function reportMethod($start,$end){
-            $reports = Report::whereBetween('created_at', [$start, $end. " 23:59:59"])->get();
-            $guest_info = $this->deptInfo(0, [$start, $end]);
-            $debt_guests = $this->deptInfo(1, [$start, $end]);
-        $order_earn=DB::table('guest_orders')->where('type','=','0')->whereBetween('created_at', [$start, $end.' 23:59:59'])->get();
+    public function reportMethod($start, $end)
+    {
+        $reports = Report::whereBetween('created_at', [$start, $end . " 23:59:59"])->get();
+        $guest_info = $this->deptInfo(0, [$start, $end]);
+        $debt_guests = $this->deptInfo(1, [$start, $end]);
+        $order_earn = DB::table('guest_orders')->where('type', '=', '0')->whereBetween('created_at', [$start, $end . ' 23:59:59'])->get();
 
-            return redirect('/user/report/frontdesk')
-                ->with([
-                    'date_range' => [$start, $end], 'guest_info' => $guest_info,
-                    'debt_guests' => $debt_guests, "reports" => $reports,
-                    'order_earn'=>$order_earn
-                ]);
+        return redirect('/user/report/frontdesk')
+            ->with([
+                'date_range' => [$start, $end], 'guest_info' => $guest_info,
+                'debt_guests' => $debt_guests, "reports" => $reports,
+                'order_earn' => $order_earn
+            ]);
     }
     public function deptInfo($status, $range = 0)
     {
-//        return $status;
+        //        return $status;
         if ($range == 0)
             $dept = DeptRecord::where('status', $status)
                 ->whereBetween('created_at', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->get();
         else
             $dept = DeptRecord::where('status', $status)
-                ->whereBetween('created_at', [$range[0], $range[1]. " 23:59:59"])->get();
-//        return print_r($dept);
-            $guest_info = array();
-            $order_total=0;
-            foreach ($dept as $guest) {
-                $guests = CheckIn::where('id',$guest->guest_id)->get();
-//                if(count($guests)==0){
-//                    $guests=DB::table('move_guests')->where('guest_id',$guest->guest_id)->get();
-////                    return $guests;
-//                }
-                $orders=DB::table('guest_orders')->where('guest_id','=',$guest->guest_id)->get();
-                foreach ($orders as $order)
-                    $order_total+=$order->price*$order->qty;
-                $date = $guest->created_at;
-                foreach ($guests as $gg){
-                    array_push($guest_info, array(
-                        "guest_id" => $gg->id,
-                        "guest_name" => $gg->name,
-                        "nrc_no" => $gg->nrc,
-                        "name" => $gg->room_number,
-                        "total" => $guest->total,
-                        "comment" => $guest->comment,
-                        "order" =>$order_total,
-                        "date" => date('d/m/Y h:i:s a', strtotime($date))
-                    ));
-                }
-
+                ->whereBetween('created_at', [$range[0], $range[1] . " 23:59:59"])->get();
+        //        return print_r($dept);
+        $guest_info = array();
+        $order_total = 0;
+        foreach ($dept as $guest) {
+            $guests = CheckIn::where('id', $guest->guest_id)->get();
+            //                if(count($guests)==0){
+            //                    $guests=DB::table('move_guests')->where('guest_id',$guest->guest_id)->get();
+            ////                    return $guests;
+            //                }
+            $orders = DB::table('guest_orders')->where('guest_id', '=', $guest->guest_id)->get();
+            foreach ($orders as $order)
+                $order_total += $order->price * $order->qty;
+            $date = $guest->created_at;
+            foreach ($guests as $gg) {
+                array_push($guest_info, array(
+                    "guest_id" => $gg->id,
+                    "guest_name" => $gg->name,
+                    "nrc_no" => $gg->nrc,
+                    "name" => $gg->room_number,
+                    "total" => $guest->total,
+                    "comment" => $guest->comment,
+                    "order" => $order_total,
+                    "date" => date('d/m/Y h:i:s a', strtotime($date))
+                ));
             }
-            return $guest_info;
+        }
+        return $guest_info;
     }
     public function sentNotification($id, $number)
     {
@@ -188,12 +188,11 @@ class FrontdeskController extends Controller
     }
     public function search()
     {
-        if(isset($_GET['q'])) {
+        if (isset($_GET['q'])) {
             $q = $_GET['q'];
             $output = "";
-//            $product->guest_id
             $nrc_search = DB::table('dept_records')
-                ->where([['status','=','1'], ['nrc_no', 'LIKE', '%' . $q . "%"]])->get();
+                ->where([['status', '=', '1'], ['nrc_no', 'LIKE', '%' . $q . "%"]])->get();
             if ($nrc_search) {
                 foreach ($nrc_search as $key => $product) {
                     $output .= '<tr>' .
@@ -203,13 +202,13 @@ class FrontdeskController extends Controller
                         '<td>' . $product->comment . '</td>' .
 
                         '<td>' . $product->created_at . '</td>' .
-                        '<td>' . '<a href="'.url('user/debt').'/'.$product->guest_id.'" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
+                        '<td>' . '<a href="' . url('user/debt') . '/' . $product->guest_id . '" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
 
                         '</tr>';
                 }
             }
             $name_search = DB::table('dept_records')
-                ->where([['status','=','1'], ['name', 'LIKE', '%' . $q . "%"]])->get();
+                ->where([['status', '=', '1'], ['name', 'LIKE', '%' . $q . "%"]])->get();
             if ($name_search) {
                 foreach ($name_search as $key => $product) {
                     $output .= '<tr>' .
@@ -219,7 +218,7 @@ class FrontdeskController extends Controller
                         '<td>' . $product->comment . '</td>' .
 
                         '<td>' . $product->created_at . '</td>' .
-                        '<td>' . '<a href="'.url('user/debt').'/'.$product->guest_id.'" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
+                        '<td>' . '<a href="' . url('user/debt') . '/' . $product->guest_id . '" class="btn btn-sm btn-info">ငွေရှင်းပြီး</a></td>' .
 
                         '</tr>';
                 }
@@ -227,71 +226,75 @@ class FrontdeskController extends Controller
             echo $output;
         }
     }
-    public function cancleGuest($id,$number){
+    public function cancleGuest($id, $number)
+    {
         DB::table('check_ins')->where('id', '=', $id)->delete();
         return $this->returnFrontdesk();
-
     }
-    public function checkoutGuest($id,$number){
+    public function checkoutGuest($id, $number)
+    {
         $rooms = Room::where('roomumber', $number)->first();
         $rooms->room_state = 2;
         $rooms->save();
         $this->guestState($id, 2);
         return $this->returnFrontdesk();
     }
-    public function recheckinGuest($id,$number){
-        $guest=CheckIn::find($id);
-        $guest->row_record=1;
+    public function recheckinGuest($id, $number)
+    {
+        $guest = CheckIn::find($id);
+        $guest->row_record = 1;
         $guest->save();
         return $this->returnFrontdesk();
     }
-    public function guestStateChange($state,$id,$number){
-            switch ($state) {
-                case 'checkout':
-                    {
-                        $rooms = Room::where('roomumber', $number)->first();
-                        $rooms->room_state = 2;
-                        $rooms->save();
-                        $this->guestState($id, 2);
-                    }
-                    break;
-                case 'cancleguest':
-                    DB::table('check_ins')->where('id', '=', $id)->delete();
-                    break;
-            }
-            return $this->returnFrontdesk();
+    public function guestStateChange($state, $id, $number)
+    {
+        switch ($state) {
+            case 'checkout': {
+                    $rooms = Room::where('roomumber', $number)->first();
+                    $rooms->room_state = 2;
+                    $rooms->save();
+                    $this->guestState($id, 2);
+                }
+                break;
+            case 'cancleguest':
+                DB::table('check_ins')->where('id', '=', $id)->delete();
+                break;
+        }
+        return $this->returnFrontdesk();
     }
-    public function roomStateChange($room_state,$number){
-        $state=null;
-            switch ($room_state) {
-                case "checkin":
-                    $state = 1;
-                    break;
-                case "checkout":
-                    $state = 2;
-                    break;
-                case "housekeeping":
-                    $state = 3;
-                    break;
-                case "outofservice":
-                    $state = 4;
-                    break;
-                case "idel":
-                    $state = 0;
-                    break;
-                case "reserv":
-                    $state = 5;
-                    break;
-                default:
-                    "something was wrong";
-            }
-            $this->updateRoomState($number, $state);
-            return $this->returnFrontdesk();
+    public function roomStateChange($room_state, $number)
+    {
+        $state = null;
+        switch ($room_state) {
+            case "checkin":
+                $state = 1;
+                break;
+            case "checkout":
+                $state = 2;
+                break;
+            case "housekeeping":
+                $state = 3;
+                break;
+            case "outofservice":
+                $state = 4;
+                break;
+            case "idel":
+                $state = 0;
+                break;
+            case "reserv":
+                $state = 5;
+                break;
+            default:
+                "something was wrong";
+        }
+        $this->updateRoomState($number, $state);
+        return $this->returnFrontdesk();
     }
-    public function month($state){
+    public function month($state)
+    {
         $record = Record::find(1);
 
-        if($state=="decrease"){
+        if ($state == "decrease") {
             if ($record->month > 1) {
                 $record->month -= 1;
                 $record->save();
@@ -300,7 +303,7 @@ class FrontdeskController extends Controller
                 $record->month = 12;
                 $record->save();
             }
-        }else if($state=="increase"){
+        } else if ($state == "increase") {
             if ($record->month == 12) {
                 $record->year += 1;
                 $record->month = 1;
@@ -309,38 +312,41 @@ class FrontdeskController extends Controller
                 $record->month += 1;
                 $record->save();
             }
-
-        }else{
+        } else {
             $record->month = date("m");
             $record->year = date("Y");
             $record->save();
         }
         return $this->returnFrontdesk();
     }
-    public function housekeeping($user_id,$number,$auth_id){
-            $this->sentNotification($user_id, [$number, $auth_id]);
-            $this->updateRoomState($number, 3);
-            return $this->returnFrontdesk();
+    public function housekeeping($user_id, $number, $auth_id)
+    {
+        $this->sentNotification($user_id, [$number, $auth_id]);
+        $this->updateRoomState($number, 3);
+        return $this->returnFrontdesk();
     }
-    public function paymentDebt($id){
+    public function paymentDebt($id)
+    {
 
-            $user = DeptRecord::where('guest_id', $id)->first();
-            $user->status = 0;
-            $user->created_at=date("Y-m-d h:i:s");
-            $user->save();
-            $this->guestState($id,2);
-            return $this->returnFrontdesk();
+        $user = DeptRecord::where('guest_id', $id)->first();
+        $user->status = 0;
+        $user->created_at = date("Y-m-d h:i:s");
+        $user->save();
+        $this->guestState($id, 2);
+        return $this->returnFrontdesk();
     }
-    public function guestComment($create_at){
+    public function guestComment($create_at)
+    {
         $user = User::find(Auth::user()->id);
         $user->notifications()->where('created_at', $create_at)->delete();
         return $this->returnFrontdesk();
     }
-    public function sentNotiFrontdesk($id){
-            foreach (Auth::user()->unreadNotifications as $noti)
-                if ($noti->data['housekeeper']['id'] == $id)
-                    $noti->markAsRead();
-            return $this->returnFrontdesk();
+    public function sentNotiFrontdesk($id)
+    {
+        foreach (Auth::user()->unreadNotifications as $noti)
+            if ($noti->data['housekeeper']['id'] == $id)
+                $noti->markAsRead();
+        return $this->returnFrontdesk();
     }
     public function roomState($num, $status)
     {
@@ -376,8 +382,8 @@ class FrontdeskController extends Controller
         $room_cost = $request->get('room_cost');
         $status = $request->get('payment_method');
         // $this->guestState($guest_id,);
-        $order=DB::table('guest_orders')->select()->where('guest_id','=',$guest_id)
-            ->where('type','=','1')->get();
+        $order = DB::table('guest_orders')->select()->where('guest_id', '=', $guest_id)
+            ->where('type', '=', '1')->get();
         $dept = DeptRecord::create([
             'guest_id' => $guest_id,
             'name' => $guests->name,
@@ -390,10 +396,10 @@ class FrontdeskController extends Controller
             $this->guestState($guest_id, 5);
         } else
             $this->guestState($guest_id, 4);
-//        return $order;
+        //        return $order;
         return view(
             'frontdesk.invoice_print',
-            compact('order','guests', 'invoice', 'cost', 'discount', 'tax', 'total', 'room_type', 'room_cost')
+            compact('order', 'guests', 'invoice', 'cost', 'discount', 'tax', 'total', 'room_type', 'room_cost')
         );
     }
     public function reportStore(Request $request)
@@ -401,42 +407,45 @@ class FrontdeskController extends Controller
         $this->validate($request, [
             'report_name' => 'required',
             'report_price' => 'required',
-            'report_type'=>'required',
+            'report_type' => 'required',
         ]);
 
         Report::create([
             "content" => $request->get("report_name"),
             "price" => $request->get('report_price'),
-            "type"=>$request->get('report_type'),
+            "type" => $request->get('report_type'),
         ]);
 
         return redirect("/user/report/frontdesk");
     }
-    public function returnFrontdesk(){
+    public function returnFrontdesk()
+    {
         return redirect('user/frontdesk');
     }
-    public function showGuest($id){
-        $guest=CheckIn::findOrFail($id);
-        return view('frontdesk.single_guest',compact("guest"));
+    public function showGuest($id)
+    {
+        $guest = CheckIn::findOrFail($id);
+        return view('frontdesk.single_guest', compact("guest"));
     }
-    public function findGuest(){
-        if(isset($_GET['q'])) {
+    public function findGuest()
+    {
+        if (isset($_GET['q'])) {
             $q = $_GET['q'];
             $output = "";
-            $count=0;
+            $count = 0;
             $nrc_search = DB::table('check_ins')
                 ->where('nrc', 'LIKE', '%' . $q . "%")->get();
             if ($nrc_search) {
                 foreach ($nrc_search as $key => $guest) {
-                    $output .=  '<tr>'.
+                    $output .=  '<tr>' .
                         '<td>' . ++$count . '</td>' .
                         '<td>' . $guest->room_number . '</td>' .
-                        '<td>' . $guest->start_day.'/'.$guest->month.'/'. $guest->year . ' မှ ' . $guest->end_day.'/'.$guest->month.'/'. $guest->year .' ထိ'. '</td>' .
+                        '<td>' . $guest->start_day . '/' . $guest->month . '/' . $guest->year . ' မှ ' . $guest->end_day . '/' . $guest->month . '/' . $guest->year . ' ထိ' . '</td>' .
                         '<td>' . $guest->name . '</td>' .
                         '<td>' . $guest->phone . '</td>' .
                         '<td>' . $guest->nrc . '</td>' .
                         '<td>' . $guest->address . '</td>' .
-                        '<td>' . '<a href="'.url('user/frontdesk/show').'/'.$guest->id.'" class="btn btn-sm btn-info">ကြည့်ရန်</a></td>' .
+                        '<td>' . '<a href="' . url('user/frontdesk/show') . '/' . $guest->id . '" class="btn btn-sm btn-info">ကြည့်ရန်</a></td>' .
                         '</tr>';
                 }
             }
@@ -447,20 +456,19 @@ class FrontdeskController extends Controller
                     $output .=  '<tr>' .
                         '<td>' . ++$count . '</td>' .
                         '<td>' . $guest->room_number . '</td>' .
-                        '<td>' . $guest->start_day.'/'.$guest->month.'/'. $guest->year . ' မှ ' . $guest->end_day.'/'.$guest->month.'/'. $guest->year .' ထိ' . '</td>' .
+                        '<td>' . $guest->start_day . '/' . $guest->month . '/' . $guest->year . ' မှ ' . $guest->end_day . '/' . $guest->month . '/' . $guest->year . ' ထိ' . '</td>' .
                         '<td>' . $guest->name . '</td>' .
                         '<td>' . $guest->phone . '</td>' .
                         '<td>' . $guest->nrc . '</td>' .
                         '<td>' . $guest->address . '</td>' .
-                        '<td>' . '<a href="'.url('user/frontdesk/show').'/'.$guest->id.'" class="btn btn-sm btn-info">ကြည့်ရန်</a></td>' .
+                        '<td>' . '<a href="' . url('user/frontdesk/show') . '/' . $guest->id . '" class="btn btn-sm btn-info">ကြည့်ရန်</a></td>' .
                         '</tr>';
                 }
             }
             echo $output;
         }
-
     }
-    public function storeGuest(){
-
+    public function storeGuest()
+    {
     }
 }
