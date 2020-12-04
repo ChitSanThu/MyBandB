@@ -80,7 +80,7 @@
             /* Enable scroll if needed */
             background-color: #99dfff;
             /* Fallback color */
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 1);
             /* Black w/ opacity */
             padding-top: 60px;
             padding-bottom: 60px;

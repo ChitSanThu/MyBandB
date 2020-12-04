@@ -60,9 +60,9 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-            @foreach($users as $user)
+            @foreach($users as $key=>$user)
                 <tr>
-                <td>{{$user->id}}</td>
+                <td>{{++$key}}</td>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td><a href="{{url('developer/user/'.$user->id.'/edit')}}" class="btn btn-sm btn-outline-secondary">Edit</a></td>

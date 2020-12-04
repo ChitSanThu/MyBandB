@@ -1,6 +1,7 @@
 @extends('layout.master')
 @section('content')
-<div class="col-md-8 card card-body  PrintArea area1" style="background-color:lighcyan;width:800px;margin:0 auto;">
+<div class="checkInstatus">
+<div class="col-md-8 card card-body   PrintArea area1 " style="background-color:white;width:800px;margin:0 auto;">
 <div class="row">
         <div class="col-md-4 mr-5 ">
             <img src="{!! asset("logo/".$invoice->logo) !!}" alt="Logo" class="logo" width="100px" height="100">
@@ -78,5 +79,6 @@
 <a href="{{url('user/frontdesk')}}" class="btn btn-warning ml-3" style="float:right">ပြန်သွားရန်</a>
 <div onclick="$( ' div.PrintArea.area1' ).printArea();" style="float:right" class="btn  btn-info">
     ပြေစာထုတ်ရန်
+</div>
 </div>
 @endsection

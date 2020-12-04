@@ -70,6 +70,7 @@ class HousekeepingController extends Controller
 
     public function update(Request $request, Housekeeping $housekeeping)
     {
+        // dd($request->all());
         $user=User::find(session("auth_id"));
         $user->notify(new HousekeeperCommentNoti(Auth::user(),
         [$request->get('housekeeper-comment'),$request->get('number')]));

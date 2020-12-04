@@ -137,7 +137,7 @@
         @if($room->room_state==3)
         <div class="col-md-4 col-sm-6 ">
             <div class="btn-group dropright mt-3 ml-4 ">
-                <button type="button" class="btn dropdown-toggle housekeeping text-white " data-toggle="dropdown">
+                <button type="button" onclick="getRoomNumber($(this).text())" class="btn dropdown-toggle housekeeping text-white " data-toggle="dropdown">
                     {{$room->roomumber}}
                 </button>
                 <div class="dropdown-menu">
@@ -187,7 +187,7 @@
 
         <div class="col-md-4 col-sm-6 ">
             <div class="btn-group dropright mt-3 ml-4 ">
-                <button type="button" onclick="roomNum($(this).text())" class="btn dropdown-toggle text-white {{$btn_color}} " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" onclick="getRoomNumber($(this).text())" class="btn dropdown-toggle text-white {{$btn_color}} " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                     {{$room->roomumber}}
                 </button>
                 <div class="dropdown-menu">
@@ -221,10 +221,8 @@
         </div>
     </div>
     <script>
-        function roomNum(room){
-
-            var rom=$('#hidden_room').val(room);
-            // alert(rom);
+        function getRoomNumber(number){
+            $('#hidden_room').val(number)
         }
     </script>
 </body>

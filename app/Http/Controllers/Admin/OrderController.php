@@ -87,7 +87,7 @@ class OrderController extends Controller
         $result = DB::table('order_items')->where([['categories', '=', $name]])->get();
         if ($result) {
             foreach ($result as $item) {
-                $output .= "<option value='$item->id' id='toget' title='$item->item'>$item->item</option>";
+                $output .= "<option value='$item->id' id='toget$item->id' title='$item->item'>$item->item</option>";
             }
             echo $output;
         }

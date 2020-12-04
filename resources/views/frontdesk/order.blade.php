@@ -111,7 +111,9 @@
             return false;
     }
     function addOrder() {
-        let name=$('#toget').attr('title');
+        let name=$('#toget'+$('#item_result').val()).attr('title');
+        // alert(name);
+        // return 
         // this.searchNameByCatId(name)
         // let ftd='<td id="order_search_name"></td>';
         let price=textValid($('#order_price').val());
